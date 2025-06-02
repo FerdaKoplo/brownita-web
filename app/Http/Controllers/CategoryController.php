@@ -16,11 +16,11 @@ class CategoryController extends Controller
 
     // }
 
-    public function createKategori(){
+    public function kategoriCreate(){
         return view('admin.KategoriResource.Pages.createKategori');
     }
 
-    public function storeKategori(Request $request){
+    public function kategoriStore(Request $request){
         $validate = $request->validate([
             'nama_kategori' => 'required|string|max:255',
             'deskripsi_kategori' => 'required|string|max:255'

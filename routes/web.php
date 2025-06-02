@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KatalogController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,8 +25,15 @@ Route::middleware(['auth', 'role'])->group(function () {
 
     // Kategori
     Route::get('/dashboard/admin/kategori', [CategoryController::class, 'kategoriIndex'])->name('dashboard.admin.kategori.view');
-    Route::get('/dashboard/admin/kategori/create', [CategoryController::class, 'createKategori'])->name('dashboard.admin.kategori.create');
-    Route::post('/dashboard/admin/kategori/store', [CategoryController::class, 'storeKategori'])->name('dashboard.admin.kategori.store');
+    Route::get('/dashboard/admin/kategori/create', [CategoryController::class, 'kategoriCreate'])->name('dashboard.admin.kategori.create');
+    Route::post('/dashboard/admin/kategori/store', [CategoryController::class, 'kategoriStore'])->name('dashboard.admin.kategori.store');
+
+
+    // Katalog
+    Route::get('/dashboard/admin/katalog', [KatalogController::class, 'katalogIndex'])->name('dashboard.admin.katalog.view');
+    Route::get('/dashboard/admin/katalog/create', [KatalogController::class, 'katalogCreate'])->name('dashboard.admin.katalog.create');
+    Route::post('/dashboard/admin/katalog/store', [KatalogController::class, 'katalogStore'])->name('dashboard.admin.katalog.store');
+
 });
 
 

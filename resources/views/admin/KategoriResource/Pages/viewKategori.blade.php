@@ -6,11 +6,17 @@
     <div class="p-5 flex flex-col gap-10">
         <h1 class="text-3xl font-bold text-brand-dark">Kategori</h1>
         <div class="flex flex-col gap-3">
-            <div class="flex justify-end">
-                <a class=" bg-brand-dark text-brand-light p-2 rounded-lg font-semibold"
-                    href="{{ route('dashboard.admin.kategori.create') }}">
-                    Buat Kategori
-                </a>
+            <div class="flex w-full h-full justify-between">
+                <div class=" justify-start max-w-md w-full  flex items-center gap-2">
+                    <i class=" fa-solid fa-magnifying-glass"></i>
+                    <input type="text" class="w-full  py-2 rounded-lg px-2" placeholder="Cari Nama Kategori...">
+                </div>
+                <div class="flex flex-row justify-end ">
+                    <a class=" bg-brand-dark text-brand-light p-2   rounded-lg font-semibold"
+                        href="{{ route('dashboard.admin.kategori.create') }}">
+                        Buat Kategori
+                    </a>
+                </div>
             </div>
             <table class="table-auto w-full border-collapse">
                 <thead class="bg-brand-secondary text-white">
