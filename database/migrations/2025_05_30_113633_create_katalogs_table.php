@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('katalogs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
             $table->string('nama_produk');
             $table->string('gambar_produk')->nullable();
             $table->text('deskripsi')->nullable();
