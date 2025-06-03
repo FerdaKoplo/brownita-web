@@ -19,6 +19,10 @@ class Katalog extends Model
         'status'
     ];
 
+    public function getHargaRupiahAttribute()
+    {
+        return 'Rp ' . number_format($this->harga, 0, ',', '.');
+    }
 
     public function category(): BelongsTo
     {

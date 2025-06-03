@@ -9,7 +9,7 @@
                 <i class="fa-solid fa-layer-group"></i>
                 <li>Kategori</li>
             </a>
-            <a href="" class="flex items-center gap-3">
+            <a href="{{ route('dashboard.admin.katalog.view') }}" class="flex items-center gap-3">
                 <i class="fa-solid fa-utensils"></i>
                 <li>Katalog</li>
             </a>
