@@ -28,17 +28,22 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-brand-lightdark">
-                    @foreach ($categories as $category)
+                    @foreach ($categories as $index => $category)
                         <tr>
-                            <td class="px-4 py-2">{{ $category->id }}</td>
+                            <td class="px-4 py-2">{{ $index + 1 }}</td>
                             <td class="px-4 py-2">{{ $category->nama_kategori }}</td>
                             <td class="px-4 py-2">{{ $category->deskripsi_kategori }}</td>
                             <td class="px-4 py-2">
                                 <button class="text-brand-dark">
-                                    <a href="" class="fa-solid fa-pen-to-square"></a>
+                                    <a href="{{ route('dashboard.admin.kategori.edit', $category->id) }}"
+                                        class="fa-solid fa-pen-to-square"></a>
                                 </button> |
                                 <button class="text-brand-dark">
-                                    <a href="" class="fa-solid fa-trash"></a>
+                                    <form action="{{  route('dashboard.admin.kategori.delete', $category->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="fa-solid fa-trash"></button>
+                                    </form>
                                 </button>
                             </td>
                         </tr>

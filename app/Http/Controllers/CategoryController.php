@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function kategoriIndex(){
+    public function kategoriIndex()
+    {
         $categories = Category::all();
         return view('admin.KategoriResource.Pages.viewKategori', compact('categories'));
     }
@@ -16,11 +17,13 @@ class CategoryController extends Controller
 
     // }
 
-    public function kategoriCreate(){
+    public function kategoriCreate()
+    {
         return view('admin.KategoriResource.Pages.createKategori');
     }
 
-    public function kategoriStore(Request $request){
+    public function kategoriStore(Request $request)
+    {
         $validate = $request->validate([
             'nama_kategori' => 'required|string|max:255',
             'deskripsi_kategori' => 'required|string|max:255'
@@ -30,15 +33,30 @@ class CategoryController extends Controller
         return redirect('/dashboard/admin/kategori')->with('success', 'Kategori berhasil ditambahkan!');
     }
 
-    public function editKategori($id){
+    public function kategoriEdit($id)
+    {
+        $categories = Category::find($id);
+        return view('admin.KategoriResource.Pages.editKategori', compact('categories'));
+    }
+
+    public function kategoriUpdate(Request $request, $id)
+    {
+        $validate = $request->validate([
+            'nama_kategori' => 'required|string|max:255',
+            'deskripsi_kategori' => 'required|string|max:255'
+        ]);
+
+        $categories = Category::findOrFail($id);
+        $categories->update($validate);
+        return redirect('/dashboard/admin/kategori')->with('success', 'Kategori berhasil dirubah!');
 
     }
 
-    public function updateKategori(){
+    public function kategoriDelete($id)
+    {
+        $categories = Category::findOrFail($id);
+        $categories->delete();
 
-    }
-
-    public function deleteKategori(){
-
+        return redirect('/dashboard/admin/kategori')->with('success', 'Kategori berhasil dihapus!');
     }
 }
