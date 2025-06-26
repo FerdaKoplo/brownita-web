@@ -41,7 +41,27 @@ Route::middleware(['auth', 'role'])->group(function () {
 
 });
 
+// Customer routes (no authentication required)
+Route::get('/katalog', [KatalogController::class, 'showKatalog'])->name('katalog');
 
+
+// Other customer routes (sesuaikan dengan kebutuhan)
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('customer/katalog');
+})->name('home');
+
+Route::get('/tentang-kami', function () {
+    return view('customer.tentang-kami');
+})->name('tentang-kami');
+
+Route::get('/founder', function () {
+    return view('customer.founder');
+})->name('founder');
+
+Route::get('/produk-kami', function () {
+    return view('customer.produk-kami');
+})->name('produk-kami');
+
+Route::get('/lokasi', function () {
+    return view('customer.produk-kami');
+})->name('lokasi');

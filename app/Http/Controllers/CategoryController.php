@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function kategoriIndex()
+    public function kategoriiIndex()
     {
         $categories = Category::all();
         return view('admin.KategoriResource.Pages.viewKategori', compact('categories'));
