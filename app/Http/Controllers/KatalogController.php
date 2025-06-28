@@ -56,52 +56,94 @@ class KatalogController extends Controller
     public function showKatalog(Request $request)
     {
         try {
-            $categories = Category::all();
-            $selectedCategoryId = $request->get('category_id');
+            $categories = \App\Models\Category::all();
+            $selectedCategoryIds = array_filter((array) $request->get('category_id'));
+            $searchQuery = $request->get('search');
+            $statusFilter = $request->get('status');
 
-            // Debug: cek apakah data kategori ada
-            \Log::info('Categories count: ' . $categories->count());
-            \Log::info('Selected category ID: ' . $selectedCategoryId);
+            $query = \App\Models\Katalog::query();
 
-            // Query dasar
-            $query = Katalog::query();
-
-            // Filter berdasarkan kategori jika ada
-            if ($selectedCategoryId) {
-                $query->where('category_id', $selectedCategoryId);
+            // Filter kategori
+            if (!empty($selectedCategoryIds)) {
+                $query->whereIn('category_id', $selectedCategoryIds);
             }
 
-            // Pagination
+            // Filter search
+            if ($searchQuery) {
+                $query->where(function ($q) use ($searchQuery) {
+                    $q->where('nama_produk', 'LIKE', "%$searchQuery%")
+                        ->orWhere('deskripsi', 'LIKE', "%$searchQuery%");
+                });
+            }
+
+            // Filter status
+            if ($statusFilter) {
+                $query->where('status', $statusFilter);
+            }
+
             $catalogues = $query->paginate(9);
 
-            // Debug: cek apakah data katalog ada
-            \Log::info('Catalogues count: ' . $catalogues->count());
+            // Stats
+            $statsQuery = \App\Models\Katalog::query();
 
-            // Pastikan semua variabel ada sebelum dikirim ke view
+            if (!empty($selectedCategoryIds)) {
+                $statsQuery->whereIn('category_id', $selectedCategoryIds);
+            }
+            if ($searchQuery) {
+                $statsQuery->where(function ($q) use ($searchQuery) {
+                    $q->where('nama_produk', 'LIKE', "%$searchQuery%")
+                        ->orWhere('deskripsi', 'LIKE', "%$searchQuery%");
+                });
+            }
+
+            $tersediaResult = (clone $statsQuery)->where('status', 'tersedia')->count();
+            $habisResult = (clone $statsQuery)->where('status', 'habis')->count();
+
+            $stats = [
+                'total' => $statsQuery->count(),
+                'tersedia' => $tersediaResult,
+                'habis' => $habisResult,
+            ];
+
             $data = [
                 'categories' => $categories,
                 'catalogues' => $catalogues,
-                'selectedCategoryId' => $selectedCategoryId
+                'selectedCategoryId' => $selectedCategoryIds,
+                'searchQuery' => $searchQuery,
+                'statusFilter' => $statusFilter,
+                'stats' => $stats,
             ];
 
-            return view('customer.katalog', $data); // Ubah path view ke customer.katalog
+            if ($request->ajax()) {
+                return response()->view('customer.katalog', $data);
+            }
+
+            return view('customer.katalog', $data);
 
         } catch (\Exception $e) {
             \Log::error('Error in showKatalog: ' . $e->getMessage());
 
-            // Jika error, kirim data kosong
             return view('customer.katalog', [
-                'categories' => collect([]),
+                'categories' => \App\Models\Category::all(),
                 'catalogues' => new \Illuminate\Pagination\LengthAwarePaginator([], 0, 9),
-                'selectedCategoryId' => null
+                'selectedCategoryId' => [],
+                'searchQuery' => null,
+                'statusFilter' => null,
+                'stats' => [
+                    'total' => 0,
+                    'tersedia' => 0,
+                    'habis' => 0,
+                ]
             ]);
         }
     }
+
 
     // Method untuk API atau AJAX request
     public function getKatalogData(Request $request)
     {
         try {
+            $statusFilter = $request->get('status');
             $query = Katalog::with('category');
 
             // Filter berdasarkan kategori
@@ -110,9 +152,15 @@ class KatalogController extends Controller
             }
 
             // Filter berdasarkan status (array checkbox)
-            if ($request->has('status') && is_array($request->status) && count($request->status) > 0) {
-                $query->whereIn('status', $request->status);
+            if ($statusFilter) {
+                $query->where('status', $statusFilter);
+            } else {
+                $query->where('status', 'tersedia');
             }
+
+
+
+            return view('katalog', compact('statusFilter'));
 
             // Filter pencarian
             if ($request->has('search') && $request->search) {
@@ -137,5 +185,4 @@ class KatalogController extends Controller
             ], 500);
         }
     }
-
 }
