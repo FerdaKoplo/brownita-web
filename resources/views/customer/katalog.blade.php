@@ -119,27 +119,40 @@
             <div class="product-grid" id="product-grid">
                 @forelse($catalogues as $catalogue)
                     <div class="product-card-cover">
-                        <div class="product-card-lid"></div>
-                        <div class="product-card {{ $catalogue->status == 'habis' ? 'out-of-stock' : '' }}">
-                            <div class="status-badge {{ $catalogue->status == 'tersedia' ? 'badge-success' : 'badge-danger' }}">
-                                {{ $catalogue->status == 'tersedia' ? 'Tersedia' : 'Habis' }}
-                            </div>
-                            <div class="product-card-content">
-                                @if($catalogue->gambar_produk)
-                                    <img src="{{ asset('storage/' . $catalogue->gambar_produk) }}" alt="{{ $catalogue->nama_produk }}" class="product-image">
-                                @else
-                                    <img src="{{ asset('images/default-product.jpg') }}" alt="{{ $catalogue->nama_produk }}" class="product-image">
-                                @endif
-                                <div class="product-name">{{ $catalogue->nama_produk }}</div>
-                                @if($catalogue->deskripsi)
-                                    <div class="product-description">&quot;{{ Str::limit($catalogue->deskripsi, 60) }}&quot;</div>
-                                @endif
+                    <div class="product-card-lid"></div>
+                    <div class="product-card {{ $catalogue->status == 'habis' ? 'out-of-stock' : '' }}">
+                        <div class="status-badge {{ $catalogue->status == 'tersedia' ? 'badge-success' : 'badge-danger' }}">
+                            {{ $catalogue->status == 'tersedia' ? 'Tersedia' : 'Habis' }}
+                        </div>
 
-                                <div class="product-price">Rp {{ number_format($catalogue->harga, 0, ',', '.') }}</div>
-                                <a href="#" class="product-button">Lihat</a>
+                        <div class="product-card-content">
+                            <div class="product-image-wrapper">
+                                @if($catalogue->gambar_produk)
+                                @php
+                                    $firstImage = explode(';', $catalogue->gambar_produk)[0];
+                                @endphp
+                                    <img src="{{ asset('storage/' . $firstImage) }}" alt="{{ $catalogue->nama_produk }}">
+                                @else
+                                    <img src="{{ asset('images/default-product.jpg') }}" alt="{{ $catalogue->nama_produk }}">
+                                @endif
                             </div>
+
+                            <div class="product-name">{{ $catalogue->nama_produk }}</div>
+
+                            @php
+                                $desc = Str::limit($catalogue->deskripsi, 60);
+                                $endsWithDot = Str::endsWith($desc, ['.', '...', '"']);
+                            @endphp
+                            <div class="product-description">
+                                "{{ $desc }}{{ $endsWithDot ? '' : '...' }}"
+                            </div>
+                            <div class="product-price">Rp {{ number_format($catalogue->harga, 0, ',', '.') }}</div>
+
+                            <a href="{{ route('produk.detail', $catalogue->id) }}" class="product-button">Lihat</a>
                         </div>
                     </div>
+                </div>
+
                 @empty
                     <div style="grid-column: 1 / -1; text-align: center; color: #8b745b; font-size: 18px; padding: 40px;">
                         Tidak ada produk yang ditemukan.

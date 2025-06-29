@@ -49,6 +49,14 @@ Route::get('/', function () {
 
 // ✅ Produk Kami → Katalog
 Route::get('/produk-kami', [KatalogController::class, 'showKatalog'])->name('produk-kami');
+// Produk kami > Katalog > Detail Produk
+
+Route::get('/produk/{id}', [KatalogController::class, 'showDetail'])
+    ->name('produk.detail');
+
+Route::get('/produk/{id}/show', [KatalogController::class, 'show'])
+    ->name('produk.show');
+
 
 // ✅ Halaman statis
 Route::get('/tentang-kami', fn() => view('customer.tentang-kami'))->name('tentang-kami');

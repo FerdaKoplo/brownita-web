@@ -28,4 +28,9 @@ class Katalog extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    protected $casts = [
+        'foto_lain' => 'array',
+    ];
+
 }

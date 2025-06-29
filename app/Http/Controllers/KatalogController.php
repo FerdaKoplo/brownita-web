@@ -23,29 +23,39 @@ class KatalogController extends Controller
 
     public function katalogStore(Request $request)
     {
-
         $validate = $request->validate([
             'category_id' => 'required|exists:categories,id',
             'nama_produk' => 'required|string|max:255',
-            'gambar_produk' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'gambar_produk' => 'nullable|array',
+            'gambar_produk.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'deskripsi' => 'nullable|string|max:1000',
             'harga' => 'required|numeric|min:0',
         ]);
 
+        $gambarPaths = [];
 
         if ($request->hasFile('gambar_produk')) {
-            $file = $request->file('gambar_produk');
-            $filename = Str::slug($request->nama_produk) . '.' . $file->getClientOriginalExtension();
-            $filePath = $file->storeAs('cover', $filename, 'public');
-            $validate['gambar_produk'] = $filePath;
-        } else {
-            $isnull = 'null';
-            $validate['gambar_produk'] = $isnull;
+            foreach ($request->file('gambar_produk') as $index => $file) {
+                $filename = Str::slug($request->nama_produk) . '-' . time() . "-$index." . $file->getClientOriginalExtension();
+                $path = $file->storeAs('produk', $filename, 'public');
+                $gambarPaths[] = $path;
+
+            }
+
+            // Simpan sebagai string dengan delimiter ;
+            $validate['gambar_produk'] = implode(';', $gambarPaths);
+        }
+        else {
+            $validate['gambar_produk'] = null;
         }
 
         Katalog::create($validate);
+
+        \Log::info('Gambar paths yang disimpan:', $gambarPaths);
+        \Log::info('Isi validate:', $validate);
         return redirect('/dashboard/admin/katalog')->with('success', 'Katalog berhasil ditambahkan!');
     }
+
 
     public function katalogEdit()
     {
@@ -184,5 +194,31 @@ class KatalogController extends Controller
                 'error' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function showDetail($id)
+    {
+        $produk = Katalog::findOrFail($id);
+
+        // Ambil semua gambar dari satu field
+        $gambarArray = explode(';', $produk->gambar_produk ?? '');
+
+        return view('customer.detail-produk', [
+            'produk' => $produk,
+            'gambarArray' => $gambarArray,
+        ]);
+    }
+
+    public function show($id)
+    {
+        $produk = Katalog::findOrFail($id);
+
+        // Pisahkan string gambar menjadi array
+        $gambarArray = explode(';', $produk->gambar_produk ?? '');
+
+        return view('customer.detail-produk', [
+            'produk' => $produk,
+            'gambarArray' => $gambarArray,
+        ]);
     }
 }
