@@ -39,7 +39,9 @@
                                         class="fa-solid fa-pen-to-square"></a>
                                 </button> |
                                 <button class="text-brand-dark">
-                                    <form action="{{  route('dashboard.admin.kategori.delete', $category->id) }}" method="POST">
+                                    <form class="deleteForm"
+                                        action="{{  route('dashboard.admin.kategori.delete', $category->id) }}"
+                                        method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="fa-solid fa-trash"></button>
@@ -52,4 +54,25 @@
             </table>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('submit', function (e) {
+            if (e.target.classList.contains('deleteForm')) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Yakin ingin menghapus?',
+                    text: "Pastikan pilihan anda sudah benar.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, hapus!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        e.target.submit();
+                    }
+                });
+            }
+        });
+    </script>
 </body>

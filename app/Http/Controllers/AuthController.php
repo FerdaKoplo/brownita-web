@@ -33,4 +33,8 @@ class AuthController extends Controller
             'email' => 'Invalid credentials.',
         ]);
     }
+
+    public function logout(){
+
+    }
 }

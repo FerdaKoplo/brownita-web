@@ -42,10 +42,14 @@
                             <td class="px-4 py-2">{{ $catalogue->status }}</td>
                             <td class="px-4 py-2">
                                 <button class="text-brand-dark">
-                                    <a href="" class="fa-solid fa-pen-to-square"></a>
+                                    <a href="{{ route('dashboard.admin.katalog.edit', $catalogue->id) }}" class="fa-solid fa-pen-to-square"></a>
                                 </button>
                                 <button class="text-brand-dark">
-                                    <a href="" class="fa-solid fa-trash"></a>
+                                    <form class="deleteForm" action="{{  route('dashboard.admin.katalog.delete', $catalogue->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="fa-solid fa-trash"></button>
+                                    </form>
                                 </button>
                             </td>
                         </tr>
@@ -54,4 +58,25 @@
             </table>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('submit', function (e) {
+            if (e.target.classList.contains('deleteForm')) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Yakin ingin menghapus?',
+                    text: "Pastikan pilihan anda sudah benar.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, hapus!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        e.target.submit();
+                    }
+                });
+            }
+        });
+    </script>
 </body>
