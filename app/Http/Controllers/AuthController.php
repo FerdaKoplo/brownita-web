@@ -63,7 +63,11 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout(){
+    public function logoutPost(Request $request){
+        auth()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
+        return redirect('/login');
     }
 }

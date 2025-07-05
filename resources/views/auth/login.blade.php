@@ -14,6 +14,7 @@
 </head>
 
 <body>
+    @include('components.customer.nav')
     <div class="min-h-screen flex flex-col bg-brand-light  justify-center gap-12 items-center">
         <div class="flex">
             <h1
@@ -32,7 +33,7 @@
                 <div class="flex flex-col text-lg items-start gap-4">
                     <p class="font-medium">Password</p>
                     <div class="flex gap-5">
-                        <input type="text" class="bg-brand-secondary rounded-lg text-brand-light" name="password"
+                        <input type="password" class="bg-brand-secondary rounded-lg text-brand-light" name="password"
                             id="password">
                         <button class="" type="button">
                             <i class="fa-solid fa-eye" id="toggle-password"></i>

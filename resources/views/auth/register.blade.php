@@ -13,6 +13,7 @@
 </head>
 
 <body>
+    @include('components.customer.nav')
     <div class="min-h-screen flex flex-col bg-brand-light  justify-center gap-12 items-center">
         <div class="flex">
             <h1

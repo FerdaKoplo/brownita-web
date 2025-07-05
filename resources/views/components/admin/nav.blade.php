@@ -18,11 +18,14 @@
                 <li>Akun</li>
             </a>
         </ul>
-        <a href="" class="bottom-8 font-semibold fixed flex items-center gap-3">
-            <i class="fa-solid fa-right-from-bracket"></i>
+        <form class="logoutForm" action="{{  route('logout.post') }}" method="POST">
+            @csrf
+            <button type="submit" class="fixed flex gap-3 items-center bottom-8">
+                <i class="fa-solid fa-right-from-bracket"></i>
             <p>
                 Logout
             </p>
-        </a>
+            </button>
+        </form>
     </div>
 </nav>

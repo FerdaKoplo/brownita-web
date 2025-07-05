@@ -23,6 +23,7 @@ Route::post('/register', [AuthController::class, 'registerPost'])->name('registe
 
 Route::post('/login', [AuthController::class, 'loginPost'])->name('login.post');
 Route::get('/login', [AuthController::class, 'viewLogin'])->name('login');
+Route::post('/logout', [AuthController::class, 'logoutPost'])->name('logout.post');
 
 Route::middleware(['auth', 'role'])->group(function () {
     Route::get('/dashboard/admin', [DashboardController::class, 'homeIndex'])->name('dashboard.admin');
@@ -59,4 +60,4 @@ Route::middleware(['auth', 'role'])->group(function () {
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('landing.page');
