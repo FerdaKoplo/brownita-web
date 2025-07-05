@@ -1,14 +1,20 @@
-const togglePassword = document.getElementById('toggle-password')
-const password = document.getElementById('password')
+function setupPasswordToggle(inputId, toggleButtonId) {
+    const toggleButton = document.getElementById(toggleButtonId)
+    const input = document.getElementById(inputId)
 
-togglePassword.addEventListener('click', (e) => {
+    toggleButton.addEventListener('click', (e) => {
+        const icon = toggleButton.querySelector('i')
 
-    const currentType = password.getAttribute('type')
-    const newType = currentType === 'password' ? 'text' : 'password'
-    password.setAttribute('type', newType)
+        const currentType = input.getAttribute('type')
+        const newType = currentType === 'password' ? 'text' : 'password'
+        input.setAttribute('type', newType)
 
-    togglePassword.classList.toggle('fa-eye')
-    togglePassword.classList.toggle('fa-eye-slash')
+        icon.classList.toggle('fa-eye')
+        icon.classList.toggle('fa-eye-slash')
 
-    e.preventDefault()
-})
+        e.preventDefault()
+    })
+}
+
+setupPasswordToggle('password', 'toggle-password')
+setupPasswordToggle('password_confirmation', 'toggle-password-confirmation')
