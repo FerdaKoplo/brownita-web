@@ -1,8 +1,8 @@
 @extends('layout.admin.layout')
-@section('title', 'Katalog')
+@section('title', 'Akun')
 @section('content')
 <body>
-    <div class="p-5 flex flex-col gap-10">
+     <div class="p-5 flex flex-col gap-10">
         <h1 class="text-3xl font-bold text-brand-dark">Katalog</h1>
         <div class="flex flex-col gap-3">
             <div class="flex w-full h-full justify-between">
@@ -13,7 +13,7 @@
                 <div class="flex flex-row justify-end ">
                     <a class=" bg-brand-dark text-brand-light p-2  rounded-lg font-semibold"
                         href="{{ route('dashboard.admin.katalog.create') }}">
-                        Buat Katalog
+                        Buat Akun
                     </a>
                 </div>
             </div>
@@ -58,25 +58,4 @@
             </table>
         </div>
     </div>
-
-    <script>
-        document.addEventListener('submit', function (e) {
-            if (e.target.classList.contains('deleteForm')) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Yakin ingin menghapus?',
-                    text: "Pastikan pilihan anda sudah benar.",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, hapus!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        e.target.submit();
-                    }
-                });
-            }
-        });
-    </script>
 </body>
