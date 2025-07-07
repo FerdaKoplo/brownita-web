@@ -2,5 +2,5 @@
 @section('title', 'Home')
 @section('content')
 <body>
-    <h1>Selamat Datang Admin!</h1>
+    <h1>Eat me and fix your mood!</h1>
 </body>

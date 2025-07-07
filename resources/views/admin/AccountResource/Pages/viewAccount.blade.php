@@ -1,9 +1,8 @@
 @extends('layout.admin.layout')
-@section('title', 'Katalog')
+@section('title', 'Akun')
 @section('content')
-
 <body>
-    <div class="p-5 flex flex-col gap-10">
+     <div class="p-5 flex flex-col gap-10">
         <h1 class="text-3xl font-bold text-brand-dark">Katalog</h1>
         <div class="flex flex-col gap-3">
             <div class="flex w-full h-full justify-between">
@@ -14,7 +13,7 @@
                 <div class="flex flex-row justify-end ">
                     <a class=" bg-brand-dark text-brand-light p-2  rounded-lg font-semibold"
                         href="{{ route('dashboard.admin.katalog.create') }}">
-                        Buat Katalog
+                        Buat Akun
                     </a>
                 </div>
             </div>
@@ -38,27 +37,7 @@
                             <td class="px-4 py-2">{{ $catalogue->category->nama_kategori }}</td>
                             <td class="px-4 py-2">{{ $catalogue->nama_produk }}</td>
                             <td class="px-4 py-2">{{ $catalogue->deskripsi }}</td>
-                            <td class="px-4 py-2">
-                                @php
-                                    $gambarArray = array_filter(explode(';', $catalogue->gambar_produk));
-                                @endphp
-
-                                <div class="flex flex-wrap gap-2">
-                                    @foreach (collect($gambarArray)->take(3) as $gambar)
-                                        <img src="{{ asset('storage/' . $gambar) }}" alt="Foto"
-                                            class="w-16 h-16 object-cover rounded border border-gray-300 cursor-pointer"
-                                            onclick="openModal('{{ asset('storage/' . $gambar) }}')" />
-                                    @endforeach
-                                </div>
-                            </td>
-                            {{-- Modal Preview --}}
-                            <div id="imageModal"
-                                class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 hidden">
-                                <img id="modalImage" class="max-h-[90vh] max-w-[90vw] rounded shadow-lg" />
-                                <button onclick="closeModal()"
-                                    class="absolute top-4 right-4 text-white text-2xl font-bold">×</button>
-                            </div>
-
+                            <td><img class="w-24 h-24 object-cover rounded" src="{{ asset('storage/' . $catalogue->gambar_produk) }}" alt="{{ $catalogue->gambar_produk }}"></td>
                             <td class="px-4 py-2">{{ $catalogue->harga_rupiah }}</td>
                             <td class="px-4 py-2">{{ $catalogue->status }}</td>
                             <td class="px-4 py-2">
@@ -79,50 +58,4 @@
             </table>
         </div>
     </div>
-<<<<<<< HEAD
-    <script>
-        function openModal(src) {
-            const modal = document.getElementById('imageModal');
-            const modalImg = document.getElementById('modalImage');
-
-            modal.classList.remove('hidden');
-            modalImg.src = src;
-        }
-
-        function closeModal() {
-            document.getElementById('imageModal').classList.add('hidden');
-        }
-
-        // Optional: Tutup modal saat klik di luar gambar
-        document.getElementById('imageModal').addEventListener('click', function (e) {
-            if (e.target === this) {
-                closeModal();
-            }
-        });
-    </script>
-
 </body>
-=======
-
-    <script>
-        document.addEventListener('submit', function (e) {
-            if (e.target.classList.contains('deleteForm')) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Yakin ingin menghapus?',
-                    text: "Pastikan pilihan anda sudah benar.",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, hapus!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        e.target.submit();
-                    }
-                });
-            }
-        });
-    </script>
-</body>
->>>>>>> origin/staging

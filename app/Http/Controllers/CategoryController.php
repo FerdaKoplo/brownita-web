@@ -13,9 +13,12 @@ class CategoryController extends Controller
         return view('admin.KategoriResource.Pages.viewKategori', compact('categories'));
     }
 
-    // public function show(){
+    public function kategoriSearch(Request $request){
+        $search = $request->input('search');
+        $result = Category::where('name', 'like', "$search%")->get();
+        return view('admin.KategoriResource.Pages.viewKategori',  ['results' => $result]);
 
-    // }
+    }
 
     public function kategoriCreate()
     {
@@ -49,7 +52,6 @@ class CategoryController extends Controller
         $categories = Category::findOrFail($id);
         $categories->update($validate);
         return redirect('/dashboard/admin/kategori')->with('success', 'Kategori berhasil dirubah!');
-
     }
 
     public function kategoriDelete($id)
