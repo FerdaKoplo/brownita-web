@@ -7,18 +7,22 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function kategoriIndex()
+    public function kategoriIndex(Request $request)
     {
-        $categories = Category::all();
-        return view('admin.KategoriResource.Pages.viewKategori', compact('categories'));
-    }
 
-    public function kategoriSearch(Request $request){
         $search = $request->input('search');
-        $result = Category::where('name', 'like', "$search%")->get();
-        return view('admin.KategoriResource.Pages.viewKategori',  ['results' => $result]);
 
+        $categories = Category::query();
+
+        if ($search) {
+            $categories->where('nama_kategori', 'like', "%{$search}%");
+        }
+
+        return view('admin.KategoriResource.Pages.viewKategori', [
+            'categories' => $categories->paginate(10)->withQueryString()
+        ]);
     }
+
 
     public function kategoriCreate()
     {

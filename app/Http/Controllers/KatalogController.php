@@ -9,9 +9,16 @@ use Str;
 
 class KatalogController extends Controller
 {
-    public function katalogIndex()
+    public function katalogIndex(Request $request)
     {
-        $catalogues = Katalog::with('category')->get();
+
+        $search = $request->input('search');
+
+        $catalogues = Katalog::with('category')
+            ->when($search, function ($query, $search) {
+                $query->where('nama_produk', 'like', "%{$search}%");
+            })
+            ->get();
         return view('admin.KatalogResource.Pages.viewKatalog', compact('catalogues'));
     }
 
@@ -63,8 +70,8 @@ class KatalogController extends Controller
             'gambar_produk' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'deskripsi' => 'nullable|string|max:1000',
             'harga' => 'required|numeric|min:0',
+            'status' => 'required|in:tersedia,habis',
         ]);
-
 
         if ($request->hasFile('gambar_produk')) {
             $file = $request->file('gambar_produk');

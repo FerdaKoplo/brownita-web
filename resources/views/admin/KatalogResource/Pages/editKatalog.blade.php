@@ -52,6 +52,16 @@
                         class="resize-none w-full px-4 py-2 bg-brand-secondary text-white text-lg rounded-lg">{{ old('deskripsi', $catalogues->deskripsi) }}</textarea>
                 </div>
 
+                {{-- Status Produk --}}
+                <div class="flex flex-col gap-2 font-semibold">
+                    <label for="status">Status Produk</label>
+                    <select name="status" id="status"
+                        class="w-full px-4 py-2 bg-brand-secondary text-white text-lg rounded-lg">
+                         <option value="tersedia" {{ old('status', $catalogues->status) == 'tersedia' ? 'selected' : '' }}>Tersedia</option>
+                         <option value="habis" {{ old('status', $catalogues->status) == 'habis' ? 'selected' : '' }}>Stok Habis</option>
+                    </select>
+                </div>
+
                 {{-- Harga Produk --}}
                 <div class="flex flex-col gap-2 font-semibold">
                     <h1 class="">Harga Produk</h1>

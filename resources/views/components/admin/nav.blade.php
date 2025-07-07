@@ -13,7 +13,7 @@
                 <i class="fa-solid fa-utensils"></i>
                 <li>Katalog</li>
             </a>
-            <a href="" class="flex items-center gap-3">
+            <a href="{{ route('dashboard.admin.akun.view') }}" class="flex items-center gap-3">
                 <i class="fa-solid fa-user"></i>
                 <li>Akun</li>
             </a>

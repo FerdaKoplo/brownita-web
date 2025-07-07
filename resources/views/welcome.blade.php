@@ -9,8 +9,11 @@
 </head>
 <body>
     @include('components.customer.nav')
-     <h1 class="text-3xl font-bold ">
-    Hello world!
+    <div>
+        <div>
+            <h1>Eat Me and Fix Your Mood</h1>
+        </div>
+    </div>
   </h1>
 </body>
 </html>
