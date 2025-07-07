@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Katalog;
 use Illuminate\Http\Request;
@@ -94,5 +95,4 @@ class KatalogController extends Controller
         $catalogues->delete();
         return redirect('/dashboard/admin/katalog')->with('success', 'Katalog berhasil dihapus!');
     }
-
 }

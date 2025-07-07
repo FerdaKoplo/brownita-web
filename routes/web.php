@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\KatalogController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\KatalogController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -64,10 +64,19 @@ Route::middleware(['auth', 'role'])->group(function () {
     // Route::put('/dashboard/admin/katalog/update/{id}', [UserController::class, 'katalogUpdate'])->name('dashboard.admin.katalog.update');
     // // Delete Katalog
     // Route::delete('/dashboard/admin/katalog/{id}', [UserController::class, 'katalogDelete'])->name('dashboard.admin.katalog.delete');
-
 });
 
+
+// Customer Logged Out Route
 
 Route::get('/', function () {
     return view('welcome');
 })->name('landing.page');
+
+Route::get('/produk-kami', [\App\Http\Controllers\Customer\KatalogController::class, 'showKatalog'])->name('produk-kami');
+
+Route::get('/produk/{id}', [\App\Http\Controllers\Customer\KatalogController::class, 'showDetail'])
+    ->name('produk.detail');
+
+Route::get('/produk/{id}/show', [\App\Http\Controllers\Customer\KatalogController::class, 'show'])
+    ->name('produk.show');

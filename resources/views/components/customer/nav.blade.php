@@ -1,4 +1,4 @@
-<nav class="bg-brand-secondary px-32 p-5 top-0 sticky">
+<nav class="bg-brand-secondary px-32 p-5 top-0 sticky z-50">
     <div class="text-white flex justify-between items-center">
         <h1 class="font-kameron  text-2xl">
             <a href="{{ route('landing.page') }}">
@@ -12,7 +12,7 @@
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="{{ route('produk-kami') }}">
                     Produk Kami
                 </a>
             </li>
