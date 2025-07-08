@@ -74,6 +74,7 @@
 
     {{-- Main Content --}}
     <section class="md:w-3/4 space-y-6 px-4">
+
         <div class="flex justify-between items-center">
             <h1 class="text-xl font-bold text-brand-brown">
                 @if(request('category_id') && $categories)
@@ -93,28 +94,64 @@
         </div>
 
         {{-- Produk Grid --}}
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-3xl">
             @forelse($catalogues as $catalogue)
-                <div class="border rounded-lg shadow-md overflow-hidden relative bg-white">
+                <div class="rounded-lg shadow-md overflow-hidden relative bg-brand-lightdark">
                     <div class="absolute top-2 right-2 text-xs px-2 py-1 rounded-full {{ $catalogue->status == 'tersedia' ? 'bg-green-500 text-white' : 'bg-red-500 text-white' }}">
                         {{ ucfirst($catalogue->status) }}
                     </div>
+
                     <div class="aspect-w-1 aspect-h-1">
                         @php
                             $firstImage = explode(';', $catalogue->gambar_produk)[0] ?? null;
                         @endphp
                         <img src="{{ $firstImage ? asset('storage/' . $firstImage) : asset('images/default-product.jpg') }}"
-                            alt="{{ $catalogue->nama_produk }}" class="w-full h-full object-cover">
+                            alt="{{ $catalogue->nama_produk }}" class="w-full h-full  object-cover aspect-square">
                     </div>
-                    <div class="p-4 space-y-1">
+
+                    @if (Auth::check())
+
+                     <div class="p-4 space-y-5 flex flex-col justify-center items-center">
                         <h2 class="font-semibold text-brand-brown">{{ $catalogue->nama_produk }}</h2>
                         <p class="text-sm italic text-gray-600">
                             "{{ Str::limit($catalogue->deskripsi, 60, '...') }}"
                         </p>
-                        <div class="text-brand-brown font-bold">Rp {{ number_format($catalogue->harga, 0, ',', '.') }}</div>
+                        <p class="text-brand-brown font-bold">Rp {{ number_format($catalogue->harga, 0, ',', '.') }}</p>
                         <a href="{{ route('produk.detail', $catalogue->id) }}"
-                            class="inline-block mt-2 px-4 py-1 bg-brand-brown text-white rounded-md text-sm">Lihat</a>
+                            class="inline-block   py-2 border-2 rounded-full text-brand-dark px-16 border-brand-dark font-bold text-sm"
+                            >Lihat
+                        </a>
+                        <div class="flex gap-2 items-center">
+                            <a href="{{ route('produk.detail', $catalogue->id) }}"
+                                class="inline-block  px-10 py-2 rounded-full  bg-brand-dark text-brand-light  text-sm">
+                                Order
+                            </a>
+                            <a href="{{ route('produk.detail', $catalogue->id) }}"
+                                class="inline-block  px-3 py-2 rounded-full  bg-brand-dark text-brand-light  text-sm">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                            </a>
+                        </div>
+                     </div>
+
+                    @else
+
+                    <div class="p-4 space-y-5 flex flex-col justify-center items-center">
+                        <h2 class="font-semibold text-brand-brown">{{ $catalogue->nama_produk }}</h2>
+                        <p class="text-sm italic text-gray-600">
+                            "{{ Str::limit($catalogue->deskripsi, 60, '...') }}"
+                        </p>
+                        <p class="text-brand-brown font-bold">Rp {{ number_format($catalogue->harga, 0, ',', '.') }}</p>
+                        <a href="{{ route('produk.detail', $catalogue->id) }}"
+                            class="inline-block   py-2 border-2 rounded-full text-brand-dark px-16 border-brand-dark font-bold text-sm"
+                            >Lihat
+                        </a>
+                        <a href="{{ route('produk.detail', $catalogue->id) }}"
+                            class="inline-block  px-16 py-2 rounded-full  bg-brand-dark text-brand-light  text-sm">
+                            Order
+                        </a>
                     </div>
+
+                    @endif
                 </div>
             @empty
                 <p class="col-span-full text-center text-gray-500 py-10">Tidak ada produk yang ditemukan.</p>

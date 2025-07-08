@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <title>BROWNITA</title>
@@ -9,11 +10,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     @vite('resources/css/app.css')
 </head>
+
 <body class="bg-brand-light">
-    @include('components.customer.nav')
+    @if (Auth::check())
+        @include('components.customer.logged-in.nav')
+    @else
+        @include('components.customer.logged-out.nav')
+    @endif
 
     <main>
         @yield('content')
     </main>
 </body>
+
 </html>

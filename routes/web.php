@@ -26,7 +26,7 @@ Route::post('/login', [AuthController::class, 'loginPost'])->name('login.post');
 Route::get('/login', [AuthController::class, 'viewLogin'])->name('login');
 Route::post('/logout', [AuthController::class, 'logoutPost'])->name('logout.post');
 
-Route::middleware(['auth', 'role'])->group(function () {
+Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard/admin', [DashboardController::class, 'homeIndex'])->name('dashboard.admin');
 
     // Kategori
@@ -64,6 +64,10 @@ Route::middleware(['auth', 'role'])->group(function () {
     // Route::put('/dashboard/admin/katalog/update/{id}', [UserController::class, 'katalogUpdate'])->name('dashboard.admin.katalog.update');
     // // Delete Katalog
     // Route::delete('/dashboard/admin/katalog/{id}', [UserController::class, 'katalogDelete'])->name('dashboard.admin.katalog.delete');
+});
+
+Route::middleware(['auth', 'role:customer'])->group(function () {
+    // Route::get('/katalog', [\App\Http\Controllers\Customer\KatalogController::class, 'showKatalog'])->name('katalog');
 });
 
 
