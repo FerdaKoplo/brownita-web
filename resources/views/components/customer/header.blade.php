@@ -1,30 +1,31 @@
 <head>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
 </head>
 
-<header class="header">
-    <div class="header-container">
-        <div class="logo">
+<header class="bg-[#607274] py-5">
+    <div class="w-[90%] max-w-[1200px] mx-auto flex justify-between items-center">
+        <div class="text-white font-bold text-2xl">
             <a href="{{ route('home') }}">BROWNITA</a>
         </div>
-        <nav class="nav-links">
-            <a href="{{ route('home') }}">Home</a>
-            <a href="{{ route('tentang-kami') }}">Tentang Kami</a>
-            <a href="{{ route('founder') }}">Founder</a>
-            <a href="{{ route('produk-kami') }}">Produk Kami</a>
-            <a href="{{ route('lokasi') }}">Lokasi</a>
+
+        <nav class="hidden md:flex space-x-6 font-bold">
+            <a href="{{ route('home') }}" class="text-white hover:text-[#CCB88C]">Home</a>
+            <a href="{{ route('tentang-kami') }}" class="text-white hover:text-[#CCB88C]">Tentang Kami</a>
+            <a href="{{ route('founder') }}" class="text-white hover:text-[#CCB88C]">Founder</a>
+            <a href="{{ route('produk-kami') }}" class="text-white hover:text-[#CCB88C]">Produk Kami</a>
+            <a href="{{ route('lokasi') }}" class="text-white hover:text-[#CCB88C]">Lokasi</a>
         </nav>
 
-        <div class="menu-toggle" id="menuToggle">
+        <div class="md:hidden text-white text-2xl cursor-pointer" id="menuToggle">
             ☰
         </div>
     </div>
 </header>
 
-
 <script>
-    function toggleNav() {
-        const navList = document.querySelector('.main-nav ul');
-        navList.classList.toggle('show');
-    }
+    // Menu toggle (jika kamu pakai nav responsive)
+    document.getElementById('menuToggle').addEventListener('click', function () {
+        const nav = document.querySelector('nav');
+        nav.classList.toggle('hidden');
+    });
 </script>

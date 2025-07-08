@@ -60,7 +60,6 @@ Route::middleware(['auth', 'role'])->group(function () {
 // Customer routes (no authentication required)
 // ✅ Beranda (Home)
 Route::get('/', function () {
-<<<<<<< HEAD
     return view('customer.home');
 })->name('home');
 
@@ -79,7 +78,7 @@ Route::get('/produk/{id}/show', [KatalogController::class, 'show'])
 Route::get('/tentang-kami', fn() => view('customer.tentang-kami'))->name('tentang-kami');
 Route::get('/founder', fn() => view('customer.founder'))->name('founder');
 Route::get('/lokasi', fn() => view('customer.lokasi'))->name('lokasi');
-=======
-    return view('welcome');
-})->name('landing.page');
->>>>>>> origin/staging
+// =======
+//     return view('welcome');
+// })->name('landing.page');
+// >>>>>>> origin/staging

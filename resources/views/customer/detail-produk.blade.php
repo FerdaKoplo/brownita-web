@@ -4,112 +4,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BROWNITA - Katalog</title>
+    <title>BROWNITA - Detail Produk</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="{{ asset('css/style-detail-produk.css') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-
+<body class="min-h-screen bg-[#E4D2A3] font-['Segoe_UI','Tahoma','Geneva','Verdana','sans-serif']">
     @extends('layout.customer.app')
 
     @section('content')
-        <div class="product-detail-container">
-            <div class="product-header">
-                <a href="{{ url()->previous() }}" class="back-button">
+
+        <div class="max-w-[1233px] mx-auto px-6 pt-6 pb-10">
+            <div class="flex items-center justify-between relative">
+                <!-- Tombol Kembali di Kiri -->
+                <a href="{{ route('produk-kami') }}"
+                    class="bg-[#6C4E31] text-[#E4D2A3] px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 border border-transparent hover:bg-transparent hover:text-[#6C4E31] hover:border-[#6C4E31] transition w-fit">
                     <i class="fas fa-arrow-left"></i> Kembali
                 </a>
-                <h1>Detail Produk</h1>
+
+                <!-- Judul Tengah -->
+                <h1 class="absolute left-1/2 -translate-x-1/2 text-4xl font-bold text-[#6C4E31] text-center">
+                    Detail Produk
+                </h1>
+
+                <!-- Spacer kanan untuk menjaga keseimbangan -->
+                <div class="w-[96px]"></div>
             </div>
+        </div>
 
-            <div class="product-detail-card">
-                <!-- Kiri: Gambar dan Thumbnail -->
-                <div class="photo-product">
-                    <div class="product-left">
-                        <div class="product-detail-image">
-                            <img id="mainImage" src="{{ asset('storage/' . $gambarArray[0]) }}"
-                                alt="{{ $produk->nama_produk }}">
-                        </div>
 
-                        <!-- THUMBNAILS -->
-                        <div class="thumbnail-list">
-                            @foreach($gambarArray as $index => $img)
-                                <img class="thumbnail {{ $index === 0 ? 'active' : '' }}" src="{{ asset('storage/' . $img) }}"
-                                    onclick="setMainImage(this)">
-                            @endforeach
-                        </div>
+        <!-- 🟤 KONTEN PRODUK -->
+        <div class="max-w-[1233px] mx-auto px-5 pb-10">
+            <div
+                class="flex flex-col lg:flex-row justify-center items-center gap-16 border-4 border-[#6C4E31] p-10 rounded-lg">
+
+                <!-- KIRI: Gambar Produk -->
+                <div class="flex flex-col items-center gap-4 w-full max-w-sm">
+                    <div class="w-full aspect-square relative">
+                        <img id="mainImage" src="{{ asset('storage/' . $gambarArray[0]) }}" alt="{{ $produk->nama_produk }}"
+                            class="w-full h-full object-cover rounded-xl">
                     </div>
-
-                    <!-- Tengah: Panah Navigasi -->
-                    <div class="image-nav-buttons">
-                        <button class="nav-btn prev" onclick="changeImage(-1)">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button class="nav-btn next" onclick="changeImage(1)">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
+                    <div class="flex flex-wrap justify-center gap-2">
+                        @foreach($gambarArray as $index => $img)
+                            <img class="thumbnail w-16 h-16 object-cover rounded-md border-2 {{ $index === 0 ? 'border-[#6C4E31] opacity-100' : 'border-gray-300 opacity-70' }} hover:opacity-100 hover:border-[#6C4E31] cursor-pointer"
+                                src="{{ asset('storage/' . $img) }}" onclick="setMainImage(this)">
+                        @endforeach
                     </div>
-
                 </div>
 
-                <!-- Kanan: Informasi Produk -->
-                <div class="product-info">
-                    <h3 class="product-category">{{ $produk->category->nama_kategori ?? '-' }}</h3>
-                    <h2>{{ $produk->nama_produk }}</h2>
-                    <div class="price-sold">
-                        <p class="product-price-detail">Rp. {{ number_format($produk->harga, 0, ',', '.') }}</p>
-                    </div>
-                    <hr class="divider">
-                    <h3 class="desc-label">Deskripsi</h3>
-                    <p class="product-detail-description">{{ $produk->deskripsi ?? '-' }}</p>
+                <!-- TENGAH: Tombol Navigasi -->
+                <div class="hidden lg:flex flex-col gap-4 items-center">
+                    <button
+                        class="w-10 h-10 bg-[#6C4E31] text-white rounded-lg flex justify-center items-center hover:bg-[#4E3B24]">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button
+                        class="w-10 h-10 bg-[#6C4E31] text-white rounded-lg flex justify-center items-center hover:bg-[#4E3B24]">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
 
-                    <a href="#" class="order-button">Order</a>
+                <!-- KANAN: Info Produk -->
+                <div class="flex-1 max-w-lg flex flex-col gap-6">
+                    <div>
+                        <h3 class="text-lg text-[#6C4E31]">{{ $produk->category->nama_kategori ?? '-' }}</h3>
+                        <h2 class="text-3xl font-bold text-[#6C4E31]">{{ $produk->nama_produk }}</h2>
+                    </div>
+                    <div class="flex justify-between">
+                        <p class="text-xl font-bold text-[#6C4E31]">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
+                        <p class="text-gray-600">{{ $produk->stok ?? 0 }} Terjual</p>
+                    </div>
+                    <hr class="border-t-2 border-[#6C4E31]">
+                    <div>
+                        <h3 class="text-2xl font-bold text-[#6C4E31]">Deskripsi</h3>
+                        <p class="italic text-[#6C4E31] text-base mt-2">{{ $produk->deskripsi ?? '-' }}</p>
+                    </div>
+                    <a href="#"
+                        class="inline-block text-center bg-[#6C4E31] text-[#E4D2A3] font-bold text-base py-3 px-8 rounded-full hover:bg-transparent hover:text-[#6C4E31] border-2 border-[#6C4E31] transition">
+                        Order
+                    </a>
+                    <a href="#"
+                        class="inline-block text-center bg-transparent text-[#6C4E31] font-bold text-base py-3 px-8 rounded-full hover:bg-[#6C4E31] hover:text-[#E4D2A3] border-2 border-[#6C4E31]  transition">
+                        Masukkan Ke Keranjang
+                    </a>
                 </div>
             </div>
         </div>
+
     @endsection
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        function setMainImage(el) {
             const mainImage = document.getElementById('mainImage');
-            const thumbnails = document.querySelectorAll('.thumbnail');
-            let currentImageIndex = 0;
+            mainImage.src = el.src;
 
-            // Buat array semua gambar (utamanya + foto_lain)
-            const imageArray = Array.from(thumbnails).map(t => t.getAttribute('src'));
-
-            // Fungsi set gambar utama
-            function setMainImage(index) {
-                mainImage.src = imageArray[index];
-                thumbnails.forEach((thumb, i) => {
-                    thumb.classList.toggle('active', i === index);
-                });
-                currentImageIndex = index;
-            }
-
-            // Tombol panah kiri
-            document.querySelector('.nav-btn.prev').addEventListener('click', () => {
-                let newIndex = currentImageIndex - 1;
-                if (newIndex < 0) newIndex = imageArray.length - 1;
-                setMainImage(newIndex);
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.classList.remove('border-[#6C4E31]', 'opacity-100');
+                thumb.classList.add('border-gray-300', 'opacity-70');
             });
 
-            document.querySelector('.nav-btn.next').addEventListener('click', () => {
-                let newIndex = (currentImageIndex + 1) % imageArray.length;
-                setMainImage(newIndex);
-            });
-
-
-            // Klik thumbnail
-            thumbnails.forEach((thumb, i) => {
-                thumb.addEventListener('click', function () {
-                    setMainImage(i);
-                });
-            });
-
-            // Set gambar awal aktif
-            setMainImage(0);
-        });
+            el.classList.remove('border-gray-300', 'opacity-70');
+            el.classList.add('border-[#6C4E31]', 'opacity-100');
+        }
     </script>
 </body>
 
