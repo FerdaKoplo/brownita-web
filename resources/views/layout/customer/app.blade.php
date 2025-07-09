@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+<<<<<<< HEAD
 
 <head>
     <meta charset="UTF-8">
@@ -17,10 +18,22 @@
     @else
         @include('components.customer.logged-out.nav')
     @endif
+=======
+<head>
+    <meta charset="UTF-8">
+    <title>BROWNITA</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+</head>
+<body>
+    @include('components.customer.header')
+>>>>>>> maulana-branch
 
     <main>
         @yield('content')
     </main>
 </body>
+<<<<<<< HEAD
 
+=======
+>>>>>>> maulana-branch
 </html>
