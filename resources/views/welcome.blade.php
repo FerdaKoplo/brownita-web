@@ -14,11 +14,7 @@
 </head>
 
 <body>
-    @if (Auth::check())
-    @include('components.customer.logged-in.nav')
-    @else
-    @include('components.customer.logged-out.nav')
-    @endif
+    @include('components.customer.header')
     <div class="min-h-screen flex items-center  bg-brand-light justify-center px-8 py-12">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-40 max-w-6xl w-full items-center">
             <div class="max-w-md space-y-6 text-[#4d2600] text-left">
@@ -69,7 +65,7 @@
 
             <!-- Teks -->
             <div>
-                <h2 class="text-2xl text-[40px] font-bold mb-4">Tentang Brownita</h2>
+                <h2 id="tentang-kami" class="text-2xl text-[40px] font-bold mb-4">Tentang Brownita</h2>
                 <br>
                 <p class="text-sm leading-relaxed !text-[21px]">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -89,7 +85,7 @@
         <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-center">
             <!-- Teks -->
             <div>
-                <h2 class="text-xl !text-[40px] font-bold mb-4">Profil Founder</h2>
+                <h2 id="founder" class="text-xl !text-[40px] font-bold mb-4">Profil Founder</h2>
                 <br>
                 <p class="text-sm leading-relaxed !text-[21px]">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -117,7 +113,7 @@
     <section class="relative bg-brand-light text-[#4d2600] py-16 px-6">
         <div class="max-w-xl mx-auto text-center space-y-6">
             <!-- Judul -->
-            <h2 class="text-2xl font-bold text-[50px]">Lokasi Kami</h2>
+            <h2 id="lokasi" class="text-2xl font-bold text-[50px]">Lokasi Kami</h2>
 
             <br>
             <!-- Alamat -->
