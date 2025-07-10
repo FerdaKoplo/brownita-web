@@ -2,7 +2,7 @@
 @section('title', 'Kategori')
 @section('content')
 
-<body>
+
     <div class=" flex gap-10  flex-col justify-center items-center min-h-screen ">
         <h1 class="text-3xl font-bold text-brand-dark">Buat Kategori</h1>
         <div class="flex flex-col items-center max-w-md w-full">
@@ -14,8 +14,8 @@
                 <div class="flex flex-col gap-2 font-semibold">
                     <h1 class="">Nama Kategori</h1>
                     <input type="text" id="nama_kategori"
-                        class="bg-brand-secondary text-white py-2 px-4 resize-none w-full rounded-lg"
-                        name="nama_kategori" value="{{ $categories->nama_kategori }}">
+                        class="bg-brand-secondary text-white py-2 px-4 resize-none w-full rounded-lg" name="nama_kategori"
+                        value="{{ $categories->nama_kategori }}">
                 </div>
 
                 <div class="flex flex-col gap-2 font-semibold">
@@ -60,4 +60,4 @@
 
     </script>
 
-</body>
+@endsection

@@ -1,8 +1,6 @@
 @extends('layout.admin.layout')
 @section('title', 'Katalog')
 @section('content')
-
-<body>
     <div class=" flex gap-10  flex-col justify-center items-center min-h-screen ">
         <h1 class="text-3xl font-bold text-brand-dark">Buat Katalog</h1>
         <div class="flex flex-col items-center max-w-md w-full">
@@ -15,7 +13,8 @@
                     <h1 class="">Kategori</h1>
                     <select name="category_id" id="category_id" class=" px-4 bg-brand-secondary text-white py-2 rounded-lg">
                         @foreach ($categories as $category)
-                            <option class="bg-brand-dark rounded-lg" value="{{ $category->id }}">{{ $category->nama_kategori }}</option>
+                            <option class="bg-brand-dark rounded-lg" value="{{ $category->id }}">{{ $category->nama_kategori }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -23,20 +22,13 @@
                 <div class="flex flex-col gap-2 font-semibold">
                     <h1 class="">Nama Produk</h1>
                     <input type="text" id="nama_produk"
-                        class="bg-brand-secondary text-white py-2 px-4 resize-none w-full rounded-lg"
-                        name="nama_produk">
+                        class="bg-brand-secondary text-white py-2 px-4 resize-none w-full rounded-lg" name="nama_produk">
                 </div>
 
                 <div class="flex flex-col gap-2 font-semibold">
                     <h1 class="">Gambar Produk</h1>
-                    <input
-                        type="file"
-                        id="gambar_produk"
-                        accept="image/*"
-                        multiple
-                        name="gambar_produk[]"
-                        class="bg-brand-secondary text-white py-2 px-4 resize-none w-full rounded-lg"
-                    >
+                    <input type="file" id="gambar_produk" accept="image/*" multiple name="gambar_produk[]"
+                        class="bg-brand-secondary text-white py-2 px-4 resize-none w-full rounded-lg">
 
                     <div id="preview_gambar" class="flex flex-wrap gap-2 mt-2"></div>
                 </div>
@@ -101,18 +93,18 @@
     {{-- preview product picture before submit --}}
     <script>
         document.getElementById('gambar_produk').addEventListener('change', function (e) {
-        const previewContainer = document.getElementById('preview_gambar');
-        previewContainer.innerHTML = '';
+            const previewContainer = document.getElementById('preview_gambar');
+            previewContainer.innerHTML = '';
 
-        const files = e.target.files;
+            const files = e.target.files;
 
-        for (let i = 0; i < files.length; i++) {
-            const img = document.createElement('img');
-            img.src = URL.createObjectURL(files[i]);
-            img.classList.add('h-24', 'w-24', 'object-cover', 'rounded-md', 'bg-white');
-            previewContainer.appendChild(img);
-        }
-    })
+            for (let i = 0; i < files.length; i++) {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(files[i]);
+                img.classList.add('h-24', 'w-24', 'object-cover', 'rounded-md', 'bg-white');
+                previewContainer.appendChild(img);
+            }
+        })
     </script>
 
     {{-- sweetAlert --}}
@@ -135,4 +127,4 @@
         })
     </script>
 
-</body>
+@endsection

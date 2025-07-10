@@ -14,7 +14,12 @@
 </head>
 
 <body>
-    @include('components.customer.header')
+    {{-- @include('components.customer.header') --}}
+    @if (Auth::check())
+        @include('components.customer.logged-in.nav')
+    @else
+        @include('components.customer.logged-out.nav')
+    @endif
     <div class="min-h-screen flex items-center  bg-brand-light justify-center px-8 py-12">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-40 max-w-6xl w-full items-center">
             <div class="max-w-md space-y-6 text-[#4d2600] text-left">

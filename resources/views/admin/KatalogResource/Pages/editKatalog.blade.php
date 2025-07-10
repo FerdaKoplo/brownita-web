@@ -2,7 +2,7 @@
 @section('title', 'Katalog')
 @section('content')
 
-<body>
+
     <div class=" flex gap-10  flex-col justify-center items-center min-h-screen ">
         <h1 class="text-3xl font-bold text-brand-dark">Buat Katalog</h1>
         <div class="flex flex-col items-center max-w-md w-full">
@@ -152,4 +152,4 @@
         })
     </script>
 
-</body>
+@endsection

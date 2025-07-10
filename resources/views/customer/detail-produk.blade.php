@@ -65,7 +65,8 @@
                         <p id="deskripsi-{{ $produk->id }}" class="text-xl italic text-brand-dark">
                             {{ Str::limit($produk->deskripsi, 60, '...') }}
                         </p>
-                        <button onclick="toggleDeskripsi({{ $produk->id }})" class=" italic flex items-end justify-end text-xl text-brand-dark font-bold mt-1">
+                        <button onclick="toggleDeskripsi({{ $produk->id }})"
+                            class=" italic flex items-end justify-end text-xl text-brand-dark font-bold mt-1">
                             Lihat Lebih
                         </button>
                         <p id="deskripsi-lengkap-{{ $produk->id }}" class="hidden text-xl italic text-brand-dark max-w-lg">
@@ -74,8 +75,17 @@
                     </div>
 
                     @if (Auth::check())
-                        <div>
-
+                        <div class="flex flex-col gap-5">
+                            <button class="bg-brand-dark w-full py-2 text-brand-light rounded-full">
+                                <a href="http://">
+                                    Order
+                                </a>
+                            </button>
+                            <button class="border-2 border-brand-dark w-full py-2 text-brand-dark font-bold rounded-full">
+                                <a href="http://">
+                                    Masukkan Ke Keranjang
+                                </a>
+                            </button>
                         </div>
                     @else
                         <button class="bg-brand-dark w-full py-2 text-brand-light rounded-full">

@@ -1,7 +1,7 @@
 @extends('layout.admin.layout')
 @section('title', 'Katalog')
 @section('content')
-<body>
+
     <div class="p-5 flex flex-col gap-10">
         <h1 class="text-3xl font-bold text-brand-dark">Katalog</h1>
         <div class="flex flex-col gap-3">
@@ -92,4 +92,4 @@
             }
         });
     </script>
-</body>
+@endsection
