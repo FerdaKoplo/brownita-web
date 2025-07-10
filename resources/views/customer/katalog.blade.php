@@ -4,11 +4,8 @@
 
 
 <div class="flex px-32 flex-col md:flex-row gap-8">
-
-<div class="flex pt-10 px-32 flex-col md:flex-row gap-8">
-
-    {{-- Sidebar --}}
-    <div class="px-4 max-w-lg flex flex-col justify-center items-center">
+        {{-- Sidebar --}}
+        <div class="px-4 max-w-lg flex flex-col justify-center items-center">
             {{-- Search --}}
             <form method="GET" action="{{ route('produk-kami') }}" class="bg-brand-dark text-brand-light w-10/12 rounded-t-2xl px-4 py-2 flex items-center gap-3">
                 <i class="fa fa-search text-white"></i>
@@ -16,38 +13,38 @@
                     class="bg-brand-dark w-full text-sm text-white placeholder-white focus:outline-none"
                     placeholder="Cari Menu..." value="{{ request('search') }}">
                 @foreach((array) request('category_id') as $id)
-                    <input type="hidden" name="category_id[]" value="{{ $id }}">
+                <input type="hidden" name="category_id[]" value="{{ $id }}">
                 @endforeach
                 @if(request('status'))
-                    <input type="hidden" name="status" value="{{ request('status') }}">
+                <input type="hidden" name="status" value="{{ request('status') }}">
                 @endif
             </form>
-        <div class="bg-brand-lightdark w-full px-7 py-5 rounded-2xl flex flex-col gap-5">
+            <div class="bg-brand-lightdark w-full px-7 py-5 rounded-2xl flex flex-col gap-5">
 
-            {{-- Filter Status --}}
-            <form method="GET" action="{{ route('produk-kami') }}" class="space-y-4">
-                <label class="block  text-brand-dark font-bold text-2xl">Ketersediaan</label>
-                <a href="{{ route('produk-kami') }}" class="text-sm text-brand-caramel font-bold">Reset Filter</a>
-                <select name="status" onchange="this.form.submit()"
-                    class="w-full py-2 px-3 rounded-md bg-brand-dark text-brand-light">
-                    <option value="">Semua Status</option>
-                    <option value="tersedia" {{ request('status') == 'tersedia' ? 'selected' : '' }}>Tersedia</option>
-                    <option value="habis" {{ request('status') == 'habis' ? 'selected' : '' }}>Habis</option>
-                </select>
-                @foreach((array) request('category_id') as $id)
+                {{-- Filter Status --}}
+                <form method="GET" action="{{ route('produk-kami') }}" class="space-y-4">
+                    <label class="block  text-brand-dark font-bold text-2xl">Ketersediaan</label>
+                    <a href="{{ route('produk-kami') }}" class="text-sm text-brand-caramel font-bold">Reset Filter</a>
+                    <select name="status" onchange="this.form.submit()"
+                        class="w-full py-2 px-3 rounded-md bg-brand-dark text-brand-light">
+                        <option value="">Semua Status</option>
+                        <option value="tersedia" {{ request('status') == 'tersedia' ? 'selected' : '' }}>Tersedia</option>
+                        <option value="habis" {{ request('status') == 'habis' ? 'selected' : '' }}>Habis</option>
+                    </select>
+                    @foreach((array) request('category_id') as $id)
                     <input type="hidden" name="category_id[]" value="{{ $id }}">
-                @endforeach
-                @if(request('search'))
+                    @endforeach
+                    @if(request('search'))
                     <input type="hidden" name="search" value="{{ request('search') }}">
-                @endif
-            </form>
+                    @endif
+                </form>
 
 
-            {{-- Filter Kategori --}}
-            <div>
-                <h2 class="font-semibold text-brand-brown mb-2">Kategori</h2>
-                <ul class="space-y-2">
-                    @foreach($categories as $category)
+                {{-- Filter Kategori --}}
+                <div>
+                    <h2 class="font-semibold text-brand-brown mb-2">Kategori</h2>
+                    <ul class="space-y-2">
+                        @foreach($categories as $category)
                         <li>
                             <form method="GET" action="{{ route('produk-kami') }}">
                                 <label class="flex items-center gap-2 cursor-pointer">
@@ -58,49 +55,49 @@
                                     <span>{{ $category->nama_kategori }}</span>
                                 </label>
                                 @foreach((array) request('category_id') as $keepId)
-                                    @if($keepId != $category->id)
-                                        <input type="hidden" name="category_id[]" value="{{ $keepId }}">
-                                    @endif
+                                @if($keepId != $category->id)
+                                <input type="hidden" name="category_id[]" value="{{ $keepId }}">
+                                @endif
                                 @endforeach
                                 @if(request('search'))
-                                    <input type="hidden" name="search" value="{{ request('search') }}">
+                                <input type="hidden" name="search" value="{{ request('search') }}">
                                 @endif
                                 @if(request('status'))
-                                    <input type="hidden" name="status" value="{{ request('status') }}">
+                                <input type="hidden" name="status" value="{{ request('status') }}">
                                 @endif
-                             </form>
+                            </form>
                         </li>
-                    @endforeach
-                </ul>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 
-    {{-- Main Content --}}
-    <section class="md:w-3/4 space-y-6 px-4">
+        {{-- Main Content --}}
+        <section class="md:w-3/4 space-y-6 px-4">
 
-        <div class="flex justify-between items-center">
-            <h1 class="text-xl font-bold text-brand-brown">
-                @if(request('category_id') && $categories)
+            <div class="flex justify-between items-center">
+                <h1 class="text-xl font-bold text-brand-brown">
+                    @if(request('category_id') && $categories)
                     {{ $categories->whereIn('id', (array) request('category_id'))->pluck('nama_kategori')->implode(', ') }}
-                @else
+                    @else
                     Semua Katalog
+                    @endif
+                </h1>
+
+                @if(isset($stats))
+                <div class="text-sm text-brand-brown space-x-4">
+                    <span>Total: <strong>{{ $stats['total'] }}</strong></span>
+                    <span class="text-green-600">Tersedia: <strong>{{ $stats['tersedia'] }}</strong></span>
+                    <span class="text-red-600">Habis: <strong>{{ $stats['habis'] }}</strong></span>
+                </div>
                 @endif
-            </h1>
-
-            @if(isset($stats))
-            <div class="text-sm text-brand-brown space-x-4">
-                <span>Total: <strong>{{ $stats['total'] }}</strong></span>
-                <span class="text-green-600">Tersedia: <strong>{{ $stats['tersedia'] }}</strong></span>
-                <span class="text-red-600">Habis: <strong>{{ $stats['habis'] }}</strong></span>
             </div>
-            @endif
-        </div>
 
-        {{-- Produk Grid --}}
+            {{-- Produk Grid --}}
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-3xl">
-            @forelse($catalogues as $catalogue)
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-3xl">
+                @forelse($catalogues as $catalogue)
                 <div class="rounded-lg shadow-md overflow-hidden relative bg-brand-lightdark">
                     <div class="absolute top-2 right-2 text-xs px-2 py-1 rounded-full {{ $catalogue->status == 'tersedia' ? 'bg-green-500 text-white' : 'bg-red-500 text-white' }}">
                         {{ ucfirst($catalogue->status) }}
@@ -108,40 +105,22 @@
 
                     <div class="aspect-w-1 aspect-h-1">
                         @php
-                            $firstImagePath = $catalogue->images->first()->gambar_produk ?? null;
+                        $firstImagePath = $catalogue->images->first()->gambar_produk ?? null;
                         @endphp
-                            <img src="{{ $firstImagePath ? asset('storage/' . $firstImagePath) : asset('images/default-product.jpg') }}"
-                                alt="{{ $catalogue->nama_produk }}" class="w-full h-full object-cover aspect-square">
+                        <img src="{{ $firstImagePath ? asset('storage/' . $firstImagePath) : asset('images/default-product.jpg') }}"
+                            alt="{{ $catalogue->nama_produk }}" class="w-full h-full object-cover aspect-square">
                     </div>
 
                     @if (Auth::check())
 
-                     <div class="p-4 space-y-5 flex flex-col justify-center items-center">
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            @forelse($catalogues as $catalogue)
-                <div class="border rounded-lg shadow-md overflow-hidden relative bg-white">
-                    <div class="absolute top-2 right-2 text-xs px-2 py-1 rounded-full {{ $catalogue->status == 'tersedia' ? 'bg-green-500 text-white' : 'bg-red-500 text-white' }}">
-                        {{ ucfirst($catalogue->status) }}
-                    </div>
-                    <div class="aspect-w-1 aspect-h-1">
-                        @php
-                            $firstImage = explode(';', $catalogue->gambar_produk)[0] ?? null;
-                        @endphp
-                        <img src="{{ $firstImage ? asset('storage/' . $firstImage) : asset('images/default-product.jpg') }}"
-                            alt="{{ $catalogue->nama_produk }}" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-4 space-y-1">
-
+                    <div class="p-4 space-y-5 flex flex-col justify-center items-center">
                         <h2 class="font-semibold text-brand-brown">{{ $catalogue->nama_produk }}</h2>
                         <p class="text-sm italic text-gray-600">
                             "{{ Str::limit($catalogue->deskripsi, 60, '...') }}"
                         </p>
-
                         <p class="text-brand-brown font-bold">{{ $catalogue->harga_rupiah ?? 'Harga Produk Tidak Diketahui' }}</p>
                         <a href="{{ route('produk.detail', $catalogue->id) }}"
-                            class="inline-block   py-2 border-2 rounded-full text-brand-dark px-16 border-brand-dark font-bold text-sm"
-                            >Lihat
+                            class="inline-block   py-2 border-2 rounded-full text-brand-dark px-16 border-brand-dark font-bold text-sm">Lihat
                         </a>
                         <div class="flex gap-2 items-center">
                             <a href="{{ route('produk.detail', $catalogue->id) }}"
@@ -153,7 +132,7 @@
                                 <i class="fa-solid fa-cart-shopping"></i>
                             </a>
                         </div>
-                     </div>
+                    </div>
 
                     @else
 
@@ -164,8 +143,7 @@
                         </p>
                         <p class="text-brand-brown font-bold">Rp {{ number_format($catalogue->harga, 0, ',', '.') }}</p>
                         <a href="{{ route('produk.detail', $catalogue->id) }}"
-                            class="inline-block   py-2 border-2 rounded-full text-brand-dark px-16 border-brand-dark font-bold text-sm"
-                            >Lihat
+                            class="inline-block   py-2 border-2 rounded-full text-brand-dark px-16 border-brand-dark font-bold text-sm">Lihat
                         </a>
                         <a href="{{ route('produk.detail', $catalogue->id) }}"
                             class="inline-block  px-16 py-2 rounded-full  bg-brand-dark text-brand-light  text-sm">
@@ -174,41 +152,35 @@
                     </div>
 
                     @endif
-
-                        <div class="text-brand-brown font-bold">Rp {{ number_format($catalogue->harga, 0, ',', '.') }}</div>
-                        <a href="{{ route('produk.detail', $catalogue->id) }}"
-                            class="inline-block mt-2 px-4 py-1 bg-brand-brown text-white rounded-md text-sm">Lihat</a>
-                    </div>
-
                 </div>
-            @empty
+                @empty
                 <p class="col-span-full text-center text-gray-500 py-10">Tidak ada produk yang ditemukan.</p>
-            @endforelse
-        </div>
+                @endforelse
+            </div>
 
-        {{-- Pagination --}}
-        @if($catalogues->hasPages())
+            {{-- Pagination --}}
+            @if($catalogues->hasPages())
             <div class="flex justify-between items-center mt-6">
                 {{-- Previous --}}
                 @if($catalogues->onFirstPage())
-                    <span class="text-gray-400">← Sebelumnya</span>
+                <span class="text-gray-400">← Sebelumnya</span>
                 @else
-                    <a href="{{ $catalogues->appends(request()->query())->previousPageUrl() }}"
-                        class="text-brand-brown hover:underline">← Sebelumnya</a>
+                <a href="{{ $catalogues->appends(request()->query())->previousPageUrl() }}"
+                    class="text-brand-brown hover:underline">← Sebelumnya</a>
                 @endif
 
                 <span class="text-sm text-gray-600">Halaman {{ $catalogues->currentPage() }}</span>
 
                 {{-- Next --}}
                 @if($catalogues->hasMorePages())
-                    <a href="{{ $catalogues->appends(request()->query())->nextPageUrl() }}"
-                        class="text-brand-brown hover:underline">Selanjutnya →</a>
+                <a href="{{ $catalogues->appends(request()->query())->nextPageUrl() }}"
+                    class="text-brand-brown hover:underline">Selanjutnya →</a>
                 @else
-                    <span class="text-gray-400">Selanjutnya →</span>
+                <span class="text-gray-400">Selanjutnya →</span>
                 @endif
             </div>
-        @endif
-    </section>
-</div>
-
+            @endif
+        </section>
+    </div>
+@include('components.customer.whatsapp.whatsapp')
 @endsection

@@ -6,8 +6,12 @@
 
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
-<body>
-    @include('components.customer.header')
+<body class="bg-brand-light">
+    @if (Auth::check())
+        @include('components.customer.logged-in.nav')
+    @else
+        @include('components.customer.logged-out.nav')
+    @endif
 
     <main class="pt-28 min-h-screen">
 
@@ -18,8 +22,6 @@
     @vite('resources/css/app.css')
 </head>
 <body class="bg-brand-light">
-    @include('components.customer.nav')
-
     <main>
 
         @yield('content')

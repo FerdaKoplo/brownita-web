@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>BROWNITA</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
@@ -14,8 +14,11 @@
 </head>
 
 <body>
-
-    @include('components.customer.header')
+     @if (Auth::check())
+        @include('components.customer.logged-in.nav')
+    @else
+        @include('components.customer.logged-out.nav')
+    @endif
     <div class="min-h-screen flex items-center  bg-brand-light justify-center px-8 py-12">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-40 max-w-6xl w-full items-center">
             <div class="max-w-md space-y-6 text-[#4d2600] text-left">
@@ -166,14 +169,7 @@
         </div>
     </section>
 
-    @include('components.customer.nav')
-    <div>
-        <div>
-            <h1>Eat Me and Fix Your Mood</h1>
-        </div>
-    </div>
-  </h1>
-
+    @include('components.customer.whatsapp.whatsapp')
 </body>
 
 </html>
