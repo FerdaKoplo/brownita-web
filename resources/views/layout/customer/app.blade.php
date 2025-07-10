@@ -22,8 +22,6 @@
     @vite('resources/css/app.css')
 </head>
 <body class="bg-brand-light">
-    @include('components.customer.nav')
-
     <main>
 
         @yield('content')
