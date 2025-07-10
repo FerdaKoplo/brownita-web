@@ -38,9 +38,20 @@
                             <td class="px-4 py-2">{{ $catalogue->id }}</td>
                             <td class="px-4 py-2">{{ $catalogue->category->nama_kategori }}</td>
                             <td class="px-4 py-2">{{ $catalogue->nama_produk }}</td>
-                            <td class="px-4 py-2">{{ $catalogue->deskripsi }}</td>
-                            <td><img class="w-24 h-24 object-cover rounded" src="{{ asset('storage/' . $catalogue->gambar_produk) }}" alt="{{ $catalogue->gambar_produk }}"></td>
-                            <td class="px-4 py-2">{{ $catalogue->harga_rupiah }}</td>
+                            <td class="px-4 py-2 max-w-xs">{{ $catalogue->deskripsi }}</td>
+                            <td class="px-4 py-2">
+                                <div class="flex flex-wrap gap-2">
+                                    @forelse($catalogue->images as $image)
+                                        <img src="{{ asset('storage/' . $image->gambar_produk) }}"
+                                            alt="{{ $catalogue->nama_produk }}"
+                                            class="w-16 h-16 object-cover rounded">
+                                    @empty
+                                        <p>belum ada gambar</p>
+                                    @endforelse
+                                </div>
+                            </td>
+
+                         <td class="px-4 py-2">{{ $catalogue->harga_rupiah }}</td>
                             <td class="px-4 py-2">{{ $catalogue->status }}</td>
                             <td class="px-4 py-2">
                                 <button class="text-brand-dark">

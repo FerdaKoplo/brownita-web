@@ -29,12 +29,16 @@
 
                 <div class="flex flex-col gap-2 font-semibold">
                     <h1 class="">Gambar Produk</h1>
-                    <input type="file" id="gambar_produk" accept="image/*"
+                    <input
+                        type="file"
+                        id="gambar_produk"
+                        accept="image/*"
+                        multiple
+                        name="gambar_produk[]"
                         class="bg-brand-secondary text-white py-2 px-4 resize-none w-full rounded-lg"
-                        name="gambar_produk">
+                    >
 
-                    <img id="preview_gambar" src="#" alt="Preview"
-                        class="hidden mt-2 rounded-lg max-h-48 object-contain bg-white" />
+                    <div id="preview_gambar" class="flex flex-wrap gap-2 mt-2"></div>
                 </div>
 
                 <div class="flex flex-col gap-2 font-semibold">
@@ -97,16 +101,18 @@
     {{-- preview product picture before submit --}}
     <script>
         document.getElementById('gambar_produk').addEventListener('change', function (e) {
-            const preview = document.getElementById('preview_gambar');
-            const file = e.target.files[0]
-            if (file) {
-                preview.src = URL.createObjectURL(file)
-                preview.classList.remove('hidden')
-            } else {
-                preview.src = '#';
-                preview.classList.add('hidden')
-            }
-        })
+        const previewContainer = document.getElementById('preview_gambar');
+        previewContainer.innerHTML = '';
+
+        const files = e.target.files;
+
+        for (let i = 0; i < files.length; i++) {
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(files[i]);
+            img.classList.add('h-24', 'w-24', 'object-cover', 'rounded-md', 'bg-white');
+            previewContainer.appendChild(img);
+        }
+    })
     </script>
 
     {{-- sweetAlert --}}

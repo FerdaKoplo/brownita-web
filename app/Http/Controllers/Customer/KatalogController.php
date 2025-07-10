@@ -9,6 +9,26 @@ use Illuminate\Http\Request;
 
 class KatalogController extends Controller
 {
+
+    public function showKatalog(Request $request)
+    {
+        $allCategories = Category::all();
+
+        $filterCategoryIds = array_filter((array) $request->get('category_id'));
+        $searchKeyword = $request->get('search');
+        $statusFilter = $request->get('status');
+
+        $katalogQuery = Katalog::with('images');
+
+        if (!empty($filterCategoryIds)) {
+            $katalogQuery->whereIn('category_id', $filterCategoryIds);
+        }
+
+        if ($searchKeyword) {
+            $katalogQuery->where(function ($q) use ($searchKeyword) {
+                $q->where('nama_produk', 'LIKE', "%$searchKeyword%")
+                  ->orWhere('deskripsi', 'LIKE', "%$searchKeyword%");
+
       public function showKatalog(Request $request)
     {
         $categories = Category::all();
@@ -26,10 +46,44 @@ class KatalogController extends Controller
             $query->where(function ($q) use ($searchQuery) {
                 $q->where('nama_produk', 'LIKE', "%$searchQuery%")
                   ->orWhere('deskripsi', 'LIKE', "%$searchQuery%");
+
             });
         }
 
         if ($statusFilter) {
+
+            $katalogQuery->where('status', $statusFilter);
+        }
+
+        $filteredKatalog = $katalogQuery->paginate(9);
+
+        $statisticQuery = Katalog::query();
+
+        if (!empty($filterCategoryIds)) {
+            $statisticQuery->whereIn('category_id', $filterCategoryIds);
+        }
+
+        if ($searchKeyword) {
+            $statisticQuery->where(function ($q) use ($searchKeyword) {
+                $q->where('nama_produk', 'LIKE', "%$searchKeyword%")
+                  ->orWhere('deskripsi', 'LIKE', "%$searchKeyword%");
+            });
+        }
+
+        $katalogStats = [
+            'total' => $statisticQuery->count(),
+            'tersedia' => (clone $statisticQuery)->where('status', 'tersedia')->count(),
+            'habis' => (clone $statisticQuery)->where('status', 'habis')->count(),
+        ];
+
+        return view('customer.katalog', [
+            'categories' => $allCategories,
+            'catalogues' => $filteredKatalog,
+            'selectedCategoryId' => $filterCategoryIds,
+            'searchQuery' => $searchKeyword,
+            'statusFilter' => $statusFilter,
+            'stats' => $katalogStats,
+
             $query->where('status', $statusFilter);
         }
 
@@ -61,17 +115,25 @@ class KatalogController extends Controller
             'searchQuery' => $searchQuery,
             'statusFilter' => $statusFilter,
             'stats' => $stats,
+
         ]);
     }
 
     public function showDetail($id)
     {
+
+        $produk = Katalog::with(['images', 'category'])->findOrFail($id);
+
+        return view('customer.detail-produk', [
+            'produk' => $produk,
+
         $produk = Katalog::findOrFail($id);
         $gambarArray = explode(';', $produk->gambar_produk ?? '');
 
         return view('customer.detail-produk', [
             'produk' => $produk,
             'gambarArray' => $gambarArray,
+
         ]);
     }
 }

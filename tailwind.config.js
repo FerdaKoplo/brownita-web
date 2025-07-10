@@ -17,10 +17,12 @@ module.exports = {
                 }
             },
             fontFamily: {
-                kameron: ['Kameron', 'serif'],
+                kameron: ['Kameron', 'serif',],
+                inter: ['Inter', 'sans-serif',],
             },
         },
     },
-    plugins: [],
+    plugins: [
+    ],
 }
 
