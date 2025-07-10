@@ -7,6 +7,11 @@
         </h1>
         <ul class="flex items-center gap-12">
             <li>
+                <a href="{{ route('landing.page') }}">
+                    Beranda
+                </a>
+            </li>
+            <li>
                 <a href="">
                     Syarat & Ketentuan
                 </a>
