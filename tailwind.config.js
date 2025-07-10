@@ -12,7 +12,8 @@ module.exports = {
                     secondary: '#607274',
                     light: '#E4D2A3',
                     lightdark: '#CCB88C',
-                    dark: '#6C4E31'
+                    dark: '#6C4E31',
+                    caramel: '#A25E00'
                 }
             },
             fontFamily: {

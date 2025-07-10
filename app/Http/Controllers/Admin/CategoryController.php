@@ -1,21 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Category;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function kategoriIndex()
+     public function kategoriIndex(Request $request)
     {
-        $categories = Category::all();
-        return view('admin.KategoriResource.Pages.viewKategori', compact('categories'));
+
+        $search = $request->input('search');
+
+        $categories = Category::query();
+
+        if ($search) {
+            $categories->where('nama_kategori', 'like', "%{$search}%");
+        }
+
+        return view('admin.KategoriResource.Pages.viewKategori', [
+            'categories' => $categories->paginate(10)->withQueryString()
+        ]);
     }
 
-    // public function show(){
-
-    // }
 
     public function kategoriCreate()
     {
@@ -49,7 +56,6 @@ class CategoryController extends Controller
         $categories = Category::findOrFail($id);
         $categories->update($validate);
         return redirect('/dashboard/admin/kategori')->with('success', 'Kategori berhasil dirubah!');
-
     }
 
     public function kategoriDelete($id)

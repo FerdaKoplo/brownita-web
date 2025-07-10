@@ -5,12 +5,14 @@
     <div class="p-5 flex flex-col gap-10">
         <h1 class="text-3xl font-bold text-brand-dark">Katalog</h1>
         <div class="flex flex-col gap-3">
-            <div class="flex w-full h-full justify-between">
-                <div class=" justify-start max-w-md w-full  flex items-center gap-2">
-                    <i class=" fa-solid fa-magnifying-glass"></i>
-                    <input type="text" class="w-full  py-2 rounded-lg px-2" placeholder="Cari Nama Katalog...">
-                </div>
-                <div class="flex flex-row justify-end ">
+            <div class="flex w-full h-full justify-between items-center">
+                <form action="{{ route('dashboard.admin.katalog.view') }}" method="GET"
+                    class="max-w-md w-full flex  items-center gap-2 ">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" name="search" value="{{ request('search') }}" class="bg-brand-secondary appearance-none text-white w-full py-2 rounded-lg px-2"
+                        placeholder="Cari Nama Katalog...">
+                </form>
+                <div class="flex flex-row  ">
                     <a class=" bg-brand-dark text-brand-light p-2  rounded-lg font-semibold"
                         href="{{ route('dashboard.admin.katalog.create') }}">
                         Buat Katalog
@@ -42,10 +44,14 @@
                             <td class="px-4 py-2">{{ $catalogue->status }}</td>
                             <td class="px-4 py-2">
                                 <button class="text-brand-dark">
-                                    <a href="" class="fa-solid fa-pen-to-square"></a>
+                                    <a href="{{ route('dashboard.admin.katalog.edit', $catalogue->id) }}" class="fa-solid fa-pen-to-square"></a>
                                 </button>
                                 <button class="text-brand-dark">
-                                    <a href="" class="fa-solid fa-trash"></a>
+                                    <form class="deleteForm" action="{{  route('dashboard.admin.katalog.delete', $catalogue->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="fa-solid fa-trash"></button>
+                                    </form>
                                 </button>
                             </td>
                         </tr>
@@ -54,4 +60,25 @@
             </table>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('submit', function (e) {
+            if (e.target.classList.contains('deleteForm')) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Yakin ingin menghapus?',
+                    text: "Pastikan pilihan anda sudah benar.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, hapus!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        e.target.submit();
+                    }
+                });
+            }
+        });
+    </script>
 </body>
