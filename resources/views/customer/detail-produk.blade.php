@@ -158,4 +158,6 @@
             }
         }
     </script>
+
+    @include('components.customer.whatsapp')
 @endsection
