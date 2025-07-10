@@ -14,6 +14,7 @@
 </head>
 
 <body>
+
     @include('components.customer.header')
     <div class="min-h-screen flex items-center  bg-brand-light justify-center px-8 py-12">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-40 max-w-6xl w-full items-center">
@@ -164,6 +165,14 @@
             </div>
         </div>
     </section>
+
+    @include('components.customer.nav')
+    <div>
+        <div>
+            <h1>Eat Me and Fix Your Mood</h1>
+        </div>
+    </div>
+  </h1>
 
 </body>
 
