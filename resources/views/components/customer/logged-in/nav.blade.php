@@ -26,6 +26,15 @@
                     <i class="fa-solid fa-user"></i>
                 </a>
             </li>
+                <form class="logoutForm" action="{{  route('logout.post') }}" method="POST">
+                    @csrf
+                    <button type="submit" class=" flex gap-3 items-center">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <p>
+                            Logout
+                        </p>
+                    </button>
+                </form>
         </ul>
     </div>
 </nav>

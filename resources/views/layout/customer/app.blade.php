@@ -18,7 +18,7 @@
         @include('components.customer.logged-out.nav')
     @endif
 
-    <main>
+    <main class="pt-28 min-h-screen">
         @yield('content')
     </main>
 </body>

@@ -2,7 +2,7 @@
 @section('title', 'BROWNITA - Katalog')
 @section('content')
 
-<div class="flex pt-10 px-32 flex-col md:flex-row gap-8">
+<div class="flex px-32 flex-col md:flex-row gap-8">
     {{-- Sidebar --}}
     <div class="px-4 max-w-lg flex flex-col justify-center items-center">
             {{-- Search --}}
@@ -103,10 +103,10 @@
 
                     <div class="aspect-w-1 aspect-h-1">
                         @php
-                            $firstImage = explode(';', $catalogue->gambar_produk)[0] ?? null;
+                            $firstImagePath = $catalogue->images->first()->gambar_produk ?? null;
                         @endphp
-                        <img src="{{ $firstImage ? asset('storage/' . $firstImage) : asset('images/default-product.jpg') }}"
-                            alt="{{ $catalogue->nama_produk }}" class="w-full h-full  object-cover aspect-square">
+                            <img src="{{ $firstImagePath ? asset('storage/' . $firstImagePath) : asset('images/default-product.jpg') }}"
+                                alt="{{ $catalogue->nama_produk }}" class="w-full h-full object-cover aspect-square">
                     </div>
 
                     @if (Auth::check())
@@ -116,7 +116,7 @@
                         <p class="text-sm italic text-gray-600">
                             "{{ Str::limit($catalogue->deskripsi, 60, '...') }}"
                         </p>
-                        <p class="text-brand-brown font-bold">Rp {{ number_format($catalogue->harga, 0, ',', '.') }}</p>
+                        <p class="text-brand-brown font-bold">{{ $catalogue->harga_rupiah ?? 'Harga Produk Tidak Diketahui' }}</p>
                         <a href="{{ route('produk.detail', $catalogue->id) }}"
                             class="inline-block   py-2 border-2 rounded-full text-brand-dark px-16 border-brand-dark font-bold text-sm"
                             >Lihat
