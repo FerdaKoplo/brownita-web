@@ -6,11 +6,14 @@
     <div class="p-5 flex flex-col gap-10">
         <h1 class="text-3xl font-bold text-brand-dark">Kategori</h1>
         <div class="flex flex-col gap-3">
-            <div class="flex w-full h-full justify-between">
-                <div class=" justify-start max-w-md w-full  flex items-center gap-2">
-                    <i class=" fa-solid fa-magnifying-glass"></i>
-                    <input type="text" class="w-full  py-2 rounded-lg px-2" placeholder="Cari Nama Kategori...">
-                </div>
+            <div class="flex w-full h-full justify-between items-center">
+                <form action="{{ route('dashboard.admin.kategori.view') }}" method="GET"
+                    class="max-w-md w-full flex items-center gap-2">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" name="search" value="{{ request('search') }}"
+                        class="bg-brand-secondary   appearance-none text-white w-full py-2 rounded-lg px-2"
+                        placeholder="Cari Nama Kategori...">
+                </form>
                 <div class="flex flex-row justify-end ">
                     <a class=" bg-brand-dark text-brand-light p-2   rounded-lg font-semibold"
                         href="{{ route('dashboard.admin.kategori.create') }}">
@@ -39,7 +42,9 @@
                                         class="fa-solid fa-pen-to-square"></a>
                                 </button> |
                                 <button class="text-brand-dark">
-                                    <form action="{{  route('dashboard.admin.kategori.delete', $category->id) }}" method="POST">
+                                    <form class="deleteForm"
+                                        action="{{  route('dashboard.admin.kategori.delete', $category->id) }}"
+                                        method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="fa-solid fa-trash"></button>
@@ -50,6 +55,30 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="mt-6 flex justify-center">
+                {{ $categories->links() }}
+            </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('submit', function (e) {
+            if (e.target.classList.contains('deleteForm')) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Yakin ingin menghapus?',
+                    text: "Pastikan pilihan anda sudah benar.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, hapus!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        e.target.submit();
+                    }
+                });
+            }
+        });
+    </script>
 </body>

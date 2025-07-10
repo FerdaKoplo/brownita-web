@@ -8,8 +8,12 @@
      @vite('resources/css/app.css')
 </head>
 <body>
-     <h1 class="text-3xl font-bold ">
-    Hello world!
+    @include('components.customer.nav')
+    <div>
+        <div>
+            <h1>Eat Me and Fix Your Mood</h1>
+        </div>
+    </div>
   </h1>
 </body>
 </html>
