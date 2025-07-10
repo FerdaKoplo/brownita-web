@@ -82,5 +82,3 @@ Route::get('/produk-kami', [\App\Http\Controllers\Customer\KatalogController::cl
 Route::get('/produk/{id}', [\App\Http\Controllers\Customer\KatalogController::class, 'showDetail'])
     ->name('produk.detail');
 
-Route::get('/produk/{id}/show', [\App\Http\Controllers\Customer\KatalogController::class, 'show'])
-    ->name('produk.show');

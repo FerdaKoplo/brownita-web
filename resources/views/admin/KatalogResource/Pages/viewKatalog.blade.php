@@ -1,7 +1,6 @@
 @extends('layout.admin.layout')
 @section('title', 'Katalog')
 @section('content')
-
 <body>
     <div class="p-5 flex flex-col gap-10">
         <h1 class="text-3xl font-bold text-brand-dark">Katalog</h1>
@@ -39,29 +38,20 @@
                             <td class="px-4 py-2">{{ $catalogue->id }}</td>
                             <td class="px-4 py-2">{{ $catalogue->category->nama_kategori }}</td>
                             <td class="px-4 py-2">{{ $catalogue->nama_produk }}</td>
-                            <td class="px-4 py-2">{{ $catalogue->deskripsi }}</td>
+                            <td class="px-4 py-2 max-w-xs">{{ $catalogue->deskripsi }}</td>
                             <td class="px-4 py-2">
-                                @php
-                                    $gambarArray = array_filter(explode(';', $catalogue->gambar_produk));
-                                @endphp
-
                                 <div class="flex flex-wrap gap-2">
-                                    @foreach (collect($gambarArray)->take(3) as $gambar)
-                                        <img src="{{ asset('storage/' . $gambar) }}" alt="Foto"
-                                            class="w-16 h-16 object-cover rounded border border-gray-300 cursor-pointer"
-                                            onclick="openModal('{{ asset('storage/' . $gambar) }}')" />
-                                    @endforeach
+                                    @forelse($catalogue->images as $image)
+                                        <img src="{{ asset('storage/' . $image->gambar_produk) }}"
+                                            alt="{{ $catalogue->nama_produk }}"
+                                            class="w-16 h-16 object-cover rounded">
+                                    @empty
+                                        <p>belum ada gambar</p>
+                                    @endforelse
                                 </div>
                             </td>
-                            {{-- Modal Preview --}}
-                            <div id="imageModal"
-                                class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 hidden">
-                                <img id="modalImage" class="max-h-[90vh] max-w-[90vw] rounded shadow-lg" />
-                                <button onclick="closeModal()"
-                                    class="absolute top-4 right-4 text-white text-2xl font-bold">×</button>
-                            </div>
 
-                            <td class="px-4 py-2">{{ $catalogue->harga_rupiah }}</td>
+                         <td class="px-4 py-2">{{ $catalogue->harga_rupiah }}</td>
                             <td class="px-4 py-2">{{ $catalogue->status }}</td>
                             <td class="px-4 py-2">
                                 <button class="text-brand-dark">
@@ -81,30 +71,6 @@
             </table>
         </div>
     </div>
-<<<<<<< HEAD
-    <script>
-        function openModal(src) {
-            const modal = document.getElementById('imageModal');
-            const modalImg = document.getElementById('modalImage');
-
-            modal.classList.remove('hidden');
-            modalImg.src = src;
-        }
-
-        function closeModal() {
-            document.getElementById('imageModal').classList.add('hidden');
-        }
-
-        // Optional: Tutup modal saat klik di luar gambar
-        document.getElementById('imageModal').addEventListener('click', function (e) {
-            if (e.target === this) {
-                closeModal();
-            }
-        });
-    </script>
-
-</body>
-=======
 
     <script>
         document.addEventListener('submit', function (e) {
@@ -127,4 +93,3 @@
         });
     </script>
 </body>
->>>>>>> origin/staging

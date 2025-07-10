@@ -1,112 +1,161 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('layout.customer.app')
+@section('title', 'BROWNITA - Detail Produk')
+@section('content')
+    <div class="px-32">
+        <div class="flex flex-col gap-12">
+            <div class="flex flex-col gap-7 items-start">
+                <button class="bg-brand-dark py-2 px-6 rounded-full text-brand-light font-semibold">
+                    <a href="{{ route('produk-kami') }}" class="text-lg flex gap-2 items-center">
+                        <i class="fa-solid fa-chevron-left"></i>
+                        Kembali
+                    </a>
+                </button>
+                <h1 class="font-bold text-3xl text-brand-dark">Detail Produk</h1>
+            </div>
+            <div class="border-2 border-brand-dark p-12 rounded-xl flex items-center justify-center gap-20">
+                @php
+                    $firstImage = $produk->images->first();
+                @endphp
+                <div class="">
+                    <div class="flex flex-col items-center gap-4">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BROWNITA - Detail Produk</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
+                        <div class="flex items-end gap-5">
+                            <img id="mainPreview"
+                                src="{{ $firstImage ? asset('storage/' . $firstImage->gambar_produk) : asset('images/default-product.jpg') }}"
+                                alt="Preview Utama" class="w-96 h-96 object-cover rounded-lg border " />
+                            <div class="flex flex-col gap-5 ">
+                                <button class="text-3xl rounded-xl bg-brand-dark text-brand-light px-4 py-2 "
+                                    id="button-left">
+                                    <i class="fa-solid fa-angle-left"></i>
+                                </button>
+                                <button class="text-3xl rounded-xl bg-brand-dark text-brand-light px-4 py-2 "
+                                    id="button-right">
+                                    <i class="fa-solid fa-angle-right"></i>
+                                </button>
+                            </div>
+                        </div>
 
-<body class="min-h-screen bg-[#E4D2A3] font-['Segoe_UI','Tahoma','Geneva','Verdana','sans-serif']">
-    @extends('layout.customer.app')
+                        <div class="flex gap-2 overflow-x-auto max-w-full">
+                            @foreach($produk->images as $img)
+                                <img src="{{ asset('storage/' . $img->gambar_produk) }}" alt="Thumbnail"
+                                    class="w-24 h-24 object-cover rounded-lg border cursor-pointer thumbnail grayscale"
+                                    data-img="{{ asset('storage/' . $img->gambar_produk) }}" />
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-7">
+                    <h1 class="text-2xl text-brand-dark">
+                        {{ $produk->category->nama_kategori ?? 'Kategori Tidak Diketahui' }}
+                    </h1>
+                    <h1 class="text-brand-dark font-bold text-6xl">
+                        {{ $produk->nama_produk ?? 'Produk Tidak Diketahui' }}
+                    </h1>
+                    <p class="font-bold text-brand-dark text-xl">
+                        {{ $produk->harga_rupiah ?? 'Harga Produk Tidak Diketahui' }}
+                    </p>
+                    <div class="w-full border border-brand-dark"></div>
 
-    @section('content')
+                    <div class="flex flex-col gap-2">
 
-        <div class="max-w-[1233px] mx-auto px-6 pt-6 pb-10">
-            <div class="flex items-center justify-between relative">
-                <!-- Tombol Kembali di Kiri -->
-                <a href="{{ route('produk-kami') }}"
-                    class="bg-[#6C4E31] text-[#E4D2A3] px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 border border-transparent hover:bg-transparent hover:text-[#6C4E31] hover:border-[#6C4E31] transition w-fit">
-                    <i class="fas fa-arrow-left"></i> Kembali
-                </a>
+                        <h1 class="text-brand-dark font-bold text-3xl">
+                            Deskripsi
+                        </h1>
 
-                <!-- Judul Tengah -->
-                <h1 class="absolute left-1/2 -translate-x-1/2 text-4xl font-bold text-[#6C4E31] text-center">
-                    Detail Produk
-                </h1>
+                        <p id="deskripsi-{{ $produk->id }}" class="text-xl italic text-brand-dark">
+                            {{ Str::limit($produk->deskripsi, 60, '...') }}
+                        </p>
+                        <button onclick="toggleDeskripsi({{ $produk->id }})" class=" italic flex items-end justify-end text-xl text-brand-dark font-bold mt-1">
+                            Lihat Lebih
+                        </button>
+                        <p id="deskripsi-lengkap-{{ $produk->id }}" class="hidden text-xl italic text-brand-dark max-w-lg">
+                            {{ $produk->deskripsi }}
+                        </p>
+                    </div>
 
-                <!-- Spacer kanan untuk menjaga keseimbangan -->
-                <div class="w-[96px]"></div>
+                    @if (Auth::check())
+                        <div>
+
+                        </div>
+                    @else
+                        <button class="bg-brand-dark w-full py-2 text-brand-light rounded-full">
+                            <a href="http://">
+                                Order
+                            </a>
+                        </button>
+                    @endif
+                </div>
+
             </div>
         </div>
-
-
-        <!-- 🟤 KONTEN PRODUK -->
-        <div class="max-w-[1233px] mx-auto px-5 pb-10">
-            <div
-                class="flex flex-col lg:flex-row justify-center items-center gap-16 border-4 border-[#6C4E31] p-10 rounded-lg">
-
-                <!-- KIRI: Gambar Produk -->
-                <div class="flex flex-col items-center gap-4 w-full max-w-sm">
-                    <div class="w-full aspect-square relative">
-                        <img id="mainImage" src="{{ asset('storage/' . $gambarArray[0]) }}" alt="{{ $produk->nama_produk }}"
-                            class="w-full h-full object-cover rounded-xl">
-                    </div>
-                    <div class="flex flex-wrap justify-center gap-2">
-                        @foreach($gambarArray as $index => $img)
-                            <img class="thumbnail w-16 h-16 object-cover rounded-md border-2 {{ $index === 0 ? 'border-[#6C4E31] opacity-100' : 'border-gray-300 opacity-70' }} hover:opacity-100 hover:border-[#6C4E31] cursor-pointer"
-                                src="{{ asset('storage/' . $img) }}" onclick="setMainImage(this)">
-                        @endforeach
-                    </div>
-                </div>
-
-                <!-- TENGAH: Tombol Navigasi -->
-                <div class="hidden lg:flex flex-col gap-4 items-center">
-                    <button
-                        class="w-10 h-10 bg-[#6C4E31] text-white rounded-lg flex justify-center items-center hover:bg-[#4E3B24]">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button
-                        class="w-10 h-10 bg-[#6C4E31] text-white rounded-lg flex justify-center items-center hover:bg-[#4E3B24]">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-
-                <!-- KANAN: Info Produk -->
-                <div class="flex-1 max-w-lg flex flex-col gap-6">
-                    <div>
-                        <h3 class="text-lg text-[#6C4E31]">{{ $produk->category->nama_kategori ?? '-' }}</h3>
-                        <h2 class="text-3xl font-bold text-[#6C4E31]">{{ $produk->nama_produk }}</h2>
-                    </div>
-                    <div class="flex justify-between">
-                        <p class="text-xl font-bold text-[#6C4E31]">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
-                        <p class="text-gray-600">{{ $produk->stok ?? 0 }} Terjual</p>
-                    </div>
-                    <hr class="border-t-2 border-[#6C4E31]">
-                    <div>
-                        <h3 class="text-2xl font-bold text-[#6C4E31]">Deskripsi</h3>
-                        <p class="italic text-[#6C4E31] text-base mt-2">{{ $produk->deskripsi ?? '-' }}</p>
-                    </div>
-                    <a href="#"
-                        class="inline-block text-center bg-[#6C4E31] text-[#E4D2A3] font-bold text-base py-3 px-8 rounded-full hover:bg-transparent hover:text-[#6C4E31] border-2 border-[#6C4E31] transition">
-                        Order
-                    </a>
-                    <a href="#"
-                        class="inline-block text-center bg-transparent text-[#6C4E31] font-bold text-base py-3 px-8 rounded-full hover:bg-[#6C4E31] hover:text-[#E4D2A3] border-2 border-[#6C4E31]  transition">
-                        Masukkan Ke Keranjang
-                    </a>
-                </div>
-            </div>
-        </div>
-
-    @endsection
-
+    </div>
+    {{-- Image selector function --}}
     <script>
-        function setMainImage(el) {
-            const mainImage = document.getElementById('mainImage');
-            mainImage.src = el.src;
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        const mainPreview = document.getElementById('mainPreview');
+        const buttonRight = document.getElementById('button-right');
+        const buttonLeft = document.getElementById('button-left');
 
-            document.querySelectorAll('.thumbnail').forEach(thumb => {
-                thumb.classList.remove('border-[#6C4E31]', 'opacity-100');
-                thumb.classList.add('border-gray-300', 'opacity-70');
+        const imageSources = Array.from(thumbnails).map(thumb => thumb.getAttribute('data-img'));
+        let currentIndex = 0;
+
+        function updateMainImage(index) {
+            mainPreview.src = imageSources[index];
+
+            thumbnails.forEach((thumb, i) => {
+                if (i === index) {
+                    thumb.classList.add('ring-4', 'grayscale-0');
+                } else {
+                    thumb.classList.remove('ring-4', 'grayscale-0');
+                }
             });
+        }
 
-            el.classList.remove('border-gray-300', 'opacity-70');
-            el.classList.add('border-[#6C4E31]', 'opacity-100');
+        thumbnails.forEach((thumb, index) => {
+            thumb.addEventListener('click', () => {
+                currentIndex = index;
+                updateMainImage(currentIndex);
+            });
+        });
+
+        buttonRight.addEventListener('click', () => {
+            if (currentIndex < imageSources.length - 1) {
+                currentIndex++;
+            } else {
+                currentIndex = 0;
+            }
+            updateMainImage(currentIndex);
+        });
+
+        buttonLeft.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+            } else {
+                currentIndex = imageSources.length - 1;
+            }
+            updateMainImage(currentIndex);
+        });
+
+        updateMainImage(currentIndex);
+    </script>
+
+
+    {{-- Expand description --}}
+    <script>
+        function toggleDeskripsi(id) {
+            const pendek = document.getElementById('deskripsi-' + id);
+            const lengkap = document.getElementById('deskripsi-lengkap-' + id);
+            const button = event.target;
+
+            if (lengkap.classList.contains('hidden')) {
+                pendek.classList.add('hidden');
+                lengkap.classList.remove('hidden');
+                button.textContent = 'Lihat Lebih Sedikit';
+            } else {
+                pendek.classList.remove('hidden');
+                lengkap.classList.add('hidden');
+                button.textContent = 'Lihat Lebih';
+            }
         }
     </script>
-</body>
-
-</html>
+@endsection

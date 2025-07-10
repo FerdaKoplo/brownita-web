@@ -9,69 +9,68 @@ use Illuminate\Http\Request;
 
 class KatalogController extends Controller
 {
-      public function showKatalog(Request $request)
+    public function showKatalog(Request $request)
     {
-        $categories = Category::all();
-        $selectedCategoryIds = array_filter((array) $request->get('category_id'));
-        $searchQuery = $request->get('search');
+        $allCategories = Category::all();
+
+        $filterCategoryIds = array_filter((array) $request->get('category_id'));
+        $searchKeyword = $request->get('search');
         $statusFilter = $request->get('status');
 
-        $query = Katalog::query();
+        $katalogQuery = Katalog::with('images');
 
-        if (!empty($selectedCategoryIds)) {
-            $query->whereIn('category_id', $selectedCategoryIds);
+        if (!empty($filterCategoryIds)) {
+            $katalogQuery->whereIn('category_id', $filterCategoryIds);
         }
 
-        if ($searchQuery) {
-            $query->where(function ($q) use ($searchQuery) {
-                $q->where('nama_produk', 'LIKE', "%$searchQuery%")
-                  ->orWhere('deskripsi', 'LIKE', "%$searchQuery%");
+        if ($searchKeyword) {
+            $katalogQuery->where(function ($q) use ($searchKeyword) {
+                $q->where('nama_produk', 'LIKE', "%$searchKeyword%")
+                  ->orWhere('deskripsi', 'LIKE', "%$searchKeyword%");
             });
         }
 
         if ($statusFilter) {
-            $query->where('status', $statusFilter);
+            $katalogQuery->where('status', $statusFilter);
         }
 
-        $catalogues = $query->paginate(9);
+        $filteredKatalog = $katalogQuery->paginate(9);
 
-        $statsQuery = Katalog::query();
+        $statisticQuery = Katalog::query();
 
-        if (!empty($selectedCategoryIds)) {
-            $statsQuery->whereIn('category_id', $selectedCategoryIds);
+        if (!empty($filterCategoryIds)) {
+            $statisticQuery->whereIn('category_id', $filterCategoryIds);
         }
 
-        if ($searchQuery) {
-            $statsQuery->where(function ($q) use ($searchQuery) {
-                $q->where('nama_produk', 'LIKE', "%$searchQuery%")
-                  ->orWhere('deskripsi', 'LIKE', "%$searchQuery%");
+        if ($searchKeyword) {
+            $statisticQuery->where(function ($q) use ($searchKeyword) {
+                $q->where('nama_produk', 'LIKE', "%$searchKeyword%")
+                  ->orWhere('deskripsi', 'LIKE', "%$searchKeyword%");
             });
         }
 
-        $stats = [
-            'total' => $statsQuery->count(),
-            'tersedia' => (clone $statsQuery)->where('status', 'tersedia')->count(),
-            'habis' => (clone $statsQuery)->where('status', 'habis')->count(),
+        $katalogStats = [
+            'total' => $statisticQuery->count(),
+            'tersedia' => (clone $statisticQuery)->where('status', 'tersedia')->count(),
+            'habis' => (clone $statisticQuery)->where('status', 'habis')->count(),
         ];
 
         return view('customer.katalog', [
-            'categories' => $categories,
-            'catalogues' => $catalogues,
-            'selectedCategoryId' => $selectedCategoryIds,
-            'searchQuery' => $searchQuery,
+            'categories' => $allCategories,
+            'catalogues' => $filteredKatalog,
+            'selectedCategoryId' => $filterCategoryIds,
+            'searchQuery' => $searchKeyword,
             'statusFilter' => $statusFilter,
-            'stats' => $stats,
+            'stats' => $katalogStats,
         ]);
     }
 
     public function showDetail($id)
     {
-        $produk = Katalog::findOrFail($id);
-        $gambarArray = explode(';', $produk->gambar_produk ?? '');
+        $produk = Katalog::with(['images', 'category'])->findOrFail($id);
 
         return view('customer.detail-produk', [
             'produk' => $produk,
-            'gambarArray' => $gambarArray,
         ]);
     }
 }
