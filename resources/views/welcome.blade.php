@@ -169,18 +169,7 @@
         </div>
     </section>
 
-<<<<<<< HEAD
-    @include('components.customer.whatsapp')
-=======
-    @include('components.customer.nav')
-    <div>
-        <div>
-            <h1>Eat Me and Fix Your Mood</h1>
-        </div>
-    </div>
-  </h1>
-
->>>>>>> origin/staging
+    @include('components.customer.whatsapp.whatsapp')
 </body>
 
 </html>

@@ -183,5 +183,19 @@
         </section>
     </div>
 
-    @include('components.customer.whatsapp')
-    @endsection
+            <span class="text-sm text-gray-600">Halaman {{ $catalogues->currentPage() }}</span>
+
+            {{-- Next --}}
+            @if($catalogues->hasMorePages())
+            <a href="{{ $catalogues->appends(request()->query())->nextPageUrl() }}"
+                class="text-brand-brown hover:underline">Selanjutnya →</a>
+            @else
+            <span class="text-gray-400">Selanjutnya →</span>
+            @endif
+        </div>
+        @endif
+    </section>
+</div>
+
+@include('components.customer.whatsapp.whatsapp')
+@endsection
