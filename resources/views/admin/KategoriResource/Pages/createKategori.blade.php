@@ -15,6 +15,9 @@
                     <input type="text" id="nama_kategori"
                         class="bg-brand-secondary text-white py-2 px-4 resize-none w-full rounded-lg"
                         name="nama_kategori">
+                    @error('nama_kategori')
+                        <p class="text-red-500 text-sm">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="flex flex-col gap-2 font-semibold">
@@ -22,6 +25,10 @@
                     <textarea name="deskripsi_kategori"
                         class="resize-none w-full px-4 py-2 bg-brand-secondary text-white text-lg rounded-lg"
                         id="deskripsi_kategori"></textarea>
+                    @error('deskripsi_kategori')
+                        <p class="text-red-500 text-sm">{{ $message }}</p>
+                    @enderror
+
                 </div>
 
                 <div class="flex justify-center items-center gap-5">

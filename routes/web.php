@@ -37,59 +37,63 @@ Route::post('/logout', [AuthController::class, 'logoutPost'])->name('logout.post
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
 
-// Admin Routes (Protected by auth and role middleware)
-Route::middleware(['auth', 'role'])->group(function () {
+    // Admin Routes (Protected by auth and role middleware)
+    Route::middleware(['auth', 'role'])->group(function () {
 
-    Route::get('/dashboard/admin', [DashboardController::class, 'homeIndex'])->name('dashboard.admin');
+        Route::get('/dashboard/admin', [DashboardController::class, 'homeIndex'])->name('dashboard.admin');
 
-    // Kategori Routes
-    Route::prefix('dashboard/admin/kategori')->group(function () {
-        Route::get('/', [CategoryController::class, 'kategoriIndex'])->name('dashboard.admin.kategori.view');
-        Route::get('/create', [CategoryController::class, 'kategoriCreate'])->name('dashboard.admin.kategori.create');
-        Route::post('/store', [CategoryController::class, 'kategoriStore'])->name('dashboard.admin.kategori.store');
-        Route::get('/edit/{id}', [CategoryController::class, 'kategoriEdit'])->name('dashboard.admin.kategori.edit');
-        Route::put('/update/{id}', [CategoryController::class, 'kategoriUpdate'])->name('dashboard.admin.kategori.update');
-        Route::delete('/{id}', [CategoryController::class, 'kategoriDelete'])->name('dashboard.admin.kategori.delete');
+        // Kategori Routes
+        Route::prefix('dashboard/admin/kategori')->group(function () {
+            Route::get('/', [CategoryController::class, 'kategoriIndex'])->name('dashboard.admin.kategori.view');
+            Route::get('/create', [CategoryController::class, 'kategoriCreate'])->name('dashboard.admin.kategori.create');
+            Route::post('/store', [CategoryController::class, 'kategoriStore'])->name('dashboard.admin.kategori.store');
+            Route::get('/edit/{id}', [CategoryController::class, 'kategoriEdit'])->name('dashboard.admin.kategori.edit');
+            Route::put('/update/{id}', [CategoryController::class, 'kategoriUpdate'])->name('dashboard.admin.kategori.update');
+            Route::delete('/{id}', [CategoryController::class, 'kategoriDelete'])->name('dashboard.admin.kategori.delete');
+
+            Route::delete('/image/{id}', [KatalogController::class, 'deleteImage'])->name('dashboard.admin.katalog.image.delete');
+
+
+        });
+
+
+        // Create Kategori
+        Route::get('/dashboard/admin/kategori/create', [CategoryController::class, 'kategoriCreate'])->name('dashboard.admin.kategori.create');
+        Route::post('/dashboard/admin/kategori/store', [CategoryController::class, 'kategoriStore'])->name('dashboard.admin.kategori.store');
+
+        // Edit Kategori
+        Route::get('/dashboard/admin/kategori/edit/{id}', [CategoryController::class, 'kategoriEdit'])->name('dashboard.admin.kategori.edit');
+        Route::put('/dashboard/admin/kategori/update/{id}', [CategoryController::class, 'kategoriUpdate'])->name('dashboard.admin.kategori.update');
+
+        // Delete Kategori
+        Route::delete('/dashboard/admin/kategori/{id}', [CategoryController::class, 'kategoriDelete'])->name('dashboard.admin.kategori.delete');
+
+        // Katalog
+        Route::get('/dashboard/admin/katalog', [KatalogController::class, 'katalogIndex'])->name('dashboard.admin.katalog.view');
+        // Create Katalog
+        Route::get('/dashboard/admin/katalog/create', [KatalogController::class, 'katalogCreate'])->name('dashboard.admin.katalog.create');
+        Route::post('/dashboard/admin/katalog/store', [KatalogController::class, 'katalogStore'])->name('dashboard.admin.katalog.store');
+        // Edit Katalog
+        Route::get('/dashboard/admin/katalog/edit/{id}', [KatalogController::class, 'katalogEdit'])->name('dashboard.admin.katalog.edit');
+        Route::put('/dashboard/admin/katalog/update/{id}', [KatalogController::class, 'katalogUpdate'])->name('dashboard.admin.katalog.update');
+        // Delete Katalog
+        Route::delete('/dashboard/admin/katalog/{id}', [KatalogController::class, 'katalogDelete'])->name('dashboard.admin.katalog.delete');
+
+        // Katalog
+        Route::get('/dashboard/admin/akun', [UserController::class, 'accountAdminIndex'])->name('dashboard.admin.akun.view');
+        // Create Katalog
+        // Route::get('/dashboard/admin/katalog/create', [UserController::class, 'katalogCreate'])->name('dashboard.admin.katalog.create');
+        // Route::post('/dashboard/admin/katalog/store', [UserController::class, 'katalogStore'])->name('dashboard.admin.katalog.store');
+        // // Edit Katalog
+        // Route::get('/dashboard/admin/katalog/edit/{id}', [UserController::class, 'katalogEdit'])->name('dashboard.admin.katalog.edit');
+        // Route::put('/dashboard/admin/katalog/update/{id}', [UserController::class, 'katalogUpdate'])->name('dashboard.admin.katalog.update');
+        // // Delete Katalog
+        // Route::delete('/dashboard/admin/katalog/{id}', [UserController::class, 'katalogDelete'])->name('dashboard.admin.katalog.delete');
     });
 
-
-    // Create Kategori
-    Route::get('/dashboard/admin/kategori/create', [CategoryController::class, 'kategoriCreate'])->name('dashboard.admin.kategori.create');
-    Route::post('/dashboard/admin/kategori/store', [CategoryController::class, 'kategoriStore'])->name('dashboard.admin.kategori.store');
-
-    // Edit Kategori
-    Route::get('/dashboard/admin/kategori/edit/{id}', [CategoryController::class, 'kategoriEdit'])->name('dashboard.admin.kategori.edit');
-    Route::put('/dashboard/admin/kategori/update/{id}', [CategoryController::class, 'kategoriUpdate'])->name('dashboard.admin.kategori.update');
-
-    // Delete Kategori
-    Route::delete('/dashboard/admin/kategori/{id}', [CategoryController::class, 'kategoriDelete'])->name('dashboard.admin.kategori.delete');
-
-    // Katalog
-    Route::get('/dashboard/admin/katalog', [KatalogController::class, 'katalogIndex'])->name('dashboard.admin.katalog.view');
-    // Create Katalog
-    Route::get('/dashboard/admin/katalog/create', [KatalogController::class, 'katalogCreate'])->name('dashboard.admin.katalog.create');
-    Route::post('/dashboard/admin/katalog/store', [KatalogController::class, 'katalogStore'])->name('dashboard.admin.katalog.store');
-    // Edit Katalog
-    Route::get('/dashboard/admin/katalog/edit/{id}', [KatalogController::class, 'katalogEdit'])->name('dashboard.admin.katalog.edit');
-    Route::put('/dashboard/admin/katalog/update/{id}', [KatalogController::class, 'katalogUpdate'])->name('dashboard.admin.katalog.update');
-    // Delete Katalog
-    Route::delete('/dashboard/admin/katalog/{id}', [KatalogController::class, 'katalogDelete'])->name('dashboard.admin.katalog.delete');
-
-    // Katalog
-    Route::get('/dashboard/admin/akun', [UserController::class, 'accountAdminIndex'])->name('dashboard.admin.akun.view');
-    // Create Katalog
-    // Route::get('/dashboard/admin/katalog/create', [UserController::class, 'katalogCreate'])->name('dashboard.admin.katalog.create');
-    // Route::post('/dashboard/admin/katalog/store', [UserController::class, 'katalogStore'])->name('dashboard.admin.katalog.store');
-    // // Edit Katalog
-    // Route::get('/dashboard/admin/katalog/edit/{id}', [UserController::class, 'katalogEdit'])->name('dashboard.admin.katalog.edit');
-    // Route::put('/dashboard/admin/katalog/update/{id}', [UserController::class, 'katalogUpdate'])->name('dashboard.admin.katalog.update');
-    // // Delete Katalog
-    // Route::delete('/dashboard/admin/katalog/{id}', [UserController::class, 'katalogDelete'])->name('dashboard.admin.katalog.delete');
-});
-
-Route::middleware(['auth', 'role:customer'])->group(function () {
-    // Route::get('/katalog', [\App\Http\Controllers\Customer\KatalogController::class, 'showKatalog'])->name('katalog');
-});
+    Route::middleware(['auth', 'role:customer'])->group(function () {
+        // Route::get('/katalog', [\App\Http\Controllers\Customer\KatalogController::class, 'showKatalog'])->name('katalog');
+    });
 
     // Katalog Routes
     Route::prefix('dashboard/admin/katalog')->group(function () {

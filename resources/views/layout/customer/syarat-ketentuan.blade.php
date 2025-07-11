@@ -43,7 +43,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('syarat-ketentuan') }}" class="text-brand-light font-semibold">
+                    <a href="{{ route('syarat-ketentuan') }}" class="hover:text-brand-light transition-colors duration-300">
                         Syarat & Ketentuan
                     </a>
                 </li>

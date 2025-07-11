@@ -1,4 +1,4 @@
-@extends('layout.customer.app')
+<!-- @extends('layout.customer.app') -->
 @section('title', 'BROWNITA - Katalog')
 @section('content')
 
@@ -48,8 +48,8 @@
                         <li>
                             <form method="GET" action="{{ route('produk-kami') }}">
                                 <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="checkbox" name="category_id[]" class="h-5 w-5 rounded-md border border-brand-brown checked:bg-brand-brown  checked:border-transparent focus:ring-2 focus:ring-offset-1 focus:ring-brand-brown transition duration-200"
-                                        value="{{ $category->id }}"
+                                    <input type="checkbox" name="category_id[]" value="{{ $category->id }}"
+                                        class="h-5 w-5 rounded-md border border-brand-brown checked:bg-brand-brown checked:border-transparent focus:ring-2 focus:ring-offset-1 focus:ring-brand-brown transition duration-200"
                                         onchange="this.form.submit()"
                                         {{ in_array($category->id, (array) request('category_id')) ? 'checked' : '' }}>
                                     <span>{{ $category->nama_kategori }}</span>
@@ -146,7 +146,7 @@
                             class="inline-block   py-2 border-2 rounded-full text-brand-dark px-16 border-brand-dark font-bold text-sm">Lihat
                         </a>
                         <a href="{{ route('produk.detail', $catalogue->id) }}"
-                            class="inline-block  px-16 py-2 rounded-full  bg-brand-dark text-brand-light  text-sm">
+                           class="inline-block px-16 py-2 rounded-full bg-brand-dark text-brand-light text-sm">
                             Order
                         </a>
                     </div>

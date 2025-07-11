@@ -23,9 +23,15 @@ class AuthController extends Controller
     public function registerPost(Request $request)
     {
         $request->validate([
-            'name' =>   'required|string|max:255',
-            'email' =>   'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:8|max:255'
+        ], [
+            'name.required' => 'Kolom username wajib diisi.',
+            'email.required' => 'Kolom email wajib diisi.',
+            'email.email' => 'Masukkan alamat email yang valid.',
+            'password.required' => 'Kolom password wajib diisi.',
+            'password.min' => 'Password minimal terdiri dari 8 karakter.',
         ]);
 
         $user = User::create([
@@ -43,33 +49,44 @@ class AuthController extends Controller
     public function loginPost(Request $request)
     {
         $request->validate([
-            'email' => 'required|string|max:255',
-            'password' => 'required|string|min:8|max:255'
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:8|max:255',
+        ], [
+            'email.required' => 'Kolom email wajib diisi.',
+            'email.email' => 'Masukkan alamat email yang valid.',
+            'password.required' => 'Kolom password wajib diisi.',
+            'password.min' => 'Password minimal terdiri dari 8 karakter.',
         ]);
 
-        $credentials = ['email' => $request->email, 'password' => $request->password];
+        $credentials = [
+            'email' => $request->email,
+            'password' => $request->password,
+        ];
 
-        if(auth()->attempt($credentials)){
+        if (auth()->attempt($credentials)) {
             $request->session()->regenerate();
 
-            if(Auth::user()->role == 'admin'){
-                return redirect()->route('dashboard.admin');
-            }
-            else {
-                return redirect()->route('produk-kami');
+            if (Auth::user()->role == 'admin') {
+                return redirect()->route('dashboard.admin')->with('success', 'Berhasil login sebagai admin!');
+            } else {
+                return redirect()->route('produk-kami')->with('success', 'Berhasil login sebagai pelanggan!');
             }
         }
 
-         return back()->withErrors([
-            'email' => 'Invalid credentials.',
-        ]);
+        // Jika login gagal
+        return back()
+            ->with('error', 'Email atau password salah!')
+            ->withInput();
     }
 
-    public function logoutPost(Request $request){
+
+    public function logoutPost(Request $request)
+    {
         auth()->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
         return redirect('/login');
+
     }
 }
