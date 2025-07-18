@@ -22,7 +22,7 @@
                 </a>
             </li>
             <li>
-                <a href="http://" class="">
+                <a href="{{ route('keranjang') }}" class="">
                     <i class="fa-solid fa-cart-shopping"></i>
                 </a>
             </li>

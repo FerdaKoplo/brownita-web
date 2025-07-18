@@ -26,7 +26,7 @@ Route::post('/login', [AuthController::class, 'loginPost'])->name('login.post');
 Route::get('/login', [AuthController::class, 'viewLogin'])->name('login');
 Route::post('/logout', [AuthController::class, 'logoutPost'])->name('logout.post');
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
+Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/dashboard/admin', [DashboardController::class, 'homeIndex'])->name('dashboard.admin');
 
     // Kategori
@@ -66,8 +66,12 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     // Route::delete('/dashboard/admin/katalog/{id}', [UserController::class, 'katalogDelete'])->name('dashboard.admin.katalog.delete');
 });
 
-Route::middleware(['auth', 'role:customer'])->group(function () {
-    // Route::get('/katalog', [\App\Http\Controllers\Customer\KatalogController::class, 'showKatalog'])->name('katalog');
+Route::middleware(['auth', 'isCustomer'])->group(function () {
+
+    // Keranjang
+    Route::get('/keranjang', [\App\Http\Controllers\Customer\KeranjangController::class, 'keranjangIndex'])->name('keranjang');
+    Route::post('/keranjang', [\App\Http\Controllers\Customer\KeranjangController::class, 'keranjangStore'])->name('keranjang.store');
+    Route::patch('/keranjang/{id}/update', [\App\Http\Controllers\Customer\KeranjangController::class, 'keranjangUpdate'])->name('customer.keranjang.update');
 });
 
 

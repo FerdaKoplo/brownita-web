@@ -110,7 +110,6 @@
                     </div>
 
                     @if (Auth::check())
-
                      <div class="p-4 space-y-5 flex flex-col justify-center items-center">
                         <h2 class="font-semibold text-brand-brown">{{ $catalogue->nama_produk }}</h2>
                         <p class="text-sm italic text-gray-600">
@@ -126,10 +125,13 @@
                                 class="inline-block  px-10 py-2 rounded-full  bg-brand-dark text-brand-light  text-sm">
                                 Order
                             </a>
-                            <a href="{{ route('produk.detail', $catalogue->id) }}"
-                                class="inline-block  px-3 py-2 rounded-full  bg-brand-dark text-brand-light  text-sm">
-                                <i class="fa-solid fa-cart-shopping"></i>
-                            </a>
+                            <form action="{{ route('keranjang.store') }}" method="post" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="katalog_id" value="{{ $catalogue->id }}">
+                                <button type="submit" class="inline-block  px-3 py-2 rounded-full  bg-brand-dark text-brand-light  text-sm">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </button>
+                            </form>
                         </div>
                      </div>
 
@@ -140,7 +142,7 @@
                         <p class="text-sm italic text-gray-600">
                             "{{ Str::limit($catalogue->deskripsi, 60, '...') }}"
                         </p>
-                        <p class="text-brand-brown font-bold">Rp {{ number_format($catalogue->harga, 0, ',', '.') }}</p>
+                        <p class="text-brand-brown font-bold">{{ $catalogue->harga_rupiah }}</p>
                         <a href="{{ route('produk.detail', $catalogue->id) }}"
                             class="inline-block   py-2 border-2 rounded-full text-brand-dark px-16 border-brand-dark font-bold text-sm"
                             >Lihat
