@@ -17,6 +17,10 @@
                 <i class="fa-solid fa-user"></i>
                 <li>Akun</li>
             </a>
+            <a href="{{ route('dashboard.admin.customer-transaction.view') }}" class="flex items-center gap-3">
+                <i class="fa-solid fa-scroll"></i>
+                <li>History Transaksi</li>
+            </a>
         </ul>
         <form class="logoutForm" action="{{  route('logout.post') }}" method="POST">
             @csrf

@@ -24,7 +24,6 @@ class CategoryController extends Controller
         ]);
     }
 
-
     public function kategoriCreate()
     {
         return view('admin.KategoriResource.Pages.createKategori');

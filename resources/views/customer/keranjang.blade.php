@@ -79,9 +79,13 @@
                 </div>
             </div>
 
-            <div>
-                <button class="bg-brand-dark text-brand-light w-full p-3 rounded-full font-bold">Bayar Sekarang</button>
-            </div>
+            <form method="POST" action="{{ route('customer.transaksi.store') }}">
+                @csrf
+                <input type="hidden" name="catatan" value="">
+                <button type="submit" class="bg-brand-dark text-brand-light w-full p-3 rounded-full font-bold">
+                    Bayar Sekarang
+                </button>
+            </form>
         </div>
     </div>
 @endsection

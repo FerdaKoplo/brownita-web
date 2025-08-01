@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\KatalogController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Customer\TransaksiController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -54,8 +55,21 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     // Delete Katalog
     Route::delete('/dashboard/admin/katalog/{id}', [KatalogController::class, 'katalogDelete'])->name('dashboard.admin.katalog.delete');
 
-    // Katalog
+    // Akun
     Route::get('/dashboard/admin/akun', [UserController::class, 'accountAdminIndex'])->name('dashboard.admin.akun.view');
+    Route::get('/dashboard/admin/akun/create', [UserController::class, 'accountAdminCreate'])->name('dashboard.admin.akun.create');
+    Route::post('/dashboard/admin/akun/store', [UserController::class, 'accountAdminStore'])->name('dashboard.admin.akun.store');
+    Route::get('/dashboard/admin/akun/edit/{id}', [UserController::class, 'accountAdminEdit'])->name('dashboard.admin.akun.edit');
+    Route::put('/dashboard/admin/akun/update/{id}', [UserController::class, 'accountAdminUpdate'])->name('dashboard.admin.akun.update');
+    Route::delete('/dashboard/admin/akun/delete/{id}', [UserController::class, 'accountAdminDelete'])->name('dashboard.admin.akun.delete');
+
+    // Transaksi
+    Route::get('/dashboard/admin/customer-transaction', [\App\Http\Controllers\Admin\TransaksiController::class, 'transaksiIndex'])->name('dashboard.admin.customer-transaction.view');
+    Route::get('/dashboard/admin/customer-transaction/{id}', [\App\Http\Controllers\Admin\TransaksiController::class, 'transaksiShow'])->name('dashboard.admin.customer-transaction.show');
+    Route::put('/dashboard/admin/customer-transaction/update/{id}', [\App\Http\Controllers\Admin\TransaksiController::class, 'transaksiUpdate'])->name('dashboard.admin.customer-transaction.update');
+    Route::delete('/dashboard/admin/customer-transaction/{id}', [\App\Http\Controllers\Admin\TransaksiController::class, 'transaksiDelete'])->name('dashboard.admin.customer-transaction.delete');
+
+
     // Create Katalog
     // Route::get('/dashboard/admin/katalog/create', [UserController::class, 'katalogCreate'])->name('dashboard.admin.katalog.create');
     // Route::post('/dashboard/admin/katalog/store', [UserController::class, 'katalogStore'])->name('dashboard.admin.katalog.store');
@@ -72,6 +86,9 @@ Route::middleware(['auth', 'isCustomer'])->group(function () {
     Route::get('/keranjang', [\App\Http\Controllers\Customer\KeranjangController::class, 'keranjangIndex'])->name('keranjang');
     Route::post('/keranjang', [\App\Http\Controllers\Customer\KeranjangController::class, 'keranjangStore'])->name('keranjang.store');
     Route::patch('/keranjang/{id}/update', [\App\Http\Controllers\Customer\KeranjangController::class, 'keranjangUpdate'])->name('customer.keranjang.update');
+    Route::get('/transaksi', [TransaksiController::class, 'transaksiIndex'])->name('customer.transaksi.index');
+    Route::get('/transaksi/{id}', [TransaksiController::class, 'transaksiShow'])->name('customer.transaksi.show');
+    Route::post('/transaksi', [TransaksiController::class, 'transaksiStore'])->name('customer.transaksi.store');
 });
 
 
