@@ -28,7 +28,7 @@ Route::get('/login', [AuthController::class, 'viewLogin'])->name('login');
 Route::post('/logout', [AuthController::class, 'logoutPost'])->name('logout.post');
 
 Route::middleware(['auth', 'isAdmin'])->group(function () {
-    Route::get('/dashboard/admin', [DashboardController::class, 'homeIndex'])->name('dashboard.admin');
+    Route::get('/dashboard/admin', [\App\Http\Controllers\Admin\DashboardController::class, 'homeIndex'])->name('dashboard.admin');
 
     // Kategori
     Route::get('/dashboard/admin/kategori', [CategoryController::class, 'kategoriIndex'])->name('dashboard.admin.kategori.view');

@@ -53,7 +53,7 @@
                     <button type="submit"
                         class="bg-brand-dark font-semibold px-5 py-1 text-brand-light rounded-xl">Buat</button>
                     <a class="  px-5 py-1 bg-black text-brand-light rounded-xl font-semibold"
-                        href="{{ route('dashboard.admin.kategori.view') }}">
+                        href="{{ route('dashboard.admin.katalog.view') }}">
                         Kembali
                     </a>
                 </div>

@@ -80,7 +80,7 @@
                         Simpan Perubahan
                     </button>
                     <a class="px-5 py-1 bg-black text-brand-light rounded-xl font-semibold"
-                        href="{{ route('dashboard.admin.kategori.view') }}">
+                        href="{{ route('dashboard.admin.katalog.view') }}">
                         Kembali
                     </a>
                 </div>

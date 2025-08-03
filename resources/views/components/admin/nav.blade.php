@@ -19,7 +19,7 @@
             </a>
             <a href="{{ route('dashboard.admin.customer-transaction.view') }}" class="flex items-center gap-3">
                 <i class="fa-solid fa-scroll"></i>
-                <li>History Transaksi</li>
+                <li>Transaksi Customer</li>
             </a>
         </ul>
         <form class="logoutForm" action="{{  route('logout.post') }}" method="POST">
