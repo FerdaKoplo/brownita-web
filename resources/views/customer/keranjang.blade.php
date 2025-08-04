@@ -8,12 +8,9 @@
                     <div class="aspect-square p-5    ">
                         <div class="flex items-center p-5 rounded-t-2xl bg-brand-lightdark justify-center">
                             @php
-                                $firstItem = $cartItems->first();
-                                $firstImagePath = $firstItem && $firstItem->produk
-                                    ? $firstItem->produk->images->first()->gambar_produk ?? null
-                                    : null;
+                                $imagePath = $cartitem->produk->images->first()->gambar_produk ?? null;
                             @endphp
-                            <img src="{{ $firstImagePath ? asset('storage/' . $firstImagePath) : asset('images/default-product.jpg') }}"
+                            <img src="{{ $imagePath ? asset('storage/' . $imagePath) : asset('images/default-product.jpg') }}"
                                 alt="" class="w-40 h-40 rounded-xl aspect-square">
                         </div>
                         <div class="text-brand-light flex flex-col gap-5 p-5 bg-brand-dark rounded-b-2xl">
@@ -61,10 +58,8 @@
         <div class="flex flex-col gap-10">
             <div class="flex flex-col gap-5">
                 <h1 class="text-brand-dark font-bold text-2xl">Catatan Tambahan</h1>
-                <form action="">
-                    <textarea name="" id="" cols="90" rows="5"
-                        class="p-5 resize-none bg-brand-light border-black border rounded-xl"></textarea>
-                </form>
+                <textarea name="" id="" cols="90" rows="5"
+                    class="p-5 resize-none bg-brand-light border-black border rounded-xl"></textarea>
             </div>
 
             <div>

@@ -13,7 +13,7 @@
     <title>@yield('title')</title>
 </head>
 
-<body class="bg-brand-light pl-60">
+<body class="bg-white pl-60">
     @include('components.admin.nav')
     @yield('content')
 

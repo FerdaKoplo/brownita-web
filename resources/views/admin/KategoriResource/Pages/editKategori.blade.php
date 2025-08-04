@@ -1,63 +1,63 @@
 @extends('layout.admin.layout')
-@section('title', 'Kategori')
+@section('title', 'Edit Kategori')
 @section('content')
 
+<div class="flex justify-center items-center min-h-screen bg-gray-50 px-4">
+    <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-2xl">
+        <h1 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Edit Kategori</h1>
+        <form method="POST" id="kategoriForm" class="space-y-6" action="{{ route('dashboard.admin.kategori.update', $categories->id) }}">
+            @csrf
+            @method('PUT')
 
-    <div class=" flex gap-10  flex-col justify-center items-center min-h-screen ">
-        <h1 class="text-3xl font-bold text-brand-dark">Buat Kategori</h1>
-        <div class="flex flex-col items-center max-w-md w-full">
-            <div class="bg-brand-dark w-10/12 h-7 rounded-t-xl"></div>
-            <form method="POST" id="kategoriForm" class="flex flex-col gap-5 w-full rounded-xl  bg-brand-lightdark p-5"
-                action="{{ route('dashboard.admin.kategori.update', $categories->id) }}">
-                @csrf
-                @method('PUT')
-                <div class="flex flex-col gap-2 font-semibold">
-                    <h1 class="">Nama Kategori</h1>
-                    <input type="text" id="nama_kategori"
-                        class="bg-brand-secondary text-white py-2 px-4 resize-none w-full rounded-lg" name="nama_kategori"
-                        value="{{ $categories->nama_kategori }}">
-                </div>
+            <!-- Nama Kategori -->
+            <div>
+                <label for="nama_kategori" class="block text-sm font-medium text-gray-700">Nama Kategori</label>
+                <input type="text" id="nama_kategori" name="nama_kategori"
+                    value="{{ $categories->nama_kategori }}"
+                    class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">
+            </div>
 
-                <div class="flex flex-col gap-2 font-semibold">
-                    <h1>Deskripsi Kategori</h1>
-                    <textarea name="deskripsi_kategori"
-                        class="resize-none w-full px-4 py-2 bg-brand-secondary text-white text-lg rounded-lg"
-                        id="deskripsi_kategori">{{ $categories->deskripsi_kategori }}</textarea>
-                </div>
+            <!-- Deskripsi Kategori -->
+            <div>
+                <label for="deskripsi_kategori" class="block text-sm font-medium text-gray-700">Deskripsi Kategori</label>
+                <textarea name="deskripsi_kategori" id="deskripsi_kategori" rows="4"
+                    class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">{{ $categories->deskripsi_kategori }}</textarea>
+            </div>
 
-                <div class="flex justify-center items-center gap-5">
-                    <button type="submit"
-                        class="bg-brand-dark font-semibold px-5 py-1 text-brand-light rounded-xl">Buat</button>
-                    <a class="  px-5 py-1 bg-black text-brand-light rounded-xl font-semibold"
-                        href="{{ route('dashboard.admin.kategori.view') }}">
-                        Kembali
-                    </a>
-                </div>
-
-            </form>
-        </div>
+            <!-- Aksi -->
+            <div class="flex justify-between">
+                <a href="{{ route('dashboard.admin.kategori.view') }}"
+                    class="inline-block px-6 py-2 border border-gray-400 rounded-lg text-gray-700 duration-300 hover:bg-gray-100">
+                    Kembali
+                </a>
+                <button type="submit"
+                    class="px-6 py-2 bg-amber-700 text-white font-semibold rounded-lg hover:bg-amber-700/80 duration-300">
+                    Simpan
+                </button>
+            </div>
+        </form>
     </div>
+</div>
 
+{{-- SweetAlert --}}
+<script>
+    document.getElementById('kategoriForm').addEventListener('submit', function (e) {
+        e.preventDefault();
 
-    <script>
-        document.getElementById('kategoriForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            Swal.fire({
-                title: 'Yakin ingin menyimpan?',
-                text: "Pastikan data sudah benar.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, simpan!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    e.target.submit();
-                }
-            });
+        Swal.fire({
+            title: 'Yakin ingin menyimpan?',
+            text: "Pastikan data sudah benar.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, simpan!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                e.target.submit();
+            }
         });
-
-    </script>
+    });
+</script>
 
 @endsection

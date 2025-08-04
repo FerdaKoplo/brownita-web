@@ -2,71 +2,83 @@
 @section('title', 'Kategori')
 @section('content')
 
-
-<div class="p-5 flex flex-col gap-10">
-    <h1 class="text-3xl font-bold text-brand-dark">Kategori</h1>
-    <div class="flex flex-col gap-3">
-        <div class="flex w-full h-full justify-between items-center">
-            <form action="{{ route('dashboard.admin.kategori.view') }}" method="GET"
-                class="max-w-md w-full flex items-center gap-2">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" name="search" value="{{ request('search') }}"
-                    class="bg-brand-secondary   appearance-none text-white w-full py-2 rounded-lg px-2"
-                    placeholder="Cari Nama Kategori...">
-            </form>
-            <div class="flex flex-row justify-end ">
-                <a class=" bg-brand-dark text-brand-light p-2   rounded-lg font-semibold"
-                    href="{{ route('dashboard.admin.kategori.create') }}">
-                    Buat Kategori
-                </a>
-            </div>
+<div class="p-6 bg-gray-50 min-h-screen">
+    <div class="flex flex-col gap-6">
+        {{-- Header --}}
+        <div class="flex justify-between items-center">
+            <h1 class="text-4xl font-bold text-gray-800">Kategori</h1>
+            <a href="{{ route('dashboard.admin.kategori.create') }}" class="bg-amber-700 hover:bg-orange-700 transition text-white px-4 py-2 rounded-lg font-medium">
+                + Buat Kategori
+            </a>
         </div>
-        <table class="table-auto w-full border-collapse">
-            <thead class="bg-brand-secondary text-white">
-                <tr>
-                    <th class="text-left px-4 py-3">Nomor</th>
-                    <th class="text-left px-4 py-3">Nama Kategori</th>
-                    <th class="text-left px-4 py-3">Deskripsi Kategori</th>
-                    <th class="text-left px-4 py-3">Actions</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-brand-lightdark">
-                @foreach ($categories as $index => $category)
+
+        {{-- Search Form --}}
+        <form action="{{ route('dashboard.admin.kategori.view') }}" method="GET" class="max-w-md w-full flex items-center gap-3 bg-white p-3 rounded-lg shadow-md">
+            <i class="fa-solid fa-magnifying-glass text-gray-500"></i>
+            <input type="text" name="search" value="{{ request('search') }}"
+                class="w-full bg-transparent outline-none text-gray-700 placeholder-gray-400"
+                placeholder="Cari Nama Kategori...">
+        </form>
+
+        {{-- Table --}}
+        <div class="overflow-auto rounded-lg shadow-md">
+            <table class="w-full text-left min-w-[700px]">
+                <thead class="bg-black text-white">
                     <tr>
-                        <td class="px-4 py-2">{{ $index + 1 }}</td>
-                        <td class="px-4 py-2">{{ $category->nama_kategori }}</td>
-                        <td class="px-4 py-2">{{ $category->deskripsi_kategori }}</td>
-                        <td class="px-4 py-2">
-                            <button class="text-brand-dark">
+                        <th class="px-4 py-3">#</th>
+                        <th class="px-4 py-3">Nama Kategori</th>
+                        <th class="px-4 py-3">Deskripsi</th>
+                        <th class="px-4 py-3">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @forelse ($categories as $index => $category)
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-4 py-3">{{ $index + 1 }}</td>
+                            <td class="px-4 py-3 font-medium text-gray-900">{{ $category->nama_kategori }}</td>
+                            <td class="px-4 py-3 max-w-xs">{{ $category->deskripsi_kategori }}</td>
+                            <td class="px-4 py-3 space-x-2">
                                 <a href="{{ route('dashboard.admin.kategori.edit', $category->id) }}"
-                                    class="fa-solid fa-pen-to-square"></a>
-                            </button> |
-                            <button class="text-brand-dark">
-                                <form class="deleteForm"
-                                    action="{{  route('dashboard.admin.kategori.delete', $category->id) }}" method="POST">
+                                    class="text-blue-600 hover:text-blue-800 transition">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                                <form class="inline deleteForm"
+                                    action="{{ route('dashboard.admin.kategori.delete', $category->id) }}"
+                                    method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="fa-solid fa-trash"></button>
+                                    <button type="submit" class="text-red-600 hover:text-red-800 transition">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
                                 </form>
-                            </button>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <div class="mt-6 flex justify-center">
-            {{ $categories->links() }}
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" class="text-center py-5 text-gray-500">Tidak ada data kategori.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
+
+        {{-- Pagination --}}
+        @if(method_exists($categories, 'links'))
+            <div class="mt-4">
+                {{ $categories->links() }}
+            </div>
+        @endif
     </div>
 </div>
 
+{{-- SweetAlert --}}
 <script>
     document.addEventListener('submit', function (e) {
         if (e.target.classList.contains('deleteForm')) {
             e.preventDefault();
             Swal.fire({
                 title: 'Yakin ingin menghapus?',
-                text: "Pastikan pilihan anda sudah benar.",
+                text: "Data yang dihapus tidak bisa dikembalikan.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -80,4 +92,5 @@
         }
     });
 </script>
+
 @endsection

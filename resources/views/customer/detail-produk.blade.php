@@ -81,11 +81,13 @@
                                     Order
                                 </a>
                             </button>
-                            <button class="border-2 border-brand-dark w-full py-2 text-brand-dark font-bold rounded-full">
-                                <a href="http://">
+                            <form action="{{ route('keranjang.store') }}" method="POST" enctype="multipart/form-data" class="w-full">
+                                @csrf
+                                <input type="hidden" name="katalog_id" value="{{ $produk->id }}">
+                                <button type="submit" class="border-2 border-brand-dark w-full py-2 text-brand-dark font-bold rounded-full">
                                     Masukkan Ke Keranjang
-                                </a>
-                            </button>
+                                </button>
+                            </form>
                         </div>
                     @else
                         <button class="bg-brand-dark w-full py-2 text-brand-light rounded-full">

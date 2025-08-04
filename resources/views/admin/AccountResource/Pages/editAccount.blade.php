@@ -2,64 +2,68 @@
 @section('title', 'Edit Akun Admin')
 @section('content')
 
-<div class="flex gap-10 flex-col justify-center items-center min-h-screen">
-    <h1 class="text-3xl font-bold text-brand-dark">Edit Akun Admin</h1>
-    <div class="flex flex-col items-center max-w-md w-full">
-        <div class="bg-brand-dark w-10/12 h-7 rounded-t-xl"></div>
-        <form method="POST" id="akunAdminEditForm"
-            class="flex flex-col gap-5 w-full rounded-xl bg-brand-lightdark p-5"
-            action="{{ route('dashboard.admin.akun.update', $user->id) }}">
+<div class="flex justify-center items-center min-h-screen bg-gray-50 px-4">
+    <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-2xl">
+        <h1 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Edit Akun Admin</h1>
+        <form method="POST" action="{{ route('dashboard.admin.akun.update', $user->id) }}" id="akunAdminEditForm" class="space-y-6">
             @csrf
             @method('PUT')
 
-            <div class="flex flex-col gap-2 font-semibold">
-                <label for="name">Nama Lengkap</label>
-                <input type="text" id="name" name="name"
+            <!-- Nama Lengkap -->
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
+                <input type="text" id="name" name="name" required
                     value="{{ old('name', $user->name) }}"
-                    class="bg-brand-secondary text-white py-2 px-4 w-full rounded-lg" required>
+                    class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">
             </div>
 
-            <div class="flex flex-col gap-2 font-semibold">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email"
+            <!-- Email -->
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" id="email" name="email" required
                     value="{{ old('email', $user->email) }}"
-                    class="bg-brand-secondary text-white py-2 px-4 w-full rounded-lg" required>
+                    class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">
             </div>
 
-            <div class="flex flex-col gap-2 font-semibold">
-                <label for="password">Password Baru (kosongkan jika tidak ingin mengubah)</label>
+            <!-- Password Baru -->
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700">Password Baru (opsional)</label>
                 <input type="password" id="password" name="password"
-                    class="bg-brand-secondary text-white py-2 px-4 w-full rounded-lg">
+                    class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">
             </div>
 
-            <div class="flex flex-col gap-2 font-semibold">
-                <label for="password_confirmation">Konfirmasi Password</label>
+            <!-- Konfirmasi Password -->
+            <div>
+                <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Konfirmasi Password</label>
                 <input type="password" id="password_confirmation" name="password_confirmation"
-                    class="bg-brand-secondary text-white py-2 px-4 w-full rounded-lg">
+                    class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">
             </div>
 
-            <div class="flex justify-center items-center gap-5">
-                <button type="submit"
-                    class="bg-brand-dark font-semibold px-5 py-1 text-brand-light rounded-xl">Simpan</button>
-                <a class="px-5 py-1 bg-black text-brand-light rounded-xl font-semibold"
-                    href="{{ route('dashboard.admin.akun.view') }}">
+            <!-- Aksi -->
+            <div class="flex justify-between">
+                <a href="{{ route('dashboard.admin.akun.view') }}"
+                    class="inline-block px-6 py-2 border border-gray-400 rounded-lg text-gray-700 duration-300 hover:bg-gray-100">
                     Kembali
                 </a>
+                <button type="submit"
+                    class="px-6 py-2 bg-amber-700 text-white font-semibold rounded-lg hover:bg-amber-700/80 duration-300">
+                    Simpan
+                </button>
             </div>
         </form>
     </div>
 </div>
 
+{{-- SweetAlert --}}
 <script>
     document.getElementById('akunAdminEditForm').addEventListener('submit', function (e) {
         e.preventDefault();
-
         Swal.fire({
             title: 'Yakin ingin menyimpan perubahan?',
-            text: "Perubahan tidak bisa dibatalkan.",
+            text: "Pastikan data sudah benar.",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#d97706', // amber-700
             cancelButtonColor: '#d33',
             confirmButtonText: 'Ya, simpan!'
         }).then((result) => {
