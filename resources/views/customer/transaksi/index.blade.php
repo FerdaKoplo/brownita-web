@@ -11,9 +11,9 @@
             Belum ada transaksi yang tercatat.
         </div>
     @else
-        <div class="flex flex-col gap-3">
-            <table class="table-auto w-full border-collapse">
-                <thead class="bg-brand-secondary text-white">
+        <div class=" rounded-lg overflow-auto shadow-md ">
+            <table class="table-auto  w-full border-collapse">
+                <thead class="bg-black text-white">
                     <tr>
                         <th class="text-left px-4 py-3">#</th>
                         <th class="text-left px-4 py-3">Tanggal</th>
@@ -30,16 +30,16 @@
                             <td class="px-4 py-2">Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}</td>
                             <td class="px-4 py-2">
                                 @if($transaksi->status == 'pending')
-                                    <span class="text-yellow-600 font-semibold">Pending</span>
+                                    <span class="bg-yellow-100 text-yellow-700 inline-block px-2 py-1 rounded-full font-medium ">Pending</span>
                                 @elseif($transaksi->status == 'dibayar')
-                                    <span class="text-green-600 font-semibold">Dibayar</span>
+                                    <span class="bg-green-100 text-green-700 inline-block px-2 py-1 rounded-full font-medium ">Dibayar</span>
                                 @else
-                                    <span class="text-red-600 font-semibold">Dibatalkan</span>
+                                    <span class="bg-red-100 text-red-600 inline-block px-2 py-1 rounded-full font-medium ">Dibatalkan</span>
                                 @endif
                             </td>
                             <td class="px-4 py-2 text-center">
                                 <a href="{{ route('customer.transaksi.show', $transaksi->id) }}"
-                                   class=" text-brand-dark">
+                                   class=" text-gray-300 hover:text-gray-800 transition">
                                    <i class="fa-solid fa-eye"></i>
                                 </a>
                             </td>

@@ -49,7 +49,7 @@
                                 <form class="inline deleteForm" action="{{ route('dashboard.admin.akun.delete', $user->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-800 transition">
+                                    <button type="submit" class="text-red-400 hover:text-red-800 transition">
                                         <i class="fa-solid fa-trash"></i>
                                     </button>
                                 </form>

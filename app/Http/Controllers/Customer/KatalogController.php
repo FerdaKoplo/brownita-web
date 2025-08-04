@@ -16,8 +16,25 @@ class KatalogController extends Controller
         $filterCategoryIds = array_filter((array) $request->get('category_id'));
         $searchKeyword = $request->get('search');
         $statusFilter = $request->get('status');
-
         $katalogQuery = Katalog::with('images');
+
+        $sort = $request->get('sort');
+        // clean inputan sebelum diquery
+        $minPrice = (int) preg_replace('/[^\d]/', '', $request->get('min_price'));
+        $maxPrice = (int) preg_replace('/[^\d]/', '', $request->get('max_price'));
+
+        if ($minPrice) {
+            $katalogQuery->where('harga', '>=', $minPrice);
+        }
+        if ($maxPrice) {
+            $katalogQuery->where('harga', '<=', $maxPrice);
+        }
+
+        if ($sort === 'asc') {
+            $katalogQuery->orderBy('harga', 'asc');
+        } elseif ($sort === 'desc') {
+            $katalogQuery->orderBy('harga', 'desc');
+        }
 
         if (!empty($filterCategoryIds)) {
             $katalogQuery->whereIn('category_id', $filterCategoryIds);
