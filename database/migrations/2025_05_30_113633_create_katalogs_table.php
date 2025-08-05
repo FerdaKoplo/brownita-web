@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
             $table->string('nama_produk');
-            $table->string('gambar_produk')->nullable();
             $table->text('deskripsi')->nullable();
             $table->decimal('harga');
             $table->enum('status', ['tersedia', 'habis'])->default('tersedia');

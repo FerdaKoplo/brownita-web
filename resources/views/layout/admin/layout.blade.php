@@ -13,7 +13,7 @@
     <title>@yield('title')</title>
 </head>
 
-<body class="bg-brand-light pl-60">
+<body class="bg-white pl-60">
     @include('components.admin.nav')
     @yield('content')
 
@@ -24,7 +24,7 @@
             Swal.fire({
                 icon: 'success',
                 title: 'Sukses!',
-                text: '{{ session('success') }}',
+                text: "{{ session('success') }}",
                 confirmButtonColor: '#3085d6'
             });
         </script>

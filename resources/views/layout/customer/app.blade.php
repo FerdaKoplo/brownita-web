@@ -9,10 +9,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     @vite('resources/css/app.css')
 </head>
-<body class="bg-brand-light">
-    @include('components.customer.nav')
+<body class="bg-white">
+    @if (Auth::check())
+        @include('components.customer.logged-in.nav')
+    @else
+        @include('components.customer.logged-out.nav')
+    @endif
 
-    <main>
+    <main class="pt-28 min-h-screen">
         @yield('content')
     </main>
 </body>

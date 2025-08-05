@@ -13,11 +13,12 @@ class Katalog extends Model
     protected $fillable = [
         'category_id',
         'nama_produk',
-        'gambar_produk',
         'deskripsi',
         'harga',
         'status'
     ];
+
+
 
     public function getHargaRupiahAttribute()
     {
@@ -28,4 +29,15 @@ class Katalog extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function images()
+    {
+        return $this->hasMany(KatalogImage::class);
+    }
+
+    public function keranjang()
+    {
+        return $this->hasMany(Keranjang::class);
+    }
+
 }

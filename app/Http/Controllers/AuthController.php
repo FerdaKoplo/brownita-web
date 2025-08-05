@@ -23,10 +23,13 @@ class AuthController extends Controller
     public function registerPost(Request $request)
     {
         $request->validate([
-            'name' =>   'required|string|max:255',
-            'email' =>   'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:8|max:255'
+        ], [
+            'email.unique' => 'Email sudah digunakan.',
         ]);
+
 
         $user = User::create([
             'name' => $request->name,
@@ -35,7 +38,6 @@ class AuthController extends Controller
         ]);
 
         event(new Registered($user));
-        Auth::login($user);
 
         return redirect()->route('login')->with('success', 'Akun berhasil dibuat!');
 
@@ -50,20 +52,24 @@ class AuthController extends Controller
 
         $credentials = ['email' => $request->email, 'password' => $request->password];
 
-        if(auth()->attempt($credentials)){
+        if (auth()->attempt($credentials)) {
             $request->session()->regenerate();
 
-            if(Auth::user()->role == 'admin'){
+            if (Auth::user()->role == 'admin') {
                 return redirect()->route('dashboard.admin');
+            } else {
+                return redirect()->route('produk-kami');
             }
         }
 
-         return back()->withErrors([
+        return back()->withErrors([
             'email' => 'Invalid credentials.',
-        ]);
+        ])->with('fail', 'Login gagal. Silakan periksa kembali email dan password Anda.');
+        ;
     }
 
-    public function logoutPost(Request $request){
+    public function logoutPost(Request $request)
+    {
         auth()->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

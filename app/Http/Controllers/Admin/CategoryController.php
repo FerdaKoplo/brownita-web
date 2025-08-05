@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+
+use App\Models\Category;
+
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-     public function kategoriIndex(Request $request)
+    public function kategoriIndex(Request $request)
     {
 
         $search = $request->input('search');
@@ -23,7 +26,6 @@ class CategoryController extends Controller
         ]);
     }
 
-
     public function kategoriCreate()
     {
         return view('admin.KategoriResource.Pages.createKategori');
@@ -34,6 +36,9 @@ class CategoryController extends Controller
         $validate = $request->validate([
             'nama_kategori' => 'required|string|max:255',
             'deskripsi_kategori' => 'required|string|max:255'
+        ], [
+            'nama_kategori.required' => 'Nama kategori wajib diisi.',
+            'deskripsi_kategori.required' => 'Deskripsi kategori wajib diisi.',
         ]);
 
         Category::create($validate);
@@ -51,6 +56,9 @@ class CategoryController extends Controller
         $validate = $request->validate([
             'nama_kategori' => 'required|string|max:255',
             'deskripsi_kategori' => 'required|string|max:255'
+        ], [
+            'nama_kategori.required' => 'Nama kategori wajib diisi.',
+            'deskripsi_kategori.required' => 'Deskripsi kategori wajib diisi.',
         ]);
 
         $categories = Category::findOrFail($id);

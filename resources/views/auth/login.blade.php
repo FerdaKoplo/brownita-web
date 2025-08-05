@@ -10,11 +10,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     @vite('resources/css/app.css')
 </head>
 
 <body>
-    @include('components.customer.nav')
+    @if (Auth::check())
+        @include('components.customer.logged-in.nav')
+    @else
+        @include('components.customer.logged-out.nav')
+    @endif
     <div class="min-h-screen flex flex-col bg-brand-light  justify-center gap-12 items-center">
         <div class="flex">
             <h1
@@ -27,16 +32,17 @@
 
                 <div class="flex flex-col text-lg items-start gap-4">
                     <p class="font-medium">Email</p>
-                    <input type="text" class="bg-brand-secondary rounded-lg text-brand-light" name="email" id="email">
+                    <input type="text" class="bg-brand-secondary px-4 py-1 rounded-lg text-brand-light" name="email"
+                        id="email">
                 </div>
 
                 <div class="flex flex-col text-lg items-start gap-4">
                     <p class="font-medium">Password</p>
                     <div class="flex gap-5">
-                        <input type="password" class="bg-brand-secondary rounded-lg text-brand-light" name="password"
-                            id="password">
-                        <button class="" type="button">
-                            <i class="fa-solid fa-eye" id="toggle-password"></i>
+                        <input type="password" class="bg-brand-secondary px-4 py-1 rounded-lg text-brand-light"
+                            name="password" id="password">
+                        <button class="" id="toggle-password" type="button">
+                            <i class="fa-solid fa-eye-slash" ></i>
                         </button>
                     </div>
                 </div>
@@ -55,7 +61,50 @@
         </div>
     </div>
 
-    <script src="{{ asset('js/PasswordVisibility.js') }}"></script>
+    {{-- Sweetalert Popup --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if(session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Sukses!',
+                text: '{{ session('success') }}',
+                confirmButtonColor: '#3085d6'
+            });
+        </script>
+    @elseif (session('fail'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Login Gagal!',
+                text: '{{ session('fail') }}',
+                confirmButtonColor: '#3085d6'
+            });
+        </script>
+    @endif
+
+    {{-- Toggle Password --}}
+    <script>
+        function setupPasswordToggle(inputId, toggleButtonId) {
+            const toggleButton = document.getElementById(toggleButtonId)
+            const input = document.getElementById(inputId)
+
+            toggleButton.addEventListener('click', (e) => {
+                const icon = toggleButton.querySelector('i')
+
+                const currentType = input.getAttribute('type')
+                const newType = currentType === 'password' ? 'text' : 'password'
+                input.setAttribute('type', newType)
+
+                icon.classList.toggle('fa-eye-slash')
+                icon.classList.toggle('fa-eye')
+
+                e.preventDefault()
+            })
+        }
+
+        setupPasswordToggle('password', 'toggle-password')
+    </script>
 </body>
 
 </html>

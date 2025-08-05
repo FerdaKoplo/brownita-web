@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Keranjang;
 use Illuminate\Support\ServiceProvider;
+use View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        View::composer('*', function ($view) {
+            $keranjangCount = 0;
+
+            if (auth()->check()) {
+                $keranjangCount = Keranjang::where('user_id', auth()->id())->sum('quantity');
+            }
+
+            $view->with('keranjangCount', $keranjangCount);
+        });
     }
 }
