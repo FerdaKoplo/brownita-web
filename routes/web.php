@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Customer\TransaksiController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\BrownitaController; // Tambahkan import ini
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,9 +21,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/register', [AuthController::class, 'viewRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'registerPost'])->name('register.post');
 
+
+
+// Authentication Routes
+Route::get('/register', [AuthController::class, 'viewRegister'])->name('register');
+Route::post('/register', [AuthController::class, 'registerPost'])->name('register.post');
 
 Route::post('/login', [AuthController::class, 'loginPost'])->name('login.post');
 Route::get('/login', [AuthController::class, 'viewLogin'])->name('login');
@@ -91,6 +99,26 @@ Route::middleware(['auth', 'isCustomer'])->group(function () {
     Route::post('/transaksi', [TransaksiController::class, 'transaksiStore'])->name('customer.transaksi.store');
 });
 
+// Customer Public Routes
+Route::get('/', function () {
+    return view('welcome');
+})->name('landing.page');
+
+// Product Routes
+Route::get('/produk-kami', [\App\Http\Controllers\Customer\KatalogController::class, 'showKatalog'])->name('produk-kami');
+Route::get('/produk/{id}', [\App\Http\Controllers\Customer\KatalogController::class, 'showDetail'])->name('produk.detail');
+Route::get('/produk/{id}/show', [\App\Http\Controllers\Customer\KatalogController::class, 'show'])->name('produk.show');
+
+// Syarat & Ketentuan Routes
+Route::get('/syarat-ketentuan', function () {
+    return view('layout.customer.syarat-ketentuan');
+})->name('syarat-ketentuan');
+
+
+Route::get('/syarat-ketentuan/order', function () {
+    return view('layout.customer.Syarat - Ketentuan.order');
+})->name('syarat-ketentuan.order');
+
 
 // Customer Logged Out Route
 
@@ -103,3 +131,24 @@ Route::get('/produk-kami', [\App\Http\Controllers\Customer\KatalogController::cl
 Route::get('/produk/{id}', [\App\Http\Controllers\Customer\KatalogController::class, 'showDetail'])
     ->name('produk.detail');
 
+
+// Syarat & Ketentuan - Order
+Route::get('/syarat-ketentuan/order', function () {
+    return view('layout.customer.Syarat - Ketentuan.order');
+})->name('syarat-ketentuan.order');
+
+// Syarat & Ketentuan - Payment
+Route::get('/syarat-ketentuan/payment', function () {
+    return view('layout.customer.Syarat - Ketentuan.payment');
+})->name('syarat-ketentuan.payment');
+
+// Syarat & Ketentuan - Delivery
+Route::get('/syarat-ketentuan/delivery', function () {
+    return view('layout.customer.Syarat - Ketentuan.delivery');
+})->name('syarat-ketentuan.delivery');
+
+// Syarat & Ketentuan - Pickup
+
+Route::get('/syarat-ketentuan/pickup', function () {
+    return view('layout.customer.Syarat - Ketentuan.pickup');
+})->name('syarat-ketentuan.pickup');

@@ -12,7 +12,7 @@
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="{{ route('syarat-ketentuan') }}">
                     Syarat & Ketentuan
                 </a>
             </li>
