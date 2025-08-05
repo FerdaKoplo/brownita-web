@@ -15,7 +15,6 @@
 </head>
 
 <body>
-
     @if (Auth::check())
         @include('components.customer.logged-in.nav')
     @else
@@ -27,41 +26,31 @@
                 class="bg-brand-secondary items-center rounded-l-2xl flex p-5 text-brand-light font-kameron font-bold text-5xl">
                 BROWNITA</h1>
             <form method="POST" action="{{ route('login.post') }}"
-                class="bg-brand-lightdark p-5 rounded-r-3xl flex text-2xl flex-col gap-8">
+                class="bg-brand-lightdark p-5  rounded-r-3xl flex text-2xl flex-col gap-8">
                 @csrf
                 <h1 class="text-3xl font-bold">Login</h1>
 
-                {{-- Email --}}
-                <div class="flex flex-col text-lg items-start gap-2 w-full">
+                <div class="flex flex-col text-lg items-start gap-4">
                     <p class="font-medium">Email</p>
-                    <input type="text" name="email" id="email" value="{{ old('email') }}" class="bg-brand-secondary text-brand-light rounded-lg w-full px-4 py-2
-                @error('email') border border-red-500 @enderror">
-                    @error('email')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
+                    <input type="text" class="bg-brand-secondary px-4 py-1 rounded-lg text-brand-light" name="email"
+                        id="email">
                 </div>
 
-                {{-- Password --}}
-                <div class="flex flex-col text-lg items-start gap-2 w-full">
+                <div class="flex flex-col text-lg items-start gap-4">
                     <p class="font-medium">Password</p>
-                    <div class="flex gap-4 w-full">
-                        <input type="password" name="password" id="password" class="bg-brand-secondary text-brand-light rounded-lg w-full px-4 py-2
-                    @error('password') border border-red-500 @enderror">
-                        <button class="" type="button">
-                            <i class="fa-solid fa-eye" id="toggle-password"></i>
+                    <div class="flex gap-5">
+                        <input type="password" class="bg-brand-secondary px-4 py-1 rounded-lg text-brand-light"
+                            name="password" id="password">
+                        <button class="" id="toggle-password" type="button">
+                            <i class="fa-solid fa-eye-slash" ></i>
                         </button>
                     </div>
-                    @error('password')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
                 </div>
 
-                {{-- Tombol --}}
-                <button type="submit" class="bg-brand-dark rounded-lg text-lg text-brand-light p-2">
+                <button type="submit" class="bg-brand-dark rounded-lg text-lg  text-brand-light p-1">
                     Login
                 </button>
             </form>
-
         </div>
         <div>
             <p>Belum Punya Akun?
@@ -71,6 +60,8 @@
             </p>
         </div>
     </div>
+
+    {{-- Sweetalert Popup --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @if(session('success'))
         <script>
@@ -81,35 +72,39 @@
                 confirmButtonColor: '#3085d6'
             });
         </script>
-    @endif
-
-    <script src="{{ asset('js/PasswordVisibility.js') }}"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    @if(session('success'))
+    @elseif (session('fail'))
         <script>
             Swal.fire({
-                icon: 'success',
-                title: 'Login Berhasil!',
-                text: '{{ session('success') }}',
+                icon: 'error',
+                title: 'Login Gagal!',
+                text: '{{ session('fail') }}',
                 confirmButtonColor: '#3085d6'
             });
         </script>
     @endif
 
-    @if(session('error'))
-        <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Login Gagal!',
-                text: '{{ session('error') }}',
-                confirmButtonColor: '#d33'
-            });
-        </script>
-    @endif
+    {{-- Toggle Password --}}
+    <script>
+        function setupPasswordToggle(inputId, toggleButtonId) {
+            const toggleButton = document.getElementById(toggleButtonId)
+            const input = document.getElementById(inputId)
 
+            toggleButton.addEventListener('click', (e) => {
+                const icon = toggleButton.querySelector('i')
 
+                const currentType = input.getAttribute('type')
+                const newType = currentType === 'password' ? 'text' : 'password'
+                input.setAttribute('type', newType)
+
+                icon.classList.toggle('fa-eye-slash')
+                icon.classList.toggle('fa-eye')
+
+                e.preventDefault()
+            })
+        }
+
+        setupPasswordToggle('password', 'toggle-password')
+    </script>
 </body>
 
 </html>

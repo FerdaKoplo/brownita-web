@@ -18,6 +18,8 @@ class Katalog extends Model
         'status'
     ];
 
+
+
     public function getHargaRupiahAttribute()
     {
         return 'Rp ' . number_format($this->harga, 0, ',', '.');
@@ -31,6 +33,11 @@ class Katalog extends Model
     public function images()
     {
         return $this->hasMany(KatalogImage::class);
+    }
+
+    public function keranjang()
+    {
+        return $this->hasMany(Keranjang::class);
     }
 
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\KatalogController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Customer\TransaksiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BrownitaController; // Tambahkan import ini
 
@@ -34,86 +35,68 @@ Route::post('/login', [AuthController::class, 'loginPost'])->name('login.post');
 Route::get('/login', [AuthController::class, 'viewLogin'])->name('login');
 Route::post('/logout', [AuthController::class, 'logoutPost'])->name('logout.post');
 
+Route::middleware(['auth', 'isAdmin'])->group(function () {
+    Route::get('/dashboard/admin', [\App\Http\Controllers\Admin\DashboardController::class, 'homeIndex'])->name('dashboard.admin');
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
+    // Kategori
+    Route::get('/dashboard/admin/kategori', [CategoryController::class, 'kategoriIndex'])->name('dashboard.admin.kategori.view');
 
-    // Admin Routes (Protected by auth and role middleware)
-    Route::middleware(['auth', 'role'])->group(function () {
+    // Create Kategori
+    Route::get('/dashboard/admin/kategori/create', [CategoryController::class, 'kategoriCreate'])->name('dashboard.admin.kategori.create');
+    Route::post('/dashboard/admin/kategori/store', [CategoryController::class, 'kategoriStore'])->name('dashboard.admin.kategori.store');
 
-        Route::get('/dashboard/admin', [DashboardController::class, 'homeIndex'])->name('dashboard.admin');
+    // Edit Kategori
+    Route::get('/dashboard/admin/kategori/edit/{id}', [CategoryController::class, 'kategoriEdit'])->name('dashboard.admin.kategori.edit');
+    Route::put('/dashboard/admin/kategori/update/{id}', [CategoryController::class, 'kategoriUpdate'])->name('dashboard.admin.kategori.update');
 
-        // Kategori Routes
-        Route::prefix('dashboard/admin/kategori')->group(function () {
-            Route::get('/', [CategoryController::class, 'kategoriIndex'])->name('dashboard.admin.kategori.view');
-            Route::get('/create', [CategoryController::class, 'kategoriCreate'])->name('dashboard.admin.kategori.create');
-            Route::post('/store', [CategoryController::class, 'kategoriStore'])->name('dashboard.admin.kategori.store');
-            Route::get('/edit/{id}', [CategoryController::class, 'kategoriEdit'])->name('dashboard.admin.kategori.edit');
-            Route::put('/update/{id}', [CategoryController::class, 'kategoriUpdate'])->name('dashboard.admin.kategori.update');
-            Route::delete('/{id}', [CategoryController::class, 'kategoriDelete'])->name('dashboard.admin.kategori.delete');
+    // Delete Kategori
+    Route::delete('/dashboard/admin/kategori/{id}', [CategoryController::class, 'kategoriDelete'])->name('dashboard.admin.kategori.delete');
 
-            Route::delete('/image/{id}', [KatalogController::class, 'deleteImage'])->name('dashboard.admin.katalog.image.delete');
+    // Katalog
+    Route::get('/dashboard/admin/katalog', [KatalogController::class, 'katalogIndex'])->name('dashboard.admin.katalog.view');
+    // Create Katalog
+    Route::get('/dashboard/admin/katalog/create', [KatalogController::class, 'katalogCreate'])->name('dashboard.admin.katalog.create');
+    Route::post('/dashboard/admin/katalog/store', [KatalogController::class, 'katalogStore'])->name('dashboard.admin.katalog.store');
+    // Edit Katalog
+    Route::get('/dashboard/admin/katalog/edit/{id}', [KatalogController::class, 'katalogEdit'])->name('dashboard.admin.katalog.edit');
+    Route::put('/dashboard/admin/katalog/update/{id}', [KatalogController::class, 'katalogUpdate'])->name('dashboard.admin.katalog.update');
+    // Delete Katalog
+    Route::delete('/dashboard/admin/katalog/{id}', [KatalogController::class, 'katalogDelete'])->name('dashboard.admin.katalog.delete');
+
+    // Akun
+    Route::get('/dashboard/admin/akun', [UserController::class, 'accountAdminIndex'])->name('dashboard.admin.akun.view');
+    Route::get('/dashboard/admin/akun/create', [UserController::class, 'accountAdminCreate'])->name('dashboard.admin.akun.create');
+    Route::post('/dashboard/admin/akun/store', [UserController::class, 'accountAdminStore'])->name('dashboard.admin.akun.store');
+    Route::get('/dashboard/admin/akun/edit/{id}', [UserController::class, 'accountAdminEdit'])->name('dashboard.admin.akun.edit');
+    Route::put('/dashboard/admin/akun/update/{id}', [UserController::class, 'accountAdminUpdate'])->name('dashboard.admin.akun.update');
+    Route::delete('/dashboard/admin/akun/delete/{id}', [UserController::class, 'accountAdminDelete'])->name('dashboard.admin.akun.delete');
+
+    // Transaksi
+    Route::get('/dashboard/admin/customer-transaction', [\App\Http\Controllers\Admin\TransaksiController::class, 'transaksiIndex'])->name('dashboard.admin.customer-transaction.view');
+    Route::get('/dashboard/admin/customer-transaction/{id}', [\App\Http\Controllers\Admin\TransaksiController::class, 'transaksiShow'])->name('dashboard.admin.customer-transaction.show');
+    Route::put('/dashboard/admin/customer-transaction/update/{id}', [\App\Http\Controllers\Admin\TransaksiController::class, 'transaksiUpdate'])->name('dashboard.admin.customer-transaction.update');
+    Route::delete('/dashboard/admin/customer-transaction/{id}', [\App\Http\Controllers\Admin\TransaksiController::class, 'transaksiDelete'])->name('dashboard.admin.customer-transaction.delete');
 
 
-        });
+    // Create Katalog
+    // Route::get('/dashboard/admin/katalog/create', [UserController::class, 'katalogCreate'])->name('dashboard.admin.katalog.create');
+    // Route::post('/dashboard/admin/katalog/store', [UserController::class, 'katalogStore'])->name('dashboard.admin.katalog.store');
+    // // Edit Katalog
+    // Route::get('/dashboard/admin/katalog/edit/{id}', [UserController::class, 'katalogEdit'])->name('dashboard.admin.katalog.edit');
+    // Route::put('/dashboard/admin/katalog/update/{id}', [UserController::class, 'katalogUpdate'])->name('dashboard.admin.katalog.update');
+    // // Delete Katalog
+    // Route::delete('/dashboard/admin/katalog/{id}', [UserController::class, 'katalogDelete'])->name('dashboard.admin.katalog.delete');
+});
 
+Route::middleware(['auth', 'isCustomer'])->group(function () {
 
-        // Create Kategori
-        Route::get('/dashboard/admin/kategori/create', [CategoryController::class, 'kategoriCreate'])->name('dashboard.admin.kategori.create');
-        Route::post('/dashboard/admin/kategori/store', [CategoryController::class, 'kategoriStore'])->name('dashboard.admin.kategori.store');
-
-        // Edit Kategori
-        Route::get('/dashboard/admin/kategori/edit/{id}', [CategoryController::class, 'kategoriEdit'])->name('dashboard.admin.kategori.edit');
-        Route::put('/dashboard/admin/kategori/update/{id}', [CategoryController::class, 'kategoriUpdate'])->name('dashboard.admin.kategori.update');
-
-        // Delete Kategori
-        Route::delete('/dashboard/admin/kategori/{id}', [CategoryController::class, 'kategoriDelete'])->name('dashboard.admin.kategori.delete');
-
-        // Katalog
-        Route::get('/dashboard/admin/katalog', [KatalogController::class, 'katalogIndex'])->name('dashboard.admin.katalog.view');
-        // Create Katalog
-        Route::get('/dashboard/admin/katalog/create', [KatalogController::class, 'katalogCreate'])->name('dashboard.admin.katalog.create');
-        Route::post('/dashboard/admin/katalog/store', [KatalogController::class, 'katalogStore'])->name('dashboard.admin.katalog.store');
-        // Edit Katalog
-        Route::get('/dashboard/admin/katalog/edit/{id}', [KatalogController::class, 'katalogEdit'])->name('dashboard.admin.katalog.edit');
-        Route::put('/dashboard/admin/katalog/update/{id}', [KatalogController::class, 'katalogUpdate'])->name('dashboard.admin.katalog.update');
-        // Delete Katalog
-        Route::delete('/dashboard/admin/katalog/{id}', [KatalogController::class, 'katalogDelete'])->name('dashboard.admin.katalog.delete');
-
-        // Katalog
-        Route::get('/dashboard/admin/akun', [UserController::class, 'accountAdminIndex'])->name('dashboard.admin.akun.view');
-        // Create Katalog
-        // Route::get('/dashboard/admin/katalog/create', [UserController::class, 'katalogCreate'])->name('dashboard.admin.katalog.create');
-        // Route::post('/dashboard/admin/katalog/store', [UserController::class, 'katalogStore'])->name('dashboard.admin.katalog.store');
-        // // Edit Katalog
-        // Route::get('/dashboard/admin/katalog/edit/{id}', [UserController::class, 'katalogEdit'])->name('dashboard.admin.katalog.edit');
-        // Route::put('/dashboard/admin/katalog/update/{id}', [UserController::class, 'katalogUpdate'])->name('dashboard.admin.katalog.update');
-        // // Delete Katalog
-        // Route::delete('/dashboard/admin/katalog/{id}', [UserController::class, 'katalogDelete'])->name('dashboard.admin.katalog.delete');
-    });
-
-    Route::middleware(['auth', 'role:customer'])->group(function () {
-        // Route::get('/katalog', [\App\Http\Controllers\Customer\KatalogController::class, 'showKatalog'])->name('katalog');
-    });
-
-    // Katalog Routes
-    Route::prefix('dashboard/admin/katalog')->group(function () {
-        Route::get('/', [KatalogController::class, 'katalogIndex'])->name('dashboard.admin.katalog.view');
-        Route::get('/create', [KatalogController::class, 'katalogCreate'])->name('dashboard.admin.katalog.create');
-        Route::post('/store', [KatalogController::class, 'katalogStore'])->name('dashboard.admin.katalog.store');
-        Route::get('/edit/{id}', [KatalogController::class, 'katalogEdit'])->name('dashboard.admin.katalog.edit');
-        Route::put('/update/{id}', [KatalogController::class, 'katalogUpdate'])->name('dashboard.admin.katalog.update');
-        Route::delete('/{id}', [KatalogController::class, 'katalogDelete'])->name('dashboard.admin.katalog.delete');
-    });
-
-    // User Account Management Routes
-    Route::prefix('dashboard/admin/akun')->group(function () {
-        Route::get('/', [UserController::class, 'accountAdminIndex'])->name('dashboard.admin.akun.view');
-        Route::get('/create', [UserController::class, 'accountCreate'])->name('dashboard.admin.akun.create');
-        Route::post('/store', [UserController::class, 'accountStore'])->name('dashboard.admin.akun.store');
-        Route::get('/edit/{id}', [UserController::class, 'accountEdit'])->name('dashboard.admin.akun.edit');
-        Route::put('/update/{id}', [UserController::class, 'accountUpdate'])->name('dashboard.admin.akun.update');
-        Route::delete('/{id}', [UserController::class, 'accountDelete'])->name('dashboard.admin.akun.delete');
-    });
+    // Keranjang
+    Route::get('/keranjang', [\App\Http\Controllers\Customer\KeranjangController::class, 'keranjangIndex'])->name('keranjang');
+    Route::post('/keranjang', [\App\Http\Controllers\Customer\KeranjangController::class, 'keranjangStore'])->name('keranjang.store');
+    Route::patch('/keranjang/{id}/update', [\App\Http\Controllers\Customer\KeranjangController::class, 'keranjangUpdate'])->name('customer.keranjang.update');
+    Route::get('/transaksi', [TransaksiController::class, 'transaksiIndex'])->name('customer.transaksi.index');
+    Route::get('/transaksi/{id}', [TransaksiController::class, 'transaksiShow'])->name('customer.transaksi.show');
+    Route::post('/transaksi', [TransaksiController::class, 'transaksiStore'])->name('customer.transaksi.store');
 });
 
 // Customer Public Routes
@@ -147,8 +130,6 @@ Route::get('/produk-kami', [\App\Http\Controllers\Customer\KatalogController::cl
 
 Route::get('/produk/{id}', [\App\Http\Controllers\Customer\KatalogController::class, 'showDetail'])
     ->name('produk.detail');
-
-
 
 
 // Syarat & Ketentuan - Order

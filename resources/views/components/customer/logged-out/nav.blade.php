@@ -1,5 +1,5 @@
-<nav class="bg-brand-secondary px-32 p-5 top-0 sticky z-50">
-    <div class="text-white flex justify-between items-center">
+<nav class="shadow-md px-32 bg-white p-5 top-0 sticky z-50">
+    <div class="text-black flex justify-between items-center">
         <h1 class="font-kameron  text-2xl">
             <a href="{{ route('landing.page') }}">
                 BROWNITA
@@ -22,12 +22,12 @@
                 </a>
             </li>
             <div class="flex gap-4">
-                <li class="border-brand-light border-2 hover:border-brand-secondary hover:bg-brand-light hover:text-brand-secondary duration-300 px-5 py-1.5 rounded-full">
+                <li class="border-amber-700 border-2 hover:border-brand-secondary hover:bg-amber-700 hover:text-white  duration-300 px-5 py-1.5 rounded-full">
                     <a href="{{ route('login') }}" class="font-semibold">
                         Login
                     </a>
                 </li>
-                <li class="px-5 py-1.5 rounded-full  bg-brand-light text-brand-secondary  ">
+                <li class="px-5 py-1.5 rounded-full  bg-amber-700 text-white ">
                     <a href="{{ route('register') }}" class="font-semibold">
                         Register
                     </a>
