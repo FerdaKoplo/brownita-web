@@ -1,4 +1,4 @@
-<nav class="shadow-md px-32 p-5 top-0 sticky z-50">
+<nav class="shadow-md px-32 bg-white p-5 top-0 sticky z-50">
     <div class="text-black flex justify-between items-center">
         <h1 class="font-kameron  text-2xl">
             <a href="{{ route('landing.page') }}">

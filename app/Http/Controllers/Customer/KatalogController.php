@@ -19,6 +19,7 @@ class KatalogController extends Controller
         $katalogQuery = Katalog::with('images');
 
         $sort = $request->get('sort');
+
         // clean inputan sebelum diquery
         $minPrice = (int) preg_replace('/[^\d]/', '', $request->get('min_price'));
         $maxPrice = (int) preg_replace('/[^\d]/', '', $request->get('max_price'));

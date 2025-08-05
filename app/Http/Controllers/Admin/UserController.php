@@ -13,14 +13,14 @@ class UserController extends Controller
     {
         $search = $request->input('search');
 
-    $users = User::where('role', 'admin')
-        ->when($search, function ($query, $search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%");
-            });
-        })
-        ->get();
+        $users = User::where('role', 'admin')
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%");
+                });
+            })
+            ->get();
         return view('admin.AccountResource.Pages.viewAccount', compact('users'));
     }
 
@@ -49,13 +49,13 @@ class UserController extends Controller
 
     public function accountAdminEdit($id)
     {
-         $user = User::findOrFail($id);
+        $user = User::findOrFail($id);
         return view('admin.AccountResource.Pages.editAccount', compact('user'));
     }
 
     public function accountAdminUpdate(Request $request, $id)
     {
-         $user = User::findOrFail($id);
+        $user = User::findOrFail($id);
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -75,7 +75,7 @@ class UserController extends Controller
 
     public function accountAdminDelete($id)
     {
-         $user = User::findOrFail($id);
+        $user = User::findOrFail($id);
         $user->delete();
 
         return redirect()->route('dashboard.admin.account.index')->with('success', 'Admin account deleted successfully.');

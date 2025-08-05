@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="p-5 flex flex-col gap-10 px-32">
-    <h1 class="text-3xl font-bold text-brand-dark">Riwayat Transaksi</h1>
+    <h1 class="text-3xl font-bold text-black">Riwayat Transaksi</h1>
 
     @if($transaksis->isEmpty())
         <div class="text-center text-gray-500">

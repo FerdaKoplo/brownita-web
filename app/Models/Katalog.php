@@ -18,10 +18,7 @@ class Katalog extends Model
         'status'
     ];
 
-    public function getTotalHargaAttribute()
-    {
-        return $this->quantity * $this->produk->harga;
-    }
+
 
     public function getHargaRupiahAttribute()
     {

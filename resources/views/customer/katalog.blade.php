@@ -99,7 +99,7 @@
 
         {{-- Main Content --}}
         <section class="flex-1 space-y-6">
-            {{-- <div class="flex justify-between items-center">
+            <div class="flex justify-between items-center">
                 <h1 class="text-2xl font-bold text-gray-800">
                     @if(request('category_id') && $categories)
                         {{ $categories->whereIn('id', (array) request('category_id'))->pluck('nama_kategori')->implode(', ') }}
@@ -107,14 +107,14 @@
                         Semua Katalog
                     @endif
                 </h1>
-                @if(isset($stats))
+                {{-- @if(isset($stats))
                 <div class="text-sm text-gray-700 space-x-4">
                     <span>Total: <strong>{{ $stats['total'] }}</strong></span>
                     <span class="text-green-600">Tersedia: <strong>{{ $stats['tersedia'] }}</strong></span>
                     <span class="text-red-600">Habis: <strong>{{ $stats['habis'] }}</strong></span>
                 </div>
-                @endif
-            </div> --}}
+                @endif --}}
+            </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 @forelse($catalogues as $catalogue)
