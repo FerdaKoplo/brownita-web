@@ -1,5 +1,5 @@
 @extends('layout.customer.app')
-@section('title', 'Syarat - Ketentuan')
+@section( 'title', 'Syarat - Ketentuan')
 @section('content')
     <div class="px-8 lg:px-32 py-16">
         <!-- Header Section -->
@@ -31,6 +31,7 @@
                 </div>
                 <span class="text-xl font-bold mt-2">Order</span>
             </a>
+
             <!-- Payment -->
             <a href="{{ route('syarat-ketentuan.payment') }}"
                 class="flex flex-col items-center justify-center bg-amber-700 hover:bg-opacity-90 transition-all duration-300 rounded-2xl p-8 text-white shadow-lg cursor-pointer group focus:outline-none focus:ring-4 focus:ring-brand-light">

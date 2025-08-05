@@ -76,11 +76,17 @@
 
                     @if (Auth::check())
                         <div class="flex flex-col gap-5">
-                            <button class="bg-amber-700 w-full py-2 text-white rounded-full">
-                                <a href="http://">
-                                    Order
-                                </a>
-                            </button>
+                             @php
+                                $waNumber = '6282139102459';
+                                $waMessage = 'Halo kak, saya tertarik dengan produk ' . $produk->nama_produk;
+                                $waUrl = 'https://wa.me/' . $waNumber . '?text=' . urlencode($waMessage);
+                            @endphp
+
+                            <a href="{{ $waUrl }}" target="_blank"
+                            class="bg-amber-700 w-full py-2 text-center text-white rounded-full">
+                                Order
+                            </a>
+
                             <form action="{{ route('keranjang.store') }}" method="POST" enctype="multipart/form-data" class="w-full">
                                 @csrf
                                 <input type="hidden" name="katalog_id" value="{{ $produk->id }}">
@@ -90,11 +96,16 @@
                             </form>
                         </div>
                     @else
-                        <button class="bg-amber-700 w-full py-2 text-white rounded-full">
-                            <a href="http://">
-                                Order
-                            </a>
-                        </button>
+                        @php
+                            $waNumber = '6282139102459';
+                            $waMessage = 'Halo kak, saya tertarik dengan produk ' . $produk->nama_produk;
+                            $waUrl = 'https://wa.me/' . $waNumber . '?text=' . urlencode($waMessage);
+                        @endphp
+
+                        <a href="{{ $waUrl }}" target="_blank"
+                        class="bg-amber-700 w-full py-2 text-center text-white rounded-full">
+                            Order
+                        </a>
                     @endif
                 </div>
 

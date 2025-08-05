@@ -20,34 +20,33 @@
     @else
         @include('components.customer.logged-out.nav')
     @endif
-    <div class="min-h-screen flex flex-col bg-brand-light  justify-center gap-12 items-center">
-        <div class="flex">
-            <h1
-                class="bg-brand-secondary items-center rounded-l-2xl flex p-5 text-brand-light font-kameron font-bold text-5xl">
+    <div class="min-h-screen flex flex-col   justify-center gap-12 items-center">
+        <div class="flex shadow-xl">
+            <h1 class="bg-amber-700 items-center rounded-l-xl  flex p-5 text-white font-kameron font-bold text-5xl">
                 BROWNITA</h1>
             <form method="POST" action="{{ route('login.post') }}"
-                class="bg-brand-lightdark p-5  rounded-r-3xl flex text-2xl flex-col gap-8">
+                class="bg-white p-5  rounded-r-xl flex text-2xl flex-col gap-8">
                 @csrf
                 <h1 class="text-3xl font-bold">Login</h1>
 
                 <div class="flex flex-col text-lg items-start gap-4">
                     <p class="font-medium">Email</p>
-                    <input type="text" class="bg-brand-secondary px-4 py-1 rounded-lg text-brand-light" name="email"
+                    <input type="email" class=" px-4 py-1 rounded-lg " name="email" placeholder="Ketik email..."
                         id="email">
                 </div>
 
                 <div class="flex flex-col text-lg items-start gap-4">
                     <p class="font-medium">Password</p>
                     <div class="flex gap-5">
-                        <input type="password" class="bg-brand-secondary px-4 py-1 rounded-lg text-brand-light"
-                            name="password" id="password">
+                        <input type="password" class=" px-4 py-1 rounded-lg "
+                            name="password" id="password" placeholder="Ketik password...">
                         <button class="" id="toggle-password" type="button">
                             <i class="fa-solid fa-eye-slash" ></i>
                         </button>
                     </div>
                 </div>
 
-                <button type="submit" class="bg-brand-dark rounded-lg text-lg  text-brand-light p-1">
+                <button type="submit" class="bg-amber-700 rounded-lg text-lg  text-white hover:opacity-80 transition p-1">
                     Login
                 </button>
             </form>
