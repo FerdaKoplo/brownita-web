@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     @vite('resources/css/app.css')
 </head>
-<body class="bg-white">
+<body class="bg-gray-50">
     @if (Auth::check())
         @include('components.customer.logged-in.nav')
     @else
