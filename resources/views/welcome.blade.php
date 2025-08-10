@@ -77,7 +77,7 @@
             <div>
                 <h2 id="tentang-kami" class="text-2xl text-[40px] font-bold mb-4">Tentang Brownita</h2>
                 <br>
-                <p class="text-sm leading-relaxed !text-[21px]">
+                <p class="text-xs md:text-sm leading-relaxed !text-[21px]">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
                     et dolore magna aliqua.
                     Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo

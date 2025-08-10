@@ -2,28 +2,31 @@
 @section('title', 'Kategori')
 @section('content')
 
-<div class="p-6 bg-gray-50 min-h-screen">
-    <div class="flex flex-col gap-6">
+<div class="p-4 sm:p-6 bg-gray-50 min-h-screen">
+    <div class="flex flex-col gap-4 sm:gap-6">
+
         {{-- Header --}}
-        <div class="flex justify-between items-center">
-            <h1 class="text-4xl font-bold text-gray-800">Kategori</h1>
-            <a href="{{ route('dashboard.admin.kategori.create') }}" class="bg-amber-700 hover:bg-orange-700 transition text-white px-4 py-2 rounded-lg font-medium">
+        <div class="flex flex-wrap justify-between items-center gap-y-3">
+            <h1 class="text-2xl sm:text-4xl font-bold text-gray-800">Kategori</h1>
+            <a href="{{ route('dashboard.admin.kategori.create') }}"
+               class="bg-amber-700 hover:bg-orange-700 transition text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg font-medium text-sm sm:text-base">
                 + Buat Kategori
             </a>
         </div>
 
         {{-- Search Form --}}
-        <form action="{{ route('dashboard.admin.kategori.view') }}" method="GET" class="max-w-md w-full flex items-center gap-3 bg-white p-3 rounded-lg shadow-md">
+        <form action="{{ route('dashboard.admin.kategori.view') }}" method="GET"
+              class="w-full sm:max-w-md flex items-center gap-3 bg-white p-3 rounded-lg shadow-md">
             <i class="fa-solid fa-magnifying-glass text-gray-500"></i>
             <input type="text" name="search" value="{{ request('search') }}"
-                class="w-full bg-transparent outline-none text-gray-700 placeholder-gray-400"
+                class="w-full bg-transparent outline-none text-gray-700 placeholder-gray-400 text-sm sm:text-base"
                 placeholder="Cari Nama Kategori...">
         </form>
 
         {{-- Table --}}
-        <div class="overflow-auto rounded-lg shadow-md">
-            <table class="w-full text-left min-w-[700px]">
-                <thead class="bg-black text-white">
+        <div class="md:overflow-x-visible overflow-x-auto w-full rounded-lg shadow-md">
+            <table class="w-full text-left min-w-[1200px]">
+                <thead class="bg-black text-white text-sm sm:text-base">
                     <tr>
                         <th class="px-4 py-3">#</th>
                         <th class="px-4 py-3">Nama Kategori</th>
@@ -31,7 +34,7 @@
                         <th class="px-4 py-3">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-white divide-y divide-gray-200 text-sm sm:text-base">
                     @forelse ($categories as $index => $category)
                         <tr class="hover:bg-gray-50 transition">
                             <td class="px-4 py-3">{{ $index + 1 }}</td>

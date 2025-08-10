@@ -2,25 +2,30 @@
 @section('title', 'Akun')
 @section('content')
 
-<div class="p-6 bg-gray-50 min-h-screen">
+<div class="p-4 sm:p-6 bg-gray-50 min-h-screen">
     <div class="flex flex-col gap-6">
-        <div class="flex justify-between items-center">
-            <h1 class="text-4xl font-bold text-gray-800">Akun Admin</h1>
-            <a href="{{ route('dashboard.admin.akun.create') }}" class="bg-amber-700 hover:bg-orange-700 transition text-white px-4 py-2 rounded-lg font-medium">
+        {{-- Header --}}
+        <div class="flex flex-wrap gap-3 justify-between items-center">
+            <h1 class="text-2xl sm:text-4xl font-bold text-gray-800">Akun Admin</h1>
+            <a href="{{ route('dashboard.admin.akun.create') }}"
+               class="bg-amber-700 hover:bg-orange-700 transition text-white px-3 sm:px-4 py-2 rounded-lg font-medium text-sm sm:text-base">
                 + Buat Akun
             </a>
         </div>
 
-        <form action="{{ route('dashboard.admin.akun.view') }}" method="GET" class="max-w-md w-full flex items-center gap-3 bg-white p-3 rounded-lg shadow-md">
+        {{-- Search --}}
+        <form action="{{ route('dashboard.admin.akun.view') }}" method="GET"
+              class="max-w-full sm:max-w-md w-full flex items-center gap-3 bg-white p-3 rounded-lg shadow-md">
             <i class="fa-solid fa-magnifying-glass text-gray-500"></i>
             <input type="text" name="search" value="{{ request('search') }}"
-                class="w-full bg-transparent outline-none text-gray-700 placeholder-gray-400"
-                placeholder="Cari Nama Akun...">
+                   class="w-full bg-transparent outline-none text-gray-700 placeholder-gray-400 text-sm sm:text-base"
+                   placeholder="Cari Nama Akun...">
         </form>
 
-        <div class="overflow-auto rounded-lg shadow-md">
-            <table class="w-full text-left min-w-[800px]">
-                <thead class="bg-black text-white">
+        {{-- Table --}}
+        <div class="overflow-x-auto rounded-lg shadow-md">
+            <table class="w-full text-left min-w-[600px] sm:min-w-[800px]">
+                <thead class="bg-black text-white text-sm sm:text-base">
                     <tr>
                         <th class="px-4 py-3">#</th>
                         <th class="px-4 py-3">Nama Pengguna</th>
@@ -29,7 +34,7 @@
                         <th class="px-4 py-3">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-white divide-y divide-gray-200 text-sm sm:text-base">
                     @forelse ($users as $index => $user)
                         <tr class="hover:bg-gray-50 transition">
                             <td class="px-4 py-3">{{ $index + 1 }}</td>
@@ -41,12 +46,13 @@
                                     {{ ucfirst($user->role) }}
                                 </span>
                             </td>
-                            <td class="px-4 py-3 space-x-2">
+                            <td class="px-4 py-3 space-x-2 flex">
                                 <a href="{{ route('dashboard.admin.akun.edit', $user->id) }}"
-                                    class="text-blue-600 hover:text-blue-800 transition">
+                                   class="text-blue-600 hover:text-blue-800 transition">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-                                <form class="inline deleteForm" action="{{ route('dashboard.admin.akun.delete', $user->id) }}" method="POST">
+                                <form class="inline deleteForm"
+                                      action="{{ route('dashboard.admin.akun.delete', $user->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-red-400 hover:text-red-800 transition">
@@ -64,12 +70,13 @@
             </table>
         </div>
 
-        {{-- Optional Pagination
+
         @if(method_exists($users, 'links'))
             <div class="mt-4">
                 {{ $users->links() }}
             </div>
-        @endif --}}
+        @endif
+
     </div>
 </div>
 

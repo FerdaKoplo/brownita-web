@@ -13,10 +13,9 @@
     <title>@yield('title')</title>
 </head>
 
-<body class="bg-white pl-60">
+<body class="bg-white pl-2 md:pl-60">
     @include('components.admin.nav')
     @yield('content')
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @if(session('success'))
