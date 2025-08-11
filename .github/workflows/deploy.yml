@@ -44,10 +44,10 @@ jobs:
           server: ${{ secrets.CPANEL_FTP_HOST }}
           username: ${{ secrets.CPANEL_FTP_USER }}
           password: ${{ secrets.CPANEL_FTP_PASS }}
-          protocol: ftp            # atau 'ftps' kalau pakai FTPS
-          security: none           # none untuk FTP biasa tanpa SSL
+          protocol: ftp
+          security: loose       # pakai loose untuk FTP biasa tanpa TLS
           server-dir: public_html/
-          local-dir: ./           
+          local-dir: ./         # upload seluruh project Laravel
           exclude: |
             node_modules
             tests
