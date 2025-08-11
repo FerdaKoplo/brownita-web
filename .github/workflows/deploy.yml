@@ -67,6 +67,7 @@ jobs:
             vendor
             *.log
           timeout: 300
+          debug: true
           dangerous-clean-slate: false
 
 
