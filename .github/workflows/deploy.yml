@@ -57,7 +57,7 @@ jobs:
           port: ${{ secrets.CPANEL_PORT }}
           protocol: ftp
           security: loose       # pakai loose untuk FTP biasa tanpa TLS
-          server-dir: public_html/
+          server-dir: /home/brownita/public_html/
           local-dir: ./         # upload seluruh project Laravel
           exclude: |
             node_modules
