@@ -3,11 +3,11 @@
 
 @section('content')
     <div class="p-5 flex flex-col gap-10">
-        <h1 class="text-3xl font-bold text-brand-dark">Detail Transaksi</h1>
+         <h1 class="text-2xl sm:text-4xl font-bold text-gray-800">Detail Transaksi</h1>
 
         {{-- Info Umum Transaksi --}}
-        <div class="bg-brand-lightdark shadow-lg rounded-xl p-6 border-2 border-brand-dark">
-            <div class="grid grid-cols-2 gap-4 text-brand-dark">
+        <div class="bg-white shadow-lg rounded-xl p-6 border-2 border-black">
+            <div class="grid grid-cols-2 gap-4 text-black">
                 <div>
                     <p class="font-semibold">ID Transaksi:</p>
                     <p class="text-black">{{ $transaksi->id }}</p>
@@ -45,16 +45,16 @@
         </div>
 
         {{-- Daftar Produk --}}
-        <div class="bg-brand-lightdark shadow-lg rounded-xl p-6 border-2 border-brand-dark">
-            <h2 class="text-xl font-semibold text-brand-dark mb-4">Produk yang Dipesan</h2>
+        <div class="bg-white shadow-lg rounded-xl p-6 border-2 border-black">
+            <h2 class="text-xl font-semibold text-black mb-4">Produk yang Dipesan</h2>
             @forelse ($transaksi->details as $detail)
-                <div class="flex items-center justify-between border-b border-brand-dark py-3">
+                <div class="flex items-center justify-between border-b border-black py-3">
                     <div>
-                        <p class="font-semibold text-brand-dark">{{ $detail->katalog->nama_produk ?? '-' }}</p>
+                        <p class="font-semibold text-black">{{ $detail->katalog->nama_produk ?? '-' }}</p>
                         <p class="text-sm text-black">Jumlah: {{ $detail->quantity }}</p>
                     </div>
                     <div>
-                        <p class="text-right text-brand-dark">
+                        <p class="text-right text-green-600 font-medium">
                             Rp {{ number_format($detail->katalog->harga * $detail->quantity, 0, ',', '.') }}
                         </p>
                     </div>
@@ -67,7 +67,7 @@
         {{-- Tombol Kembali --}}
         <div>
             <a href="{{ route('dashboard.admin.customer-transaction.view') }}"
-                class="inline-block bg-brand-dark  text-brand-light px-4 py-2 rounded-lg text-sm font-medium">
+                class="inline-block bg-amber-700  text-white px-4 py-2 rounded-lg text-sm font-medium">
                 ← Kembali ke Riwayat
             </a>
         </div>

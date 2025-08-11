@@ -12,9 +12,7 @@ class CategoryController extends Controller
 {
     public function kategoriIndex(Request $request)
     {
-
         $search = $request->input('search');
-
         $categories = Category::query();
 
         if ($search) {

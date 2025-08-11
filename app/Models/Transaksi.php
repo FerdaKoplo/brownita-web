@@ -13,7 +13,8 @@ class Transaksi extends Model
         'user_id',
         'total_harga',
         'catatan',
-        'status'
+        'status',
+        'bukti_pembayaran'
     ];
 
     public function user()

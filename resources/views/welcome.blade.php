@@ -30,7 +30,8 @@
 
                 <!-- Deskripsi -->
                 <p class="text-[19px] leading-relaxed text-black">
-                    Kue homemade, aneka snack, jajanan pasar, ricebox dan nasi pilihan — karena makanan enak tak perlu ribet.
+                    Kue homemade, aneka snack, jajanan pasar, ricebox dan nasi pilihan — karena makanan enak tak perlu
+                    ribet.
                 </p>
 
                 <!-- Tombol -->
@@ -39,18 +40,23 @@
                         class="px-6 py-[10px] rounded-md border-2 border-black text-black font-semibold text-[16px] tracking-wide hover:bg-black hover:text-white transition-all">
                         HUBUNGI KAMI
                     </a>
-                    <a href="{{ route('produk-kami') }}" class="px-6 py-[10px] rounded-md bg-amber-700 text-white font-semibold text-[16px] tracking-wide hover:opacity-90 transition-all">
+                    <a href="{{ route('produk-kami') }}"
+                        class="px-6 py-[10px] rounded-md bg-amber-700 text-white font-semibold text-[16px] tracking-wide hover:opacity-90 transition-all">
                         KATALOG
                     </a>
                 </div>
             </div>
 
             <!-- Image -->
-            <div class="max-w-[500px] w-full grid grid-cols-2 gap-2 rounded-xl border border-amber-700 p-2 bg-amber-700">
-                <img src="{{ Vite::asset('resources/img/cake-boxes.png') }}" alt="Kue" class="object-cover w-full h-full rounded-md">
+            <div
+                class="max-w-[500px] w-full grid grid-cols-2 gap-2 rounded-xl border border-amber-700 p-2 bg-amber-700">
+                <img src="{{ Vite::asset('resources/img/cake-boxes.png') }}" alt="Kue"
+                    class="object-cover w-full h-full rounded-md">
                 <div class="grid grid-rows-2 gap-2">
-                    <img src="{{ Vite::asset('resources/img/snacks.png') }}" alt="Snack" class="object-cover w-full h-full rounded-md">
-                    <img src="{{ Vite::asset('resources/img/bundt-cakes.png') }}" alt="Cake" class="object-cover w-full h-full rounded-md">
+                    <img src="{{ Vite::asset('resources/img/snacks.png') }}" alt="Snack"
+                        class="object-cover w-full h-full rounded-md">
+                    <img src="{{ Vite::asset('resources/img/bundt-cakes.png') }}" alt="Cake"
+                        class="object-cover w-full h-full rounded-md">
                 </div>
             </div>
         </div>
@@ -63,8 +69,7 @@
         <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 px-6 py-16 items-center relative z-10">
             <!-- Gambar -->
             <div class="p-2 bg-brand-dark rounded-xl w-fit">
-                <img src="{{ Vite::asset('resources/img/tentang-brownita.png') }}"
-                    alt="Tentang Brownita"
+                <img src="{{ Vite::asset('resources/img/tentang-brownita.png') }}" alt="Tentang Brownita"
                     class="rounded-lg w-[375px] h-auto object-cover" />
             </div>
 
@@ -72,17 +77,23 @@
             <div>
                 <h2 id="tentang-kami" class="text-2xl text-[40px] font-bold mb-4">Tentang Brownita</h2>
                 <br>
-                <p class="text-sm leading-relaxed !text-[21px]">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+                <p class="text-xs md:text-sm leading-relaxed !text-[21px]">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua.
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                    pariatur.
+                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                    est laborum
                 </p>
             </div>
         </div>
 
         <!-- Bidang Miring -->
-        <div class="absolute bottom-[-1px] left-0 w-full h-40 bg-amber-800 z-0 [clip-path:polygon(0_18%,100%_100%,0_100%)]"></div>
+        <div
+            class="absolute bottom-[-1px] left-0 w-full h-40 bg-amber-800 z-0 [clip-path:polygon(0_18%,100%_100%,0_100%)]">
+        </div>
     </section>
 
     <!-- Profil Founder -->
@@ -93,10 +104,14 @@
                 <h2 id="founder" class="text-xl !text-[40px] font-bold mb-4">Profil Founder</h2>
                 <br>
                 <p class="text-sm leading-relaxed !text-[21px]">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua.
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                    pariatur.
+                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                    est laborum
                 </p>
             </div>
 
@@ -127,20 +142,20 @@
                 Kec. Waru, Kabupaten Sidoarjo, Jawa Timur 61256
             </p>
 
-
             <br>
             <!-- Peta dengan bayangan -->
             <div class="relative inline-block">
                 <div class="absolute bottom-4 left-4 w-full h-full bg-amber-700 rounded-[30px] z-0"></div>
-                <img src="{{ Vite::asset('resources/img/location.png') }}"
-                    alt="Peta Lokasi"
-                    class="relative z-10 rounded-[30px] w-[300px] md:w-[380px] shadow-lg" />
+                    <iframe class="relative z-10 rounded-[30px] w-[300px] md:w-[380px] shadow-lg"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1978.480824413675!2d112.75668633558196!3d-7.358195855305758!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7e504b3a86c83%3A0x399eaa44dd432fd5!2sBrownita!5e0!3m2!1sen!2sid!4v1754669122529!5m2!1sen!2sid"
+                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                {{-- <img src="{{ Vite::asset('resources/img/location.png') }}" alt="Peta Lokasi" class="" /> --}}
             </div>
 
             <!-- Tombol Buka Maps -->
             <div class="pt-4">
-                <a href="https://maps.app.goo.gl/BAMwA5hFGJmGgJ1p8?g_st=ac"
-                    target="_blank"
+                <a href="https://maps.app.goo.gl/BAMwA5hFGJmGgJ1p8?g_st=ac" target="_blank"
                     class=" font-bold inline-flex items-center px-4 py-2 border border-black text-sm rounded-full hover:bg-black hover:text-white transition">
                     Buka di Google Maps
                     <i class="ml-2 fas fa-map-marker-alt"></i>
