@@ -46,7 +46,13 @@ jobs:
           password: ${{ secrets.CPANEL_FTP_PASS }}
           protocol: ftps
           server-dir: public_html/
-          local-dir: ./
+          local-dir: ./public
+          exclude: |
+            node_modules
+            tests
+            storage
+            .git
+            vendor
           dangerous-clean-slate: false
 
       # --- Generate .env di server ---
