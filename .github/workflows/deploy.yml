@@ -51,7 +51,7 @@ jobs:
           username: ${{ secrets.CPANEL_FTP_USER }}     
           password: ${{ secrets.CPANEL_FTP_PASS }}    
           port: 22                                  
-          local_path: ./public/                              
+          local_path: ./                            
           remote_path: /home/brownita/public_html/   
           exclude : | 
             - node_modules
@@ -112,7 +112,7 @@ jobs:
           key: ${{ secrets.CPANEL_SSH_KEY }}
           port: ${{ secrets.CPANEL_PORT }}
           script: |
-            cd /home/${{ secrets.CPANEL_USER }}/public_html
+            cd /home/${{ secrets.CPANEL_USER }}/public_html/public/
             php artisan migrate --force
             php artisan config:cache
             php artisan route:cache
