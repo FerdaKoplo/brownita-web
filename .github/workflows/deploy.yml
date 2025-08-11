@@ -50,7 +50,7 @@ jobs:
           timeout: 300
           retries: 3
           server-dir: public_html/
-          local-dir: ./public/
+          local-dir: ./
           exclude: |
             node_modules
             tests
