@@ -17,6 +17,7 @@ return new class extends Migration
              $table->decimal('total_harga', 15, 2);
               $table->text('catatan')->nullable();
               $table->enum('status', ['pending', 'dibayar', 'dibatalkan'])->default('pending');
+            $table->string('bukti_pembayaran')->nullable();
             $table->timestamps();
         });
     }

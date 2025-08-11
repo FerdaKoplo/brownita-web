@@ -20,7 +20,7 @@ class UserController extends Controller
                         ->orWhere('email', 'like', "%{$search}%");
                 });
             })
-            ->get();
+            ->paginate(10)->appends(['search' => $search]);
         return view('admin.AccountResource.Pages.viewAccount', compact('users'));
     }
 

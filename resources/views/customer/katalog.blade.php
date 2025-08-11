@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="p-6  min-h-screen">
-    <div class="flex flex-col md:flex-row gap-6">
+    <div class="flex flex-col md:flex-row gap-10">
         {{-- Sidebar --}}
         <div class="w-full md:max-w-xs space-y-6">
             {{-- Search --}}
@@ -98,7 +98,7 @@
         </div>
 
         {{-- Main Content --}}
-        <section class="flex-1 space-y-6">
+        <div class="flex-1 space-y-6">
             <div class="flex justify-between items-center">
                 <h1 class="text-2xl font-bold text-gray-800">
                     @if(request('category_id') && $categories)
@@ -171,7 +171,7 @@
                     @endif
                 </div>
             @endif
-        </section>
+        </div>
     </div>
 </div>
 
