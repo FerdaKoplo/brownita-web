@@ -48,27 +48,22 @@ jobs:
 
 
       # --- Deploy semua file ke cPanel ---
-      - name: FTP Deploy
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      - name: SFTP Deploy
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          server: ${{ secrets.CPANEL_FTP_HOST }}
-          username: ${{ secrets.CPANEL_FTP_USER }}
-          password: ${{ secrets.CPANEL_FTP_PASS }}
-          port: ${{ secrets.CPANEL_PORT }}
-          protocol: ftp
-          security: loose       # pakai loose untuk FTP biasa tanpa TLS
-          server-dir: /home/brownita/public_html/
-          local-dir: ./         # upload seluruh project Laravel
-          exclude: |
-            node_modules
-            tests
-            storage
-            .git
-            vendor
-            *.log
-          timeout: 300
-          debug: true
-          dangerous-clean-slate: false
+          server: ${{ secrets.CPANEL_FTP_HOST }}      
+          username: ${{ secrets.CPANEL_FTP_USER }}     
+          password: ${{ secrets.CPANEL_FTP_PASS }}    
+          port: 22                                  
+          local_path: ./                              
+          remote_path: /home/brownita/public_html/   
+          exclude : | 
+            - node_modules
+            - tests
+            - storage
+            - .git
+            - vendor
+            - '*.log'
 
 
       # --- Generate .env di server ---
