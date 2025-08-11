@@ -44,13 +44,10 @@ jobs:
           server: ${{ secrets.CPANEL_FTP_HOST }}
           username: ${{ secrets.CPANEL_FTP_USER }}
           password: ${{ secrets.CPANEL_FTP_PASS }}
-          protocol: ftp
-          passive: true
-          secure: false 
-          timeout: 300
-          retries: 3
+          protocol: ftp            # atau 'ftps' kalau pakai FTPS
+          security: none           # none untuk FTP biasa tanpa SSL
           server-dir: public_html/
-          local-dir: ./
+          local-dir: ./           
           exclude: |
             node_modules
             tests
@@ -58,6 +55,7 @@ jobs:
             .git
             vendor
             *.log
+          timeout: 300
           dangerous-clean-slate: false
 
 
