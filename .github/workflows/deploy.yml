@@ -47,7 +47,7 @@ jobs:
           protocol: ftps
           server-dir: public_html/
           local-dir: ./
-          dangerous-clean-slate: fals
+          dangerous-clean-slate: false
 
       # --- Generate .env di server ---
       - name: Create .env on Server
