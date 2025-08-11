@@ -33,8 +33,9 @@ jobs:
 
       - name: Install Node dependencies & Build
         run: |
-          npm ci
-          npm run build
+            rm -f package-lock.json
+            npm install
+            npm run build
 
       # --- Deploy semua file ke cPanel ---
       - name: Deploy to cPanel via SCP
