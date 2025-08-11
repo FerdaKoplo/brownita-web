@@ -55,4 +55,21 @@ class TransaksiController extends Controller
         return redirect()->route('customer.transaksi.show', $transaksi->id)
             ->with('success', 'Transaksi dibuat. Silakan scan QR untuk membayar.');
     }
+
+    public function uploadBukti(Request $request, $id)
+    {
+        $request->validate([
+            'bukti_pembayaran' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        $transaksi = Transaksi::where('user_id', auth()->id())->findOrFail($id);
+
+        $path = $request->file('bukti_pembayaran')->store('bukti_pembayaran', 'public');
+
+        $transaksi->update([
+            'bukti_pembayaran' => $path,
+        ]);
+
+        return redirect()->back()->with('success', 'Bukti pembayaran berhasil diupload. Tunggu verifikasi admin.');
+    }
 }

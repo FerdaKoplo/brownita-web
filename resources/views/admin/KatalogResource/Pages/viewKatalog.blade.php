@@ -61,7 +61,7 @@
                             <td class="px-4 py-3 text-green-600 font-semibold">{{ $catalogue->harga_rupiah }}</td>
                             <td class="px-4 py-3">
                                 <span class="inline-block px-2 py-1 text-xs rounded-full
-                                    {{ $catalogue->status == 'aktif' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600' }}">
+                                    {{ $catalogue->status == 'tersedia' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600' }}">
                                     {{ ucfirst($catalogue->status) }}
                                 </span>
                             </td>

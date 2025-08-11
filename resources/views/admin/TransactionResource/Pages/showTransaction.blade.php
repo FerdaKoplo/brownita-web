@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="p-5 flex flex-col gap-10">
-         <h1 class="text-2xl sm:text-4xl font-bold text-gray-800">Daftar Transaksi</h1>
+         <h1 class="text-2xl sm:text-4xl font-bold text-gray-800">Detail Transaksi</h1>
 
         {{-- Info Umum Transaksi --}}
         <div class="bg-white shadow-lg rounded-xl p-6 border-2 border-black">

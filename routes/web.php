@@ -94,9 +94,13 @@ Route::middleware(['auth', 'isCustomer'])->group(function () {
     Route::get('/keranjang', [\App\Http\Controllers\Customer\KeranjangController::class, 'keranjangIndex'])->name('keranjang');
     Route::post('/keranjang', [\App\Http\Controllers\Customer\KeranjangController::class, 'keranjangStore'])->name('keranjang.store');
     Route::patch('/keranjang/{id}/update', [\App\Http\Controllers\Customer\KeranjangController::class, 'keranjangUpdate'])->name('customer.keranjang.update');
+
+    // Transaksi
     Route::get('/transaksi', [TransaksiController::class, 'transaksiIndex'])->name('customer.transaksi.index');
     Route::get('/transaksi/{id}', [TransaksiController::class, 'transaksiShow'])->name('customer.transaksi.show');
     Route::post('/transaksi', [TransaksiController::class, 'transaksiStore'])->name('customer.transaksi.store');
+    Route::post('/transaksi/{id}/upload-bukti', [App\Http\Controllers\Customer\TransaksiController::class, 'uploadBukti'])
+    ->name('customer.transaksi.uploadBukti');
 });
 
 // Customer Public Routes
