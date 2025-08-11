@@ -37,14 +37,10 @@ jobs:
             npm install
             npm run build
 
-      - name: Test FTP connection
+      - name: Remove excluded folders/files before deploy
         run: |
-          sudo apt-get update
-          sudo apt-get install -y ftp
-          ftp -v -n ${{ secrets.CPANEL_FTP_HOST }} <<END_SCRIPT
-          user ${{ secrets.CPANEL_FTP_USER }} ${{ secrets.CPANEL_FTP_PASS }}
-          quit
-          END_SCRIPT
+         rm -rf .git node_modules tests storage vendor
+         find . -name '*.log' -type f -delete
 
 
       # --- Deploy semua file ke cPanel ---
