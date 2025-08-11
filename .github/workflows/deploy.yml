@@ -45,6 +45,7 @@ jobs:
           username: ${{ secrets.CPANEL_FTP_USER }}
           password: ${{ secrets.CPANEL_FTP_PASS }}
           protocol: ftps
+          passive: true
           server-dir: public_html/
           local-dir: ./public/
           exclude: |
@@ -54,6 +55,7 @@ jobs:
             .git
             vendor
           dangerous-clean-slate: false
+
 
       # --- Generate .env di server ---
       - name: Create .env on Server
