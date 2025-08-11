@@ -44,8 +44,11 @@ jobs:
           server: ${{ secrets.CPANEL_FTP_HOST }}
           username: ${{ secrets.CPANEL_FTP_USER }}
           password: ${{ secrets.CPANEL_FTP_PASS }}
-          protocol: ftps
+          protocol: ftp
           passive: true
+          secure: false 
+          timeout: 300
+          retries: 3
           server-dir: public_html/
           local-dir: ./public/
           exclude: |
@@ -54,6 +57,7 @@ jobs:
             storage
             .git
             vendor
+            *.log
           dangerous-clean-slate: false
 
 
@@ -108,7 +112,6 @@ jobs:
           port: ${{ secrets.CPANEL_PORT }}
           script: |
             cd /home/${{ secrets.CPANEL_USER }}/public_html
-            composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
             php artisan migrate --force
             php artisan config:cache
             php artisan route:cache
