@@ -46,7 +46,7 @@ jobs:
           password: ${{ secrets.CPANEL_FTP_PASS }}
           protocol: ftps
           server-dir: public_html/
-          local-dir: ./public
+          local-dir: ./public/
           exclude: |
             node_modules
             tests
