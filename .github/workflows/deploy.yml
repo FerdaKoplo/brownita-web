@@ -38,15 +38,16 @@ jobs:
             npm run build
 
       # --- Deploy semua file ke cPanel ---
-      - name: Deploy to cPanel via SCP
-        uses: appleboy/scp-action@v0.1.7
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          host: ${{ secrets.CPANEL_HOST }}
-          username: ${{ secrets.CPANEL_USER }}
-          key: ${{ secrets.CPANEL_SSH_KEY }}
-          port: ${{ secrets.CPANEL_PORT }}
-          source: "./"
-          target: "/home/${{ secrets.CPANEL_USER }}/public_html"
+          server: ${{ secrets.CPANEL_FTP_HOST }}
+          username: ${{ secrets.CPANEL_FTP_USER }}
+          password: ${{ secrets.CPANEL_FTP_PASS }}
+          protocol: ftps
+          server-dir: public_html/
+          local-dir: ./
+          dangerous-clean-slate: fals
 
       # --- Generate .env di server ---
       - name: Create .env on Server
