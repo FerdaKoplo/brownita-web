@@ -36,7 +36,7 @@
 
                 <!-- Tombol -->
                 <div class="flex gap-4 pt-2">
-                    <a href="https://wa.me/6281318484072" target="_blank" rel="noopener noreferrer"
+                    <a href="https://wa.me/6281217018289" target="_blank" rel="noopener noreferrer"
                         class="px-6 py-[10px] rounded-md border-2 border-black text-black font-semibold text-[16px] tracking-wide hover:bg-black hover:text-white transition-all">
                         HUBUNGI KAMI
                     </a>
@@ -169,13 +169,13 @@
                 <br>
                 <div class="flex justify-center gap-4">
                     <!-- Tombol WA -->
-                    <a href="https://wa.me/6281318484072" target="_blank"
+                    <a href="https://wa.me/6281217018289" target="_blank"
                         class="font-bold inline-flex items-center px-4 py-2 border group border-black rounded-full text-sm hover:bg-black hover:text-white transition">
                         Hubungi kami
                         <i class="ml-2 fab fa-whatsapp text-black group-hover:text-white text-xl"></i>
                     </a>
                     <!-- Tombol IG -->
-                    <a href="https://www.instagram.c    om/_brownita/" target="_blank"
+                    <a href="https://www.instagram.com/_brownita/" target="_blank"
                         class="font-bold inline-flex items-center px-4 py-2 bg-amber-700 text-white rounded-full text-sm hover:opacity-80 transition">
                         Instagram kami
                         <i class="ml-2 fab fa-instagram text-white text-xl"></i>
