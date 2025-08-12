@@ -39,7 +39,7 @@ jobs:
 
       - name: Remove excluded folders/files before deploy
         run: |
-         rm -rf .git node_modules tests storage
+         rm -rf .git node_modules tests
          find . -name '*.log' -type f -delete
 
 
