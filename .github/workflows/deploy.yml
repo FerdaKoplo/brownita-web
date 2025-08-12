@@ -42,15 +42,15 @@ jobs:
          rm -rf .git node_modules tests
          find . -name '*.log' -type f -delete
 
-      - name: SFTP Deploy Laravel Core
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-        with:
-          server: ${{ secrets.CPANEL_FTP_HOST }}
-          username: ${{ secrets.CPANEL_FTP_USER }}
-          password: ${{ secrets.CPANEL_FTP_PASS }}
-          port: 22
-          local_path: ./
-          remote_path: /home/brownita/laravel
+      # - name: SFTP Deploy Laravel Core
+      #   uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+      #   with:
+      #     server: ${{ secrets.CPANEL_FTP_HOST }}
+      #     username: ${{ secrets.CPANEL_FTP_USER }}
+      #     password: ${{ secrets.CPANEL_FTP_PASS }}
+      #     port: 22
+      #     local_path: ./
+      #     remote_path: /home/brownita/laravel
 
       - name: SFTP Deploy Laravel Public
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
@@ -59,7 +59,7 @@ jobs:
           username: ${{ secrets.CPANEL_FTP_USER }}
           password: ${{ secrets.CPANEL_FTP_PASS }}
           port: 22
-          local_path: ./public/
+          local_path: ./public/*
           remote_path: /home/brownita/public_html
           
       # # --- Deploy semua file ke cPanel ---
