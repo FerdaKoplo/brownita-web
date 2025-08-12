@@ -63,23 +63,16 @@ jobs:
           remote_path: /home/brownita/public_html
           
       # # --- Deploy semua file ke cPanel ---
-      # - name: SFTP Deploy
-      #   uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-      #   with:
-      #     server: ${{ secrets.CPANEL_FTP_HOST }}      
-      #     username: ${{ secrets.CPANEL_FTP_USER }}     
-      #     password: ${{ secrets.CPANEL_FTP_PASS }}    
-      #     port: 22                                  
-      #     local_path: ./                            
-      #     remote_path: /home/brownita/public_html/   
-      #     exclude : | 
-      #       - node_modules
-      #       - tests
-      #       - storage
-      #       - .git
-      #       - vendor
-      #       - '*.log'
-
+      - name: SFTP Deploy
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          server: ${{ secrets.CPANEL_FTP_HOST }}      
+          username: ${{ secrets.CPANEL_FTP_USER }}     
+          password: ${{ secrets.CPANEL_FTP_PASS }}    
+          port: 22                                  
+          local_path: ./                            
+          remote_path: /home/brownita/public_html/   
+    
       # --- Generate .env di server ---
       - name: Create .env on Server
         uses: appleboy/ssh-action@v1.0.3
