@@ -130,7 +130,7 @@ jobs:
           key: ${{ secrets.CPANEL_SSH_KEY }}
           port: ${{ secrets.CPANEL_PORT }}
           script: |
-            cd /home/${{ secrets.CPANEL_USER }}/public_html/
+            cd /home/${{ secrets.CPANEL_USER }}/laravel/
             php artisan migrate --force
             php artisan config:cache
             php artisan route:cache
