@@ -1,4 +1,4 @@
-<nav class="top-0  fixed w-full z-50 shadow-md">
+<nav class="top-0 fixed w-full z-50 shadow-md">
     <div class="flex justify-between bg-white items-center px-4 md:px-16 lg:px-32 py-4">
         <!-- Logo -->
         <h1 class="font-kameron text-2xl">
