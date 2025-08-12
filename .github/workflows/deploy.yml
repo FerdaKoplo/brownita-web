@@ -42,25 +42,43 @@ jobs:
          rm -rf .git node_modules tests
          find . -name '*.log' -type f -delete
 
-
-      # --- Deploy semua file ke cPanel ---
-      - name: SFTP Deploy
+      - name: SFTP Deploy Laravel Core
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          server: ${{ secrets.CPANEL_FTP_HOST }}      
-          username: ${{ secrets.CPANEL_FTP_USER }}     
-          password: ${{ secrets.CPANEL_FTP_PASS }}    
-          port: 22                                  
-          local_path: ./                            
-          remote_path: /home/brownita/public_html/   
-          exclude : | 
-            - node_modules
-            - tests
-            - storage
-            - .git
-            - vendor
-            - '*.log'
+          server: ${{ secrets.CPANEL_FTP_HOST }}
+          username: ${{ secrets.CPANEL_FTP_USER }}
+          password: ${{ secrets.CPANEL_FTP_PASS }}
+          port: 22
+          local_path: ./laravel  # folder Laravel tanpa public
+          remote_path: /home/brownita/laravel
 
+      - name: SFTP Deploy Laravel Public
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          server: ${{ secrets.CPANEL_FTP_HOST }}
+          username: ${{ secrets.CPANEL_FTP_USER }}
+          password: ${{ secrets.CPANEL_FTP_PASS }}
+          port: 22
+          local_path: ./public  # isi folder public
+          remote_path: /home/brownita/public_html
+          
+      # # --- Deploy semua file ke cPanel ---
+      # - name: SFTP Deploy
+      #   uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+      #   with:
+      #     server: ${{ secrets.CPANEL_FTP_HOST }}      
+      #     username: ${{ secrets.CPANEL_FTP_USER }}     
+      #     password: ${{ secrets.CPANEL_FTP_PASS }}    
+      #     port: 22                                  
+      #     local_path: ./                            
+      #     remote_path: /home/brownita/public_html/   
+      #     exclude : | 
+      #       - node_modules
+      #       - tests
+      #       - storage
+      #       - .git
+      #       - vendor
+      #       - '*.log'
 
       # --- Generate .env di server ---
       - name: Create .env on Server
