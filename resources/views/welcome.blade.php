@@ -50,12 +50,12 @@
             <!-- Image -->
             <div
                 class="max-w-[500px] w-full grid grid-cols-2 gap-2 rounded-xl border border-amber-700 p-2 bg-amber-700">
-                <img src="{{ Vite::asset('resources/img/cake-boxes.png') }}" alt="Kue"
+                <img src="{{ asset('images/bundt-cakes.png') }}" alt="Kue"
                     class="object-cover w-full h-full rounded-md">
                 <div class="grid grid-rows-2 gap-2">
-                    <img src="{{ Vite::asset('resources/img/snacks.png') }}" alt="Snack"
+                    <img src="{{ asset('images/snacks.png') }}" alt="Snack"
                         class="object-cover w-full h-full rounded-md">
-                    <img src="{{ Vite::asset('resources/img/bundt-cakes.png') }}" alt="Cake"
+                    <img src="{{ asset('images/bundt-cakes.png') }}" alt="Cake"
                         class="object-cover w-full h-full rounded-md">
                 </div>
             </div>
@@ -69,7 +69,7 @@
         <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 px-6 py-16 items-center relative z-10">
             <!-- Gambar -->
             <div class="p-2 bg-brand-dark rounded-xl w-fit">
-                <img src="{{ Vite::asset('resources/img/tentang-brownita.png') }}" alt="Tentang Brownita"
+                <img src="{{ asset('images/tentang-brownita.png') }}" alt="Tentang Brownita"
                     class="rounded-lg w-[375px] h-auto object-cover" />
             </div>
 
@@ -150,7 +150,7 @@
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1978.480824413675!2d112.75668633558196!3d-7.358195855305758!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7e504b3a86c83%3A0x399eaa44dd432fd5!2sBrownita!5e0!3m2!1sen!2sid!4v1754669122529!5m2!1sen!2sid"
                         width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade"></iframe>
-                {{-- <img src="{{ Vite::asset('resources/img/location.png') }}" alt="Peta Lokasi" class="" /> --}}
+                {{-- <img src="/location.png') }}" alt="Peta Lokasi" class="" /> --}}
             </div>
 
             <!-- Tombol Buka Maps -->
