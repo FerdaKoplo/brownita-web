@@ -76,7 +76,7 @@
                 @if (Auth::check())
                     <div class="flex flex-col gap-5">
                         @php
-                            $waNumber = '6282139102459';
+                            $waNumber = '6281217018289';
                             $waMessage = 'Halo kak, saya tertarik dengan produk ' . $produk->nama_produk;
                             $waUrl = 'https://wa.me/' . $waNumber . '?text=' . urlencode($waMessage);
                         @endphp
@@ -97,7 +97,7 @@
                     </div>
                 @else
                     @php
-                        $waNumber = '6282139102459';
+                        $waNumber = '6281217018289';
                         $waMessage = 'Halo kak, saya tertarik dengan produk ' . $produk->nama_produk;
                         $waUrl = 'https://wa.me/' . $waNumber . '?text=' . urlencode($waMessage);
                     @endphp
