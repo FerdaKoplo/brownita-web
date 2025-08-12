@@ -59,7 +59,7 @@ jobs:
           username: ${{ secrets.CPANEL_FTP_USER }}
           password: ${{ secrets.CPANEL_FTP_PASS }}
           port: 22
-          local_path: ./public
+          local_path: ./public/
           remote_path: /home/brownita/public_html
           
       # # --- Deploy semua file ke cPanel ---
