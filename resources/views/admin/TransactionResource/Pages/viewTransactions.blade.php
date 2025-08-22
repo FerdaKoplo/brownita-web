@@ -4,19 +4,64 @@
 
     <div class="p-4 sm:p-6 bg-gray-50 min-h-screen">
         <div class="flex flex-col gap-4 sm:gap-6">
-
             {{-- Header --}}
             <div class="flex flex-wrap justify-between items-center gap-y-3">
                 <h1 class="text-2xl sm:text-4xl font-bold text-gray-800">Daftar Transaksi</h1>
             </div>
 
-            {{-- Search Form --}}
             <form action="{{ route('dashboard.admin.customer-transaction.view') }}" method="GET"
-                class="w-full sm:max-w-md flex items-center gap-3 bg-white p-3 rounded-lg shadow-md">
-                <i class="fa-solid fa-magnifying-glass text-gray-500"></i>
-                <input type="text" name="search" value="{{ request('search') }}"
-                    class="w-full bg-transparent outline-none text-gray-700 placeholder-gray-400 text-sm sm:text-base"
-                    placeholder="Cari Transaksi...">
+                class="w-full sm:max-w-3xl flex flex-wrap items-center gap-3 bg-white p-3 rounded-lg shadow-md">
+
+                {{-- Search --}}
+                <div class="flex flex-col flex-1 min-w-[200px]">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-magnifying-glass text-gray-500"></i>
+                        <input type="text" name="search" value="{{ request('search') }}"
+                            class="w-full bg-transparent outline-none text-gray-700 placeholder-gray-400 text-sm sm:text-base"
+                            placeholder="Cari Transaksi...">
+                    </div>
+                    <span class="text-xs text-gray-400 mt-1">Cari berdasarkan nama user</span>
+                </div>
+
+                {{-- Status --}}
+                <div class="flex flex-col">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-filter  text-gray-400"></i>
+                        <select name="status" class="rounded px-2 py-1 border text-sm sm:text-base">
+                            <option value="">Semua Status</option>
+                            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                            <option value="dibayar" {{ request('status') == 'dibayar' ? 'selected' : '' }}>Dibayar</option>
+                            <option value="dikirim" {{ request('status') == 'dikirim' ? 'selected' : '' }}>Dikirim</option>
+                            <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                            <option value="batal" {{ request('status') == 'batal' ? 'selected' : '' }}>Dibatalkan</option>
+                        </select>
+                    </div>
+                    <span class="text-xs text-gray-400 mt-1">Filter berdasarkan status transaksi</span>
+                </div>
+
+                {{-- Date Range --}}
+                <div class="flex flex-col">
+                    <input type="date" name="from" value="{{ request('from') }}" class="border rounded px-2 py-1 text-sm">
+                    <span class="text-xs text-gray-400 mt-1">Tanggal mulai</span>
+                </div>
+
+                <div class="flex flex-col">
+                    <input type="date" name="to" value="{{ request('to') }}" class="border rounded px-2 py-1 text-sm">
+                    <span class="text-xs text-gray-400 mt-1">Tanggal selesai</span>
+                </div>
+
+                {{-- Submit Button --}}
+
+                <div class="flex items-center gap-5">
+                    <button type="submit"
+                        class="bg-amber-600 text-white px-4 py-1 rounded text-sm hover:bg-black transition">
+                        Filter
+                    </button>
+
+                    {{-- Reset Filters --}}
+                    <a href="{{ route('dashboard.admin.customer-transaction.view') }}"
+                        class="text-gray-500 text-sm hover:underline ml-2">Reset</a>
+                </div>
             </form>
 
             {{-- Table Wrapper (Responsive) --}}
@@ -42,7 +87,8 @@
                                 <td class="px-3 sm:px-4 py-2 sm:py-3">{{ $transaksi->created_at->format('d M Y') }}</td>
                                 <td class="px-3 sm:px-4 py-2 sm:py-3">{{ $transaksi->user->name ?? '—' }}</td>
                                 <td class="px-3 sm:px-4 py-2 sm:py-3 text-green-600 font-medium">Rp
-                                    {{ number_format($transaksi->total_harga, 0, ',', '.') }}</td>
+                                    {{ number_format($transaksi->total_harga, 0, ',', '.') }}
+                                </td>
                                 <td class="px-3 sm:px-4 py-2 sm:py-3">
                                     @if(request('edit') == $transaksi->id)
                                         <form action="{{ route('dashboard.admin.customer-transaction.update', $transaksi->id) }}"
@@ -73,15 +119,15 @@
                                                 'batal' => 'bg-red-100 text-red-600',
                                             ];
                                         @endphp
-                                         <span
+                                        <span
                                             class="inline-block px-2 py-1 text-[10px] sm:text-xs rounded-full font-medium {{ $colorMap[$transaksi->status] ?? 'bg-gray-100 text-gray-700' }}">
                                             {{ ucfirst($transaksi->status) }}
-                                         </span>
+                                        </span>
                                     @endif
                                 </td>
                                 <td class="px-3 sm:px-4 py-2 sm:py-3">
                                     @if($transaksi->bukti_pembayaran)
-                                        <div class="flex items-center gap-2">
+                                        <div class="flex flex-col items-start  gap-2">
                                             <a href="{{ asset('storage/' . $transaksi->bukti_pembayaran) }}" target="_blank">
                                                 <img src="{{ asset('storage/' . $transaksi->bukti_pembayaran) }}"
                                                     alt="Bukti Pembayaran"
@@ -90,7 +136,7 @@
 
                                             <a href="{{ asset('storage/' . $transaksi->bukti_pembayaran) }}"
                                                 download="bukti_pembayaran_{{ $transaksi->id }}.jpg"
-                                                class="bg-blue-500 text-white px-2 py-1 rounded text-xs hover:bg-blue-600 transition">
+                                                class="bg-sky-500 text-white px-2 py-1 rounded text-xs hover:bg-blue-600 transition">
                                                 Download
                                             </a>
                                         </div>

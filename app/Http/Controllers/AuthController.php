@@ -24,6 +24,10 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'no_handphone' => [
+                'required',
+                'regex:/^(?:\+62|62|0)[2-9][0-9]{7,11}$/'
+            ],
             'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:8|max:255|confirmed'
         ], [
@@ -34,6 +38,7 @@ class AuthController extends Controller
 
         $user = User::create([
             'name' => $request->name,
+            'no_handphone' => $request->no_handphone,
             'email' => $request->email,
             'password' => Hash::make($request->string('password')),
         ]);

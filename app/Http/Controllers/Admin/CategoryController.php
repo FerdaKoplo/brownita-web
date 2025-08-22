@@ -20,7 +20,7 @@ class CategoryController extends Controller
         }
 
         return view('admin.KategoriResource.Pages.viewKategori', [
-            'categories' => $categories->paginate(10)->withQueryString()
+            'categories' => $categories->paginate(10)
         ]);
     }
 

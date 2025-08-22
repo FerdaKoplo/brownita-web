@@ -21,6 +21,15 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
+
+                $user = Auth::guard($guard)->user();
+
+                if ($user->role === 'admin') {
+                    return redirect()->route('dashboard.admin');
+                } elseif ($user->role === 'customer') {
+                    return redirect()->route('customer.transaksi.index');
+                }
+
                 return redirect(RouteServiceProvider::HOME);
             }
         }

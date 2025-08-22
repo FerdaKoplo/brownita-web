@@ -33,6 +33,10 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'no_handphone' => [
+                'required',
+                'regex:/^(?:\+62|62|0)[2-9][0-9]{7,11}$/'
+            ],
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -40,6 +44,7 @@ class UserController extends Controller
         User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
+            'no_handphone' => $validated['no_handphone'],
             'password' => Hash::make($validated['password']),
             'role' => 'admin',
         ]);
@@ -60,11 +65,16 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
+            'no_handphone' => [
+                'required',
+                'regex:/^(?:\+62|62|0)[2-9][0-9]{7,11}$/'
+            ],
             'password' => 'nullable|string|min:6|confirmed',
         ]);
 
         $user->name = $validated['name'];
         $user->email = $validated['email'];
+        $user->no_handphone = $validated['no_handphone'];
         if (!empty($validated['password'])) {
             $user->password = Hash::make($validated['password']);
         }
