@@ -11,6 +11,35 @@
             </button>
         </a>
 
+        @if($transaksi->status === 'pending' && $transaksi->expires_at)
+            <div class="bg-red-100 text-red-700 p-3 rounded-lg text-center">
+                <p id="countdown" class="font-semibold"></p>
+            </div>
+
+            <script>
+                const expiryTime = new Date("{{ $transaksi->expires_at->format('Y-m-d\TH:i:s') }}").getTime();
+                const countdownEl = document.getElementById("countdown");
+
+                if (countdownEl) {
+                    const interval = setInterval(() => {
+                        const now = new Date().getTime();
+                        const distance = expiryTime - now;
+
+                        if (distance <= 0) {
+                            clearInterval(interval);
+                            countdownEl.innerHTML = "⏳ Waktu pembayaran sudah habis. Transaksi dibatalkan.";
+                            window.location.reload();
+                        } else {
+                            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                            countdownEl.innerHTML = `Bayar sebelum: ${hours} jam ${minutes} menit ${seconds} detik`;
+                        }
+                    }, 1000);
+                }
+            </script>
+        @endif
+
         <div class="bg-white p-6 rounded-2xl shadow-md w-full text-center space-y-4">
             <h2 class="text-xl font-semibold text-gray-800">Scan untuk Membayar</h2>
             <img src="{{ asset('images/qr.png') }}" alt="QR Gopay"
@@ -79,8 +108,11 @@
     <script>
         const fileInput = document.getElementById('bukti_pembayaran');
         const previewImage = document.getElementById('previewImage');
+        const submitBtn = document.querySelector('button[type="submit"]');
 
         fileInput.addEventListener('change', function () {
+            submitBtn.disabled = fileInput.files.length === 0;
+
             if (fileInput.files.length === 0) {
                 previewImage.src = '#';
                 previewImage.classList.add('hidden');

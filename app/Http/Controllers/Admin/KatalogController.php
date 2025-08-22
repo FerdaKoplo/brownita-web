@@ -35,7 +35,7 @@ class KatalogController extends Controller
             ->when($from, fn($query) => $query->whereDate('created_at', '>=', $from))
             ->when($to, fn($query) => $query->whereDate('created_at', '<=', $to))
             ->orderBy('created_at', 'desc')
-            ->paginate(15);
+            ->paginate(10)->appends($request->all());
 
         $categories = Category::all();
 

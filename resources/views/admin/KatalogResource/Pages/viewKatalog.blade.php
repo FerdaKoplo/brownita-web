@@ -86,7 +86,7 @@
                         Filter
                     </button>
                     <a href="{{ route('dashboard.admin.katalog.view') }}"
-                        class="text-gray-500 text-sm hover:underline ml-2">Reset</a>
+                        class="text-red-500 font-semibold text-sm hover:underline ml-2">Reset</a>
                 </div>
             </form>
 
@@ -106,9 +106,9 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200 text-sm sm:text-base">
-                        @forelse ($catalogues as $catalogue)
+                        @forelse ($catalogues as $index => $catalogue)
                             <tr class="hover:bg-gray-50 transition">
-                                <td class="px-4 py-3">{{ $catalogue->id }}</td>
+                                <td class="px-4 py-3">{{ $index + 1 }}</td>
                                 <td class="px-4 py-3">{{ $catalogue->category->nama_kategori }}</td>
                                 <td class="px-4 py-3 font-medium text-gray-900">{{ $catalogue->nama_produk }}</td>
                                 <td class="px-4 py-3 max-w-xs truncate" title="{{ $catalogue->deskripsi }}">
@@ -158,9 +158,39 @@
             </div>
 
             {{-- Pagination --}}
-            @if(method_exists($catalogues, 'links'))
-                <div class="mt-4">
-                    {{ $catalogues->links() }}
+            @if($catalogues->hasPages())
+                <div class="flex justify-center gap-10 items-center mt-6">
+                    @if($catalogues->onFirstPage())
+                        <span class="text-gray-400 flex justify-center items-center gap-2">
+                            <i class="fa-solid fa-angle-left"></i>
+                            Prev
+                        </span>
+                    @else
+                        <a href="{{ $catalogues->appends(request()->query())->previousPageUrl() }}"
+                            class="text-amber-700 justify-center font-semibold flex items-center gap-2">
+                            <i class="fa-solid fa-angle-left"></i>
+                            Prev
+                        </a>
+                    @endif
+                    @foreach ($catalogues->getUrlRange(1, $catalogues->lastPage()) as $page => $url)
+                        <a href="{{ $url }}"
+                            class="{{ $page == $catalogues->currentPage() ? 'bg-black text-white' : 'text-amber-700' }} px-2 py-1 rounded">
+                            {{ $page }}
+                        </a>
+                    @endforeach
+
+                    @if($catalogues->hasMorePages())
+                        <a href="{{ $catalogues->appends(request()->query())->nextPageUrl() }}"
+                            class="text-amber-700 font-semibold justify-center flex items-center gap-2">
+                            Next
+                            <i class="fa-solid fa-angle-right"></i>
+                        </a>
+                    @else
+                        <span class="text-gray-400 flex items-center gap-2">
+                            Next
+                            <i class="fa-solid fa-angle-right"></i>
+                        </span>
+                    @endif
                 </div>
             @endif
         </div>

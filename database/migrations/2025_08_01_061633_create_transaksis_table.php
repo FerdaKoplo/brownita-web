@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,11 +12,12 @@ return new class extends Migration
     {
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
-             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-             $table->decimal('total_harga', 15, 2);
-              $table->text('alamat');
-              $table->enum('status', ['pending', 'dibayar', 'batal', 'selesai', 'dikirim'])->default('pending');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->decimal('total_harga', 15, 2);
+            $table->text('alamat');
+            $table->enum('status', ['pending', 'dibayar', 'batal', 'selesai', 'dikirim'])->default('pending');
             $table->string('bukti_pembayaran')->nullable();
+            $table->timestamp('expires_at')->nullable();
             $table->timestamps();
         });
     }
