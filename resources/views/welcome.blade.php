@@ -30,8 +30,8 @@
 
                 <!-- Deskripsi -->
                 <p class="text-[19px] leading-relaxed text-black">
-                    Kue homemade, aneka snack, jajanan pasar, ricebox dan nasi pilihan — karena makanan enak tak perlu
-                    ribet.
+                    Hantaran homemade berkelas, snack box premium, nasi kotak istimewa, dan gethuk tradisional —
+                    kelezatan autentik 100% halal dari dapur rumah untuk setiap momen berharga.
                 </p>
 
                 <!-- Tombol -->
@@ -146,10 +146,10 @@
             <!-- Peta dengan bayangan -->
             <div class="relative inline-block">
                 <div class="absolute bottom-4 left-4 w-full h-full bg-amber-700 rounded-[30px] z-0"></div>
-                    <iframe class="relative z-10 rounded-[30px] w-[300px] md:w-[380px] shadow-lg"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1978.480824413675!2d112.75668633558196!3d-7.358195855305758!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7e504b3a86c83%3A0x399eaa44dd432fd5!2sBrownita!5e0!3m2!1sen!2sid!4v1754669122529!5m2!1sen!2sid"
-                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe class="relative z-10 rounded-[30px] w-[300px] md:w-[380px] shadow-lg"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1978.480824413675!2d112.75668633558196!3d-7.358195855305758!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7e504b3a86c83%3A0x399eaa44dd432fd5!2sBrownita!5e0!3m2!1sen!2sid!4v1754669122529!5m2!1sen!2sid"
+                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
                 {{-- <img src="/location.png') }}" alt="Peta Lokasi" class="" /> --}}
             </div>
 
