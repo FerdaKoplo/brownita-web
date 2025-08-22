@@ -16,14 +16,30 @@ class KatalogController extends Controller
     public function katalogIndex(Request $request)
     {
         $search = $request->input('search');
+        $category = $request->input('category_id');
+        $status = $request->input('status');
+        $priceMin = $request->input('price_min');
+        $priceMax = $request->input('price_max');
+        $from = $request->input('from');
+        $to = $request->input('to');
 
         $catalogues = Katalog::with(['category', 'images'])
             ->when($search, function ($query, $search) {
-                $query->where('nama_produk', 'like', "%{$search}%");
+                $query->where('nama_produk', 'like', "%{$search}%")
+                    ->orWhere('deskripsi', 'like', "%{$search}%");
             })
-            ->get();
+            ->when($category, fn($query) => $query->where('category_id', $category))
+            ->when($status, fn($query) => $query->where('status', $status))
+            ->when($priceMin, fn($query) => $query->where('harga', '>=', $priceMin))
+            ->when($priceMax, fn($query) => $query->where('harga', '<=', $priceMax))
+            ->when($from, fn($query) => $query->whereDate('created_at', '>=', $from))
+            ->when($to, fn($query) => $query->whereDate('created_at', '<=', $to))
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
 
-        return view('admin.KatalogResource.Pages.viewKatalog', compact('catalogues'));
+        $categories = Category::all();
+
+        return view('admin.KatalogResource.Pages.viewKatalog', compact('catalogues', 'categories'));
     }
 
     public function katalogCreate()
@@ -49,7 +65,7 @@ class KatalogController extends Controller
                 'gambar_produk.*.max' => 'Ukuran gambar maksimal 2MB.',
                 'harga.required' => 'Harga wajib diisi.',
                 'harga.numeric' => 'Harga harus berupa angka.',
-                'harga.min' => 'Harga tidak boleh nol.',    
+                'harga.min' => 'Harga tidak boleh nol.',
             ]
         );
 

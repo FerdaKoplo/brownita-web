@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="p-5 flex flex-col gap-10">
-         <h1 class="text-2xl sm:text-4xl font-bold text-gray-800">Detail Transaksi</h1>
+        <h1 class="text-2xl sm:text-4xl font-bold text-gray-800">Detail Transaksi</h1>
 
         {{-- Info Umum Transaksi --}}
         <div class="bg-white shadow-lg rounded-xl p-6 border-2 border-black">
@@ -37,8 +37,18 @@
                 </div>
                 @if($transaksi->catatan)
                     <div class="col-span-2">
-                        <p class="font-semibold">Catatan:</p>
-                        <p class="text-black">{{ $transaksi->catatan }}</p>
+                        <p class="font-semibold">Alamat:</p>
+                        <p class="text-black">{{ $transaksi->alamat }}</p>
+                    </div>
+                @endif
+
+                @if($transaksi->user && $transaksi->user->no_handphone)
+                    <div>
+                        <p class="font-semibold">Hubungi Customer : </p>
+                        <a href="https://wa.me/{{ ltrim($transaksi->user->no_handphone, '0') }}" target="_blank"
+                            class="inline-block mt-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium">
+                            Chat via WhatsApp
+                        </a>
                     </div>
                 @endif
             </div>

@@ -10,13 +10,26 @@ class TransaksiController extends Controller
 {
     public function transaksiIndex(Request $request)
     {
+
         $search = $request->input('search');
+        $status = $request->input('status');
+        $from = $request->input('from');
+        $to = $request->input('to');
 
         $transaksis = Transaksi::with('user')
-            ->when($search, function ($query, $search) {
+            ->when($search, function ($query) use ($search) {
                 $query->whereHas('user', function ($q) use ($search) {
                     $q->where('name', 'like', "%{$search}%");
                 });
+            })
+            ->when($status, function ($query) use ($status) {
+                $query->where('status', $status);
+            })
+            ->when($from, function ($query) use ($from) {
+                $query->whereDate('created_at', '>=', $from);
+            })
+            ->when($to, function ($query) use ($to) {
+                $query->whereDate('created_at', '<=', $to);
             })
             ->latest()
             ->paginate(10);
@@ -33,7 +46,7 @@ class TransaksiController extends Controller
     public function transaksiUpdate(Request $request, $id)
     {
         $validated = $request->validate([
-            'status' => 'required|in:pending,dibayar,dikirim,selesai,dibatalkan',
+            'status' => 'required|in:pending,dibayar,dikirim,selesai,batal',
         ]);
 
         $transaksi = Transaksi::findOrFail($id);

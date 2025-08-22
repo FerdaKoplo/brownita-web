@@ -10,9 +10,21 @@ use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
 {
-    public function transaksiIndex()
+    public function transaksiIndex(Request $request)
     {
-        $transaksis = Transaksi::where('user_id', auth()->id())->paginate(10);
+
+        $search = $request->input('search');
+        $status = $request->input('status');
+        $from = $request->input('from');
+        $to = $request->input('to');
+
+        $transaksis = Transaksi::where('user_id', auth()->id())
+            ->when($request->search, fn($q) => $q->whereHas('details.produk', fn($q2) => $q2->where('nama_produk', 'like', "%{$request->search}%")))
+            ->when($request->status, fn($q) => $q->where('status', $request->status))
+            ->when($request->from, fn($q) => $q->whereDate('created_at', '>=', $request->from))
+            ->when($request->to, fn($q) => $q->whereDate('created_at', '<=', $request->to))
+            ->latest()
+            ->paginate(10);
         return view('customer.transaksi.index', compact('transaksis'));
     }
 
@@ -25,7 +37,7 @@ class TransaksiController extends Controller
     public function transaksiStore(Request $request)
     {
         $validated = $request->validate([
-            'catatan' => 'nullable|string|max:1000',
+            'alamat' => 'required|string|max:1000',
         ]);
         $cartItems = auth()->user()->keranjang()->with('produk')->get();
 
@@ -38,7 +50,7 @@ class TransaksiController extends Controller
         $transaksi = Transaksi::create([
             'user_id' => auth()->id(),
             'total_harga' => $totalHarga,
-            'catatan' => $validated['catatan'] ?? null,
+            'alamat' => $validated['alamat'],
         ]);
 
         foreach ($cartItems as $item) {

@@ -11,16 +11,12 @@
             </button>
         </a>
 
-        <h1 class="text-3xl font-bold text-black text-center">
-            Silakan Scan QR Gopay untuk Membayar
-        </h1>
-
-        <img src="{{ asset('images/qr.png') }}" alt="QR Gopay"
-            class="w-60 h-auto rounded-lg shadow-xl hover:scale-105 transition-transform duration-300">
-
-        <div class="text-lg text-black text-center bg-amber-700/20 p-4 rounded-lg  w-full">
-            <p>Total yang harus dibayar:</p>
-            <p class="text-2xl font-bold mt-2">Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}</p>
+        <div class="bg-white p-6 rounded-2xl shadow-md w-full text-center space-y-4">
+            <h2 class="text-xl font-semibold text-gray-800">Scan untuk Membayar</h2>
+            <img src="{{ asset('images/qr.png') }}" alt="QR Gopay"
+                class="mx-auto w-56 h-auto rounded-lg shadow-lg border" />
+            <p class="text-lg font-medium text-gray-600">Total yang harus dibayar:</p>
+            <p class="text-3xl font-bold text-amber-700">Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}</p>
         </div>
 
         <div class="flex items-center gap-3 bg-amber-100 text-black px-4 py-3 rounded-lg  text-sm">
@@ -31,106 +27,88 @@
         @if($transaksi->bukti_pembayaran)
             <div class="bg-green-100 p-6 rounded-lg text-center max-w-md mx-auto">
                 <p class="text-green-700 font-semibold text-lg">Bukti pembayaran sudah diupload</p>
-                <a href="{{ asset('storage/' . $transaksi->bukti_pembayaran) }}" target="_blank"
-                class="mt-3 inline-block text-blue-600 hover:underline font-medium">
-                    Lihat Bukti Pembayaran
-                </a>
+
             </div>
         @else
             <form action="{{ route('customer.transaksi.uploadBukti', $transaksi->id) }}" method="POST"
                 enctype="multipart/form-data" class="max-w-md mx-auto space-y-6">
                 @csrf
-
-                <label for="bukti_pembayaran" class="block mb-2 font-semibold text-gray-700 cursor-pointer">
-                    Pilih File Bukti Pembayaran
-                </label>
-
-                <div class="relative">
-                    <input id="bukti_pembayaran" type="file" name="bukti_pembayaran" accept="image/*" required
-                        class="opacity-0 absolute inset-0 w-full h-full cursor-pointer" />
-
-                    <div id="customFileBtn"
-                        class="border border-amber-700 text-amber-700 hover:bg-amber-700 hover:text-white transition
-                                rounded-lg py-3 px-4 text-center font-semibold cursor-pointer select-none">
-                        Klik untuk memilih file...
+                <div class="bg-white p-6 rounded-2xl shadow-md w-full">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Upload Bukti Pembayaran</h2>
+                    <div
+                        class="border-2 border-dashed border-amber-500 rounded-xl p-6 text-center cursor-pointer hover:bg-amber-50 transition">
+                        <input id="bukti_pembayaran" type="file" name="bukti_pembayaran" accept="image/*" class="hidden"
+                            required />
+                        <label for="bukti_pembayaran" class="cursor-pointer text-gray-600">
+                            <i class="fa-solid fa-cloud-arrow-up text-3xl text-amber-600 mb-2"></i>
+                            <p class="font-medium">Klik untuk pilih file</p>
+                            <p class="text-sm text-gray-400 mt-1">Format JPG/PNG, max 2MB</p>
+                        </label>
                     </div>
+                    <img id="previewImage" class="hidden mt-4 mx-auto max-h-56 rounded-lg shadow-md border" />
+                    <button type="submit"
+                        class="mt-6 w-full bg-amber-700 hover:bg-black text-white py-3 rounded-xl font-semibold transition">
+                        Upload Bukti Pembayaran
+                    </button>
                 </div>
-
-                <p class="text-sm text-gray-500">Format file: JPG, PNG. Maksimal ukuran: 2MB.</p>
-
-                <img id="previewImage" src="#" alt="Preview Bukti Pembayaran"
-                    class="hidden mt-4 mx-auto max-w-full rounded-lg shadow-lg border
-                            opacity-0 transition-opacity duration-500" />
-
-                <button type="submit"
-                        class="w-full bg-amber-700 hover:bg-amber-800 text-white py-3 rounded-lg font-semibold
-                            transition-colors duration-300">
-                    Upload Bukti Pembayaran
-                </button>
             </form>
         @endif
+
+
+
         <a href="{{ route('customer.transaksi.index') }}">
             <button
                 class="bg-amber-700 hover:bg-black transition-colors duration-300 py-3 px-6 rounded-full text-white font-medium text-sm">
                 Lihat Riwayat Transaksi
             </button>
         </a>
+
+        <div class="bg-white p-4 rounded-xl gap-5 shadow-md flex items-center justify-between">
+            <div>
+                <p class="font-semibold text-gray-800">Butuh bantuan?</p>
+                <p class="text-sm text-gray-500">Hubungi admin untuk konfirmasi lebih cepat.</p>
+            </div>
+            <a href="https://wa.me/6281217018289" target="_blank"
+                class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
+                <i class="fa-brands fa-whatsapp"></i> Chat
+            </a>
+        </div>
+
     </div>
 
     <script>
-         const fileInput = document.getElementById('bukti_pembayaran');
-        const customBtn = document.getElementById('customFileBtn');
+        const fileInput = document.getElementById('bukti_pembayaran');
         const previewImage = document.getElementById('previewImage');
 
-        // Update button text when file selected
         fileInput.addEventListener('change', function () {
             if (fileInput.files.length === 0) {
-                customBtn.textContent = 'Klik untuk memilih file...';
                 previewImage.src = '#';
-                previewImage.classList.add('opacity-0', 'hidden');
+                previewImage.classList.add('hidden');
                 return;
             }
 
             const file = fileInput.files[0];
 
-            // Validate file type
             if (!file.type.startsWith('image/')) {
                 alert('File harus berupa gambar!');
                 fileInput.value = '';
-                customBtn.textContent = 'Klik untuk memilih file...';
-                previewImage.src = '#';
-                previewImage.classList.add('opacity-0', 'hidden');
+                previewImage.classList.add('hidden');
                 return;
             }
 
-            // Validate file size max 2MB
             if (file.size > 2 * 1024 * 1024) {
                 alert('Ukuran file maksimal 2MB');
                 fileInput.value = '';
-                customBtn.textContent = 'Klik untuk memilih file...';
-                previewImage.src = '#';
-                previewImage.classList.add('opacity-0', 'hidden');
+                previewImage.classList.add('hidden');
                 return;
             }
 
-            // Update button text
-            customBtn.textContent = file.name;
-
-            // Show preview with fade-in effect
             const reader = new FileReader();
             reader.onload = function (e) {
                 previewImage.src = e.target.result;
                 previewImage.classList.remove('hidden');
-                setTimeout(() => {
-                    previewImage.classList.remove('opacity-0');
-                }, 10);
             };
             reader.readAsDataURL(file);
-        });
-
-        // Clicking custom button triggers file input click
-        customBtn.addEventListener('click', () => {
-            fileInput.click();
         });
     </script>
 @endsection

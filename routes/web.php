@@ -22,17 +22,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/register', [AuthController::class, 'viewRegister'])->name('register');
-Route::post('/register', [AuthController::class, 'registerPost'])->name('register.post');
-
-
 
 // Authentication Routes
-Route::get('/register', [AuthController::class, 'viewRegister'])->name('register');
-Route::post('/register', [AuthController::class, 'registerPost'])->name('register.post');
+Route::middleware('guest')->group(function () {
+    Route::get('/register', [AuthController::class, 'viewRegister'])->name('register');
+    Route::post('/register', [AuthController::class, 'registerPost'])->name('register.post');
 
-Route::post('/login', [AuthController::class, 'loginPost'])->name('login.post');
-Route::get('/login', [AuthController::class, 'viewLogin'])->name('login');
+    Route::get('/login', [AuthController::class, 'viewLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'loginPost'])->name('login.post');
+});
+
 Route::post('/logout', [AuthController::class, 'logoutPost'])->name('logout.post');
 
 Route::middleware(['auth', 'isAdmin'])->group(function () {
@@ -100,50 +99,36 @@ Route::middleware(['auth', 'isCustomer'])->group(function () {
     Route::get('/transaksi/{id}', [TransaksiController::class, 'transaksiShow'])->name('customer.transaksi.show');
     Route::post('/transaksi', [TransaksiController::class, 'transaksiStore'])->name('customer.transaksi.store');
     Route::post('/transaksi/{id}/upload-bukti', [App\Http\Controllers\Customer\TransaksiController::class, 'uploadBukti'])
-    ->name('customer.transaksi.uploadBukti');
+        ->name('customer.transaksi.uploadBukti');
 });
 
-// Customer Public Routes
-Route::get('/', function () {
-    return view('welcome');
-})->name('landing.page');
+Route::middleware('redirectIfAdmin')->group(function () {
+    Route::get('/', function () {
+        return view('welcome');
+    })->name('landing.page');
 
-// Product Routes
-Route::get('/produk-kami', [\App\Http\Controllers\Customer\KatalogController::class, 'showKatalog'])->name('produk-kami');
-Route::get('/produk/{id}', [\App\Http\Controllers\Customer\KatalogController::class, 'showDetail'])->name('produk.detail');
-Route::get('/produk/{id}/show', [\App\Http\Controllers\Customer\KatalogController::class, 'show'])->name('produk.show');
+    Route::get('/produk-kami', [\App\Http\Controllers\Customer\KatalogController::class, 'showKatalog'])->name('produk-kami');
+    Route::get('/produk/{id}', [\App\Http\Controllers\Customer\KatalogController::class, 'showDetail'])->name('produk.detail');
+    Route::get('/produk/{id}/show', [\App\Http\Controllers\Customer\KatalogController::class, 'show'])->name('produk.show');
 
-// Customer Logged Out Route
+    Route::get('/syarat-ketentuan', function () {
+        return view('customer.term-of-service.main-tos');
+    })->name('syarat-ketentuan');
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('landing.page');
+    Route::get('/syarat-ketentuan/order', function () {
+        return view('customer.term-of-service.order');
+    })->name('syarat-ketentuan.order');
 
-Route::get('/produk-kami', [\App\Http\Controllers\Customer\KatalogController::class, 'showKatalog'])->name('produk-kami');
+    Route::get('/syarat-ketentuan/payment', function () {
+        return view('customer.term-of-service.payment');
+    })->name('syarat-ketentuan.payment');
 
-Route::get('/produk/{id}', [\App\Http\Controllers\Customer\KatalogController::class, 'showDetail'])
-    ->name('produk.detail');
+    Route::get('/syarat-ketentuan/delivery', function () {
+        return view('customer.term-of-service.delivery');
+    })->name('syarat-ketentuan.delivery');
 
+    Route::get('/syarat-ketentuan/pickup', function () {
+        return view('customer.term-of-service.pickup');
+    })->name('syarat-ketentuan.pickup');
+});
 
-
-
-// Syarat & Ketentuan Routes
-Route::get('/syarat-ketentuan', function () {
-    return view('customer.term-of-service.main-tos');
-})->name('syarat-ketentuan');
-
-Route::get('/syarat-ketentuan/order', function () {
-    return view('customer.term-of-service.order');
-})->name('syarat-ketentuan.order');
-
-Route::get('/syarat-ketentuan/payment', function () {
-    return view('customer.term-of-service.payment');
-})->name('syarat-ketentuan.payment');
-
-Route::get('/syarat-ketentuan/delivery', function () {
-    return view('customer.term-of-service.delivery');
-})->name('syarat-ketentuan.delivery');
-
-Route::get('/syarat-ketentuan/pickup', function () {
-    return view('customer.term-of-service.pickup');
-})->name('syarat-ketentuan.pickup');

@@ -44,6 +44,12 @@
                         class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-700" />
                 </div>
 
+                  <div class="flex flex-col text-lg items-start gap-2">
+                    <label for="no_handphone" class="font-medium text-gray-700">No Handphone</label>
+                    <input type="tel" id="no_handphone" name="no_handphone" placeholder="Ketik email..."
+                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-700" />
+                </div>
+
                 <div class="flex flex-col text-lg items-start gap-2">
                     <label for="email" class="font-medium text-gray-700">Email</label>
                     <input type="email" id="email" name="email" placeholder="Ketik email..."
@@ -74,6 +80,8 @@
                         </button>
                     </div>
                 </div>
+
+
 
                 <button type="submit"
                     class="bg-amber-700 rounded-lg text-lg text-white hover:opacity-80 transition py-3 mt-4 w-full">
