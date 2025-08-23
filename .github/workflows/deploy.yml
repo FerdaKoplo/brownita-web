@@ -126,7 +126,6 @@ jobs:
           script: |
             cd /home/${{ secrets.CPANEL_USER }}/laravel/
             php artisan migrate --force
-            php artisan migrate:fresh --force
             php artisan config:cache
             php artisan route:cache
             php artisan view:cache
