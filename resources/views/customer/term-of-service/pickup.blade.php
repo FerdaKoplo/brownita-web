@@ -2,8 +2,8 @@
 @section('title', 'Pickup - Syarat & Ketentuan | Brownita')
 @section('content')
 <div class="px-4 lg:px-32 py-10">
-    <h2 class="text-3xl lg:text-4xl font-bold text-brand-brown text-center mb-8 underline">Pick-Up</h2>
-    <ol
+    <h2 id="pickupTOSTitle" class="text-3xl lg:text-4xl font-bold text-brand-brown text-center mb-8 underline">Pick-Up</h2>
+    <ol id="row-animate-pickup"
         class="bg-amber-50 rounded-xl p-6 text-brand-brown text-lg space-y-3 list-decimal max-w-4xl mx-auto border border-brand-brown">
         <li>Seluruh Pick Up hanya dilakukan di alamat kami.</li>
         <li>Anda bertanggung jawab untuk memesan atau mengatur kurir Pick Up. Kurir Pick Up tidak pernah dipesan dari

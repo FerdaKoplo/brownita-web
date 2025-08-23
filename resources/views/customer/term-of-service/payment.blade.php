@@ -2,8 +2,8 @@
 @section('title', 'Payment - Syarat & Ketentuan | Brownita')
 @section('content')
 <main class="px-4 lg:px-32 py-10">
-    <h2 class="text-3xl lg:text-4xl font-bold text-brand-brown text-center mb-8 underline">Payment</h2>
-    <ol class="bg-amber-50 rounded-xl p-6 text-brand-brown text-lg space-y-3 list-decimal max-w-3xl mx-auto">
+    <h2 id="paymentTitleTOS" class="text-3xl lg:text-4xl font-bold text-brand-brown text-center mb-8 underline">Payment</h2>
+    <ol id="row-animate-payment" class="bg-amber-50 opacity-0 rounded-xl  p-6 text-brand-brown text-lg space-y-3 list-decimal max-w-3xl mx-auto">
         <li>Pembayaran dapat dilakukan melalui transfer atau tunai jika pemesanan dilakukan secara langsung dan datang
             ke tempat kami.</li>
         <li>Pembayaran untuk pemesanan hantaran, cake, catering, dll melalui rekening BCA 5065104455 dan BNI 0187814766

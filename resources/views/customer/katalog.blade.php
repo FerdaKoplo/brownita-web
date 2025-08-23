@@ -116,7 +116,7 @@
                 @endif --}}
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div id="catalogueItems" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 @forelse($catalogues as $catalogue)
                     <div class="rounded-lg shadow-md overflow-hidden bg-white">
                         <div class="relative">
@@ -153,21 +153,37 @@
 
             {{-- Pagination --}}
             @if($catalogues->hasPages())
-                <div class="flex justify-between items-center mt-6">
+                <div class="flex justify-center gap-10 items-center mt-6">
                     @if($catalogues->onFirstPage())
-                        <span class="text-gray-400">← Sebelumnya</span>
+                        <span class="text-gray-400 flex justify-center items-center gap-2">
+                            <i class="fa-solid fa-angle-left"></i>
+                            Prev
+                        </span>
                     @else
                         <a href="{{ $catalogues->appends(request()->query())->previousPageUrl() }}"
-                            class="text-amber-700 hover:underline">← Sebelumnya</a>
+                            class="text-amber-700 justify-center font-semibold flex items-center gap-2">
+                            <i class="fa-solid fa-angle-left"></i>
+                            Prev
+                        </a>
                     @endif
-
-                    <span class="text-sm text-gray-600">Halaman {{ $catalogues->currentPage() }}</span>
+                    @foreach ($catalogues->getUrlRange(1, $catalogues->lastPage()) as $page => $url)
+                        <a href="{{ $url }}"
+                            class="{{ $page == $catalogues->currentPage() ? 'bg-black text-white' : 'text-amber-700' }} px-2 py-1 rounded">
+                            {{ $page }}
+                        </a>
+                    @endforeach
 
                     @if($catalogues->hasMorePages())
                         <a href="{{ $catalogues->appends(request()->query())->nextPageUrl() }}"
-                            class="text-amber-700 hover:underline">Selanjutnya →</a>
+                            class="text-amber-700 font-semibold justify-center flex items-center gap-2">
+                            Next
+                            <i class="fa-solid fa-angle-right"></i>
+                        </a>
                     @else
-                        <span class="text-gray-400">Selanjutnya →</span>
+                        <span class="text-gray-400 flex items-center gap-2">
+                            Next
+                            <i class="fa-solid fa-angle-right"></i>
+                        </span>
                     @endif
                 </div>
             @endif

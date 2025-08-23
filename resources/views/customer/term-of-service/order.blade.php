@@ -2,10 +2,10 @@
 @section('title', 'Order - Syarat & Ketentuan | Brownita')
 @section('content')
 <div class="px-4 lg:px-32 py-10">
-    <h2 class="text-3xl lg:text-4xl font-bold text-brand-brown text-center mb-8 underline">Order</h2>
+    <h2 id="orderTOSTitle" class="text-3xl lg:text-4xl font-bold text-brand-brown text-center mb-8 underline">Order</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
         <!-- Kolom Kiri -->
-        <ol class="bg-amber-50 rounded-xl p-6 text-brand-brown text-lg space-y-3 list-decimal">
+        <ol class="row-animate opacity-0 bg-amber-50 rounded-xl p-6 text-brand-brown text-lg space-y-3 list-decimal">
             <li>Pemesanan hantaran luxury minimum H-30, dan untuk hantaran deluxe minimum H-7 dengan catatan masih ada
                 slot. Untuk nasi kotak, tumpeng, kue nampan, snackbox dan lain lain minimum H-7. Untuk kue kue lain yg
                 sifatnya dadakan bisa ditanyakan lebih lanjut sesuai stok yang ada.</li>
@@ -26,7 +26,7 @@
                 input, terutama data Delivery, tidak lengkap atau tidak benar.</li>
         </ol>
         <!-- Kolom Kanan -->
-        <ol class="bg-[#f7f5e6] rounded-xl p-6 text-brand-brown text-lg space-y-3 list-decimal" type="a">
+        <ol class="row-animate bg-[#f7f5e6] opacity-0 rounded-xl p-6 text-brand-brown text-lg space-y-3 list-decimal" type="a">
             <li>
                 Jika ada perubahan atas Order,
                 <ol class="list-[lower-alpha] pl-5">

@@ -14,7 +14,12 @@ class Transaksi extends Model
         'total_harga',
         'alamat',
         'status',
+        'expires_at',
         'bukti_pembayaran'
+    ];
+
+    protected $casts = [
+        'expires_at' => 'datetime',
     ];
 
     public function user()

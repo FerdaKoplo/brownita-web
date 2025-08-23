@@ -24,13 +24,17 @@ class TransaksiController extends Controller
             ->when($request->from, fn($q) => $q->whereDate('created_at', '>=', $request->from))
             ->when($request->to, fn($q) => $q->whereDate('created_at', '<=', $request->to))
             ->latest()
-            ->paginate(10);
+            ->paginate(10)->appends($request->all());
         return view('customer.transaksi.index', compact('transaksis'));
     }
 
     public function transaksiShow($id)
     {
         $transaksi = Transaksi::where('user_id', auth()->id())->findOrFail($id);
+        // if expired and still pending → mark as batal
+        if ($transaksi->status === 'pending' && $transaksi->expires_at && $transaksi->expires_at->isPast()) {
+            $transaksi->update(['status' => 'batal']);
+        }
         return view('customer.transaksi.show', compact('transaksi'));
     }
 
@@ -51,6 +55,7 @@ class TransaksiController extends Controller
             'user_id' => auth()->id(),
             'total_harga' => $totalHarga,
             'alamat' => $validated['alamat'],
+            'expires_at' => now()->addHours(2),
         ]);
 
         foreach ($cartItems as $item) {

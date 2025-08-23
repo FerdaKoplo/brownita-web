@@ -4,11 +4,11 @@
     <div class="px-8 lg:px-32 py-16">
         <!-- Header Section -->
         <div class="text-center mb-16">
-            <h2 class="text-4xl lg:text-5xl font-bold text-brand-brown mb-4">
+            <h2 id="tosTitle" class="text-4xl  opacity-0 lg:text-5xl font-bold text-brand-brown mb-4">
                 Syarat & Ketentuan
             </h2>
             <div class="w-32 h-1 bg-brand-brown mx-auto mb-8"></div>
-            <p class="text-brand-brown text-lg lg:text-xl max-w-4xl mx-auto leading-relaxed">
+            <p id="greetMain" class=" opacity-0 text-brand-brown text-lg lg:text-xl max-w-4xl mx-auto leading-relaxed">
                 Selamat datang di Brownita (Pricelist kami). Kami <br>
                 menganjurkan anda untuk membaca dan memahami <br>
                 Syarat dan Ketentuan ini dengan seksama.
@@ -19,7 +19,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             <!-- Order -->
             <a href="{{ route('syarat-ketentuan.order') }}"
-                class="flex flex-col items-center justify-center bg-amber-700 hover:bg-opacity-90 transition-all duration-300 rounded-2xl p-8 text-white shadow-lg cursor-pointer group focus:outline-none focus:ring-4 focus:ring-brand-light">
+                class="opacity-0 tos-btn flex flex-col items-center justify-center bg-amber-700 hover:bg-opacity-90 transition-colors duration-300 rounded-2xl p-8 text-white shadow-lg cursor-pointer group focus:outline-none focus:ring-4 focus:ring-brand-light">
                 <div class="mb-4">
                     <svg class="w-12 h-12 mx-auto group-hover:scale-110 transition-transform duration-300"
                         fill="currentColor" viewBox="0 0 24 24">
@@ -34,7 +34,7 @@
 
             <!-- Payment -->
             <a href="{{ route('syarat-ketentuan.payment') }}"
-                class="flex flex-col items-center justify-center bg-amber-700 hover:bg-opacity-90 transition-all duration-300 rounded-2xl p-8 text-white shadow-lg cursor-pointer group focus:outline-none focus:ring-4 focus:ring-brand-light">
+                class="opacity-0 tos-btn flex flex-col items-center justify-center bg-amber-700 hover:bg-opacity-90 transition-colors duration-300 rounded-2xl p-8 text-white shadow-lg cursor-pointer group focus:outline-none focus:ring-4 focus:ring-brand-light">
                 <div class="mb-4">
                     <svg class="w-12 h-12 mx-auto group-hover:scale-110 transition-transform duration-300"
                         fill="currentColor" viewBox="0 0 24 24">
@@ -47,7 +47,7 @@
 
             <!-- Delivery -->
             <a href="{{ route('syarat-ketentuan.delivery') }}"
-                class="flex flex-col items-center justify-center bg-amber-700 hover:bg-opacity-90 transition-all duration-300 rounded-2xl p-8 text-white shadow-lg cursor-pointer group focus:outline-none focus:ring-4 focus:ring-brand-light">
+                class="opacity-0 tos-btn flex flex-col items-center justify-center bg-amber-700 hover:bg-opacity-90 transition-colors duration-300 rounded-2xl p-8 text-white shadow-lg cursor-pointer group focus:outline-none focus:ring-4 focus:ring-brand-light">
                 <div class="mb-4">
                     <svg class="w-12 h-12 mx-auto group-hover:scale-110 transition-transform duration-300"
                         fill="currentColor" viewBox="0 0 24 24">
@@ -61,7 +61,7 @@
 
             <!-- Pick-Up -->
             <a href="{{ route('syarat-ketentuan.pickup') }}"
-                class="flex flex-col items-center justify-center bg-amber-700 hover:bg-opacity-90 transition-all duration-300 rounded-2xl p-8 text-white shadow-lg cursor-pointer group focus:outline-none focus:ring-4 focus:ring-brand-light">
+                class="opacity-0 tos-btn flex flex-col items-center justify-center bg-amber-700 hover:bg-opacity-90 transition-colors duration-300 rounded-2xl p-8 text-white shadow-lg cursor-pointer group focus:outline-none focus:ring-4 focus:ring-brand-light">
                 <div class="mb-4">
                     <svg class="w-12 h-12 mx-auto group-hover:scale-110 transition-transform duration-300"
                         fill="currentColor" viewBox="0 0 24 24">

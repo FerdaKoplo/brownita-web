@@ -2,10 +2,10 @@
 @section('title', 'Delivery - Syarat & Ketentuan | Brownita')
 @section('content')
 <div class="px-4 lg:px-32 py-10">
-    <h2 class="text-3xl lg:text-4xl font-bold text-brand-brown text-center mb-8 underline">Delivery</h2>
+    <h2 id="deliveryTOSTitle" class="text-3xl lg:text-4xl font-bold text-brand-brown text-center mb-8 underline">Delivery</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
         <!-- Kolom Kiri -->
-        <ol class="bg-amber-50 rounded-xl p-6 text-brand-brown text-lg space-y-3 list-decimal">
+        <ol class="row-animate opacity-0 bg-amber-50 rounded-xl p-6 text-brand-brown text-lg space-y-3 list-decimal">
             <li>Seluruh order hanya akan dikirim ke alamat sesuai yang anda tuliskan saat pemesanan. Jika ditemukan
                 pemberian informasi yang salah atau kecurangan di bagian Delivery (alamat tidak sesuai dengan atau di
                 luar dari Area Delivery yang dipilih) dalam bentuk apapun, baik disengaja maupun tidak, maka Kami berhak
@@ -24,7 +24,7 @@
                 mengakibatkan kegagalan pesanan tiba ke tempat tujuan.</li>
         </ol>
         <!-- Kolom Kanan -->
-        <ol class="bg-amber-50 rounded-xl p-6 text-brand-brown text-lg space-y-3 list-decimal" type="a">
+        <ol class="row-animate opacity-0 bg-amber-50 rounded-xl p-6 text-brand-brown text-lg space-y-3 list-decimal" type="a">
             <li>
                 Saat Kurir tiba di lokasi, standard peraturan Kami untuk kurir & Penerima bersama memeriksa kondisi kue.
                 Mohon laporkan komplain jika ditemukan kondisi kue kurang baik, dengan kehadiran Kurir kami. Kami tidak

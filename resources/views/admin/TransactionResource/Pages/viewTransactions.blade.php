@@ -60,7 +60,7 @@
 
                     {{-- Reset Filters --}}
                     <a href="{{ route('dashboard.admin.customer-transaction.view') }}"
-                        class="text-gray-500 text-sm hover:underline ml-2">Reset</a>
+                        class="text-red-500 font-semibold text-sm hover:underline ml-2">Reset</a>
                 </div>
             </form>
 
@@ -173,9 +173,39 @@
             </div>
 
             {{-- Pagination --}}
-            @if(method_exists($transaksis, 'links'))
-                <div class="mt-4">
-                    {{ $transaksis->links() }}
+            @if($transaksis->hasPages())
+                <div class="flex justify-center gap-10 items-center mt-6">
+                    @if($transaksis->onFirstPage())
+                        <span class="text-gray-400 flex justify-center items-center gap-2">
+                            <i class="fa-solid fa-angle-left"></i>
+                            Prev
+                        </span>
+                    @else
+                        <a href="{{ $transaksis->appends(request()->query())->previousPageUrl() }}"
+                            class="text-amber-700 justify-center font-semibold flex items-center gap-2">
+                            <i class="fa-solid fa-angle-left"></i>
+                            Prev
+                        </a>
+                    @endif
+                    @foreach ($transaksis->getUrlRange(1, $transaksis->lastPage()) as $page => $url)
+                        <a href="{{ $url }}"
+                            class="{{ $page == $transaksis->currentPage() ? 'bg-black text-white' : 'text-amber-700' }} px-2 py-1 rounded">
+                            {{ $page }}
+                        </a>
+                    @endforeach
+
+                    @if($transaksis->hasMorePages())
+                        <a href="{{ $transaksis->appends(request()->query())->nextPageUrl() }}"
+                            class="text-amber-700 font-semibold justify-center flex items-center gap-2">
+                            Next
+                            <i class="fa-solid fa-angle-right"></i>
+                        </a>
+                    @else
+                        <span class="text-gray-400 flex items-center gap-2">
+                            Next
+                            <i class="fa-solid fa-angle-right"></i>
+                        </span>
+                    @endif
                 </div>
             @endif
         </div>
