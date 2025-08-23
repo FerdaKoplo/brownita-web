@@ -11,6 +11,41 @@
             </button>
         </a>
 
+        @if($transaksi->status === 'pending' && $transaksi->expires_at)
+            <div class="bg-red-100 text-red-700 p-3 rounded-lg text-center">
+                <p id="countdown" class="font-semibold"></p>
+            </div>
+
+            <script>
+                // Use timestamp (milliseconds) to avoid timezone issues
+                const expiryTime = {{ $transaksi->expires_at->getTimestamp() * 1000 }}
+                        const countdownEl = document.getElementById("countdown")
+
+                if (countdownEl) {
+                    const interval = setInterval(() => {
+                        const now = Date.now()
+                        const distance = expiryTime - now
+
+                        if (distance <= 0) {
+                            clearInterval(interval);
+                            countdownEl.innerHTML = "Waktu pembayaran sudah habis. Transaksi dibatalkan."
+                        } else {
+                            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+                            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+                            const seconds = Math.floor((distance % (1000 * 60)) / 1000)
+                            countdownEl.innerHTML = `Bayar sebelum: ${hours} jam ${minutes} menit ${seconds} detik`
+                        }
+                    }, 1000)
+                }
+            </script>
+        @endif
+
+        @if($transaksi->status === 'batal')
+            <div class="bg-red-100 text-red-700 p-3 rounded-lg text-center">
+                <p class="font-semibold">Transaksi dibatalkan karena waktu pembayaran habis.</p>
+            </div>
+        @endif
+
         <div class="bg-white p-6 rounded-2xl shadow-md w-full text-center space-y-4">
             <h2 class="text-xl font-semibold text-gray-800">Scan untuk Membayar</h2>
             <img src="{{ asset('images/qr.png') }}" alt="QR Gopay"
@@ -79,8 +114,11 @@
     <script>
         const fileInput = document.getElementById('bukti_pembayaran');
         const previewImage = document.getElementById('previewImage');
+        const submitBtn = document.querySelector('button[type="submit"]');
 
         fileInput.addEventListener('change', function () {
+            submitBtn.disabled = fileInput.files.length === 0;
+
             if (fileInput.files.length === 0) {
                 previewImage.src = '#';
                 previewImage.classList.add('hidden');

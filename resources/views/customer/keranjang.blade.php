@@ -1,7 +1,7 @@
 @extends('layout.customer.app')
 @section('title', 'Keranjang')
 @section('content')
-    <div class="flex flex-col lg:flex-row px-4 md:px-16 lg:px-32 gap-10">
+    <div class="flex flex-col lg:flex-row px-4 md:px-16 lg:px-32 gap-12 justify-center min-h-screen items-center">
         <div class="flex flex-col items-center w-full lg:w-3/5 space-y-8">
             @foreach ($cartItems as $cartitem)
                 <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-16 w-full bg-white rounded-2xl shadow-md p-5">
@@ -55,7 +55,7 @@
             @endforeach
         </div>
 
-        <form method="POST" action="{{ route('customer.transaksi.store') }}" class="flex flex-col gap-8 w-full lg:w-2/5 ">
+        <form method="POST" action="{{ route('customer.transaksi.store') }}" class="flex flex-col gap-8 w-full lg:w-2/5">
             @csrf
             <div class="flex flex-col gap-4">
                 <h1 class="text-gray-800 font-bold text-xl md:text-2xl">Alamat</h1>
@@ -79,6 +79,7 @@
                 Bayar Sekarang
             </button>
         </form>
+
         {{-- <div class="">
 
             <div class="space-y-4">
