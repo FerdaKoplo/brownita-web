@@ -17,27 +17,33 @@
             </div>
 
             <script>
-                const expiryTime = new Date("{{ $transaksi->expires_at->format('Y-m-d\TH:i:s') }}").getTime();
-                const countdownEl = document.getElementById("countdown");
+                // Use timestamp (milliseconds) to avoid timezone issues
+                const expiryTime = {{ $transaksi->expires_at->getTimestamp() * 1000 }}
+                        const countdownEl = document.getElementById("countdown")
 
                 if (countdownEl) {
                     const interval = setInterval(() => {
-                        const now = new Date().getTime();
-                        const distance = expiryTime - now;
+                        const now = Date.now()
+                        const distance = expiryTime - now
 
                         if (distance <= 0) {
                             clearInterval(interval);
-                            countdownEl.innerHTML = "⏳ Waktu pembayaran sudah habis. Transaksi dibatalkan.";
-                            window.location.reload();
+                            countdownEl.innerHTML = "Waktu pembayaran sudah habis. Transaksi dibatalkan."
                         } else {
-                            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                            countdownEl.innerHTML = `Bayar sebelum: ${hours} jam ${minutes} menit ${seconds} detik`;
+                            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+                            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+                            const seconds = Math.floor((distance % (1000 * 60)) / 1000)
+                            countdownEl.innerHTML = `Bayar sebelum: ${hours} jam ${minutes} menit ${seconds} detik`
                         }
-                    }, 1000);
+                    }, 1000)
                 }
             </script>
+        @endif
+
+        @if($transaksi->status === 'batal')
+            <div class="bg-red-100 text-red-700 p-3 rounded-lg text-center">
+                <p class="font-semibold">Transaksi dibatalkan karena waktu pembayaran habis.</p>
+            </div>
         @endif
 
         <div class="bg-white p-6 rounded-2xl shadow-md w-full text-center space-y-4">

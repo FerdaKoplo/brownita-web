@@ -25,8 +25,29 @@
         @yield('content')
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if(session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Sukses!',
+                text: "{{ session('success') }}",
+                confirmButtonColor: '#3085d6'
+            });
+        </script>
+    @endif
+
+    @if ($errors->any())
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi Kesalahan',
+                text: '{{ $errors->first() }}',
+            });
+        </script>
+    @endif
+
 </body>
 
 </html>
-
-
