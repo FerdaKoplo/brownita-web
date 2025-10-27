@@ -11,7 +11,6 @@
 7. [Dependencies](#dependencies)
 8. [Features](#features)
 9. [Contribution](#contribution)
-10. [License](#license)
 
 ---
 
@@ -144,6 +143,3 @@ git push origin feature-name
 
 5. Open a Pull Request.
 
-## License
-
-This project is open-source and free to use.
