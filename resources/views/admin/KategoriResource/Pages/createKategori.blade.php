@@ -11,14 +11,14 @@
             <!-- Nama Kategori -->
             <div>
                 <label for="nama_kategori" class="block text-sm font-medium text-gray-700">Nama Kategori</label>
-                <input type="text" id="nama_kategori" name="nama_kategori"
+                <input type="text" id="nama_kategori" name="nama_kategori" placeholder="Masukkan nama kategori..."
                     class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">
             </div>
 
             <!-- Deskripsi Kategori -->
             <div>
                 <label for="deskripsi_kategori" class="block text-sm font-medium text-gray-700">Deskripsi Kategori</label>
-                <textarea name="deskripsi_kategori" id="deskripsi_kategori" rows="4"
+                <textarea name="deskripsi_kategori" id="deskripsi_kategori" rows="4" placeholder="Masukkan deskripsi kategori"
                     class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none"></textarea>
             </div>
 
