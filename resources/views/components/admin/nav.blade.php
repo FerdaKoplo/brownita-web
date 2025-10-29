@@ -5,7 +5,7 @@
 <div id="sidebarOverlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40"></div>
 
 <nav id="sidebar"
-    class="fixed top-0 left-0 h-screen  w-54 text p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-50">
+    class="fixed top-0 left-0 h-screen shadow-sm hover:shadow-md w-54 text-sm p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-50">
     <div class="flex flex-col gap-10">
         <div class="flex flex-col gap-5">
             <a href="{{ route('dashboard.admin') }}" class="text-xl font-kameron font-bold">ADMIN BROWNITA</a>
@@ -47,8 +47,16 @@
                     <span>Transaksi Customer</span>
                 </a>
             </li>
-        </ul>
 
+            <li>
+                <a href="{{ route('dashboard.admin.customer-transaction.view') }}"
+                    class="flex items-center gap-3 w-full px-2 py-3 rounded-md
+            {{ request()->routeIs('dashboard.admin.customer-transaction.view') ? 'bg-amber-600 text-white' : 'hover:bg-amber-600 hover:text-white' }}">
+                        <i class="fa-solid fa-pen"></i>
+                    <span>Pencacatan Transaksi</span>
+                </a>
+            </li>
+        </ul>
 
         <form class="logoutForm" action="{{ route('logout.post') }}" method="POST">
             @csrf
