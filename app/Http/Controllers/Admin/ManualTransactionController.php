@@ -97,7 +97,7 @@ class ManualTransactionController extends Controller
 
 
         return redirect()
-            ->route('dashboard.admin.manual-transaksi.detail.create')
+            ->route('dashboard.admin.manual-transaksi.create')
             ->with('success', 'Data transaksi berhasil dibuat. Silakan tambahkan produk.');
     }
 
