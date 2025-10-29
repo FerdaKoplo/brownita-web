@@ -25,7 +25,7 @@ return new class extends Migration {
             $table->text('alamat')->nullable();
             $table->decimal('total_harga', 15, 2)->default(0);
             $table->enum('status', ['draft', 'pending', 'paid', 'cancelled', 'completed'])->default('draft');
-            $table->date('tanggal_transaksi');
+            $table->date('tanggal_transaksi')->nullable();
             $table->enum('tipe_pemesanan', ['pre-order', 'order-via-whatsapp']);
             $table->text('notes')->nullable();
             $table->date('preorder_start')->nullable();

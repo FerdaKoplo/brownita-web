@@ -20,7 +20,7 @@ class ManualTransactionController extends Controller
         $toDate = $request->input('to_date');
         $creator = $request->input('created_by');
         $preorderStart = $request->input('preorder_start');
-        $preorderEnd = $request->input('preorder_end');
+        $preorderEnd = $request->input('preorder_deadline');
 
         $manualTransaksiData = ManualTransaksiData::with('creator')
             ->when(
@@ -48,18 +48,14 @@ class ManualTransactionController extends Controller
             ->latest()
             ->paginate(10);
 
-        $adminUsers = User::where('role', 'admin')->pluck('name', 'id');
+        // $adminUsers = User::where('role', 'admin')->pluck('name', 'id');
 
         return view('admin.ManualTransaksiData.Pages.viewManualTransaksiData', compact(
             'manualTransaksiData',
-            'adminUsers'
+            // 'adminUsers'
         ));
     }
 
-    public function createManualTransaksi()
-    {
-        return view('admin.ManualTransaksiData.Pages.createTransaksiData');
-    }
 
     public function storeManualTransaksi(Request $request)
     {
@@ -70,7 +66,7 @@ class ManualTransactionController extends Controller
             'tanggal_transaksi' => 'required|date',
             'tipe_pemesanan' => 'required|in:pre-order,order-via-whatsapp',
             'preorder_start' => 'nullable|required_if:tipe_pemesanan,pre-order|date',
-            'preorder_end' => 'nullable|required_if:tipe_pemesanan,pre-order|date|after_or_equal:preorder_start',
+            'preorder_deadline' => 'nullable|required_if:tipe_pemesanan,pre-order|date|after_or_equal:preorder_start',
             'total_harga' => 'nullable|numeric|min:0',
             'notes' => 'nullable|string',
 
@@ -88,25 +84,26 @@ class ManualTransactionController extends Controller
 
             $total = 0;
             foreach ($validated['details'] as $detail) {
-                $manualTransaksi->manualTransaksiDetailDatas()->create($detail);
+                $manualTransaksi->details()->create($detail);
                 $total += $detail['quantity'] * $detail['harga_satuan'];
             }
 
             $manualTransaksi->update(['total_harga' => $total]);
         });
 
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Transaksi berhasil disimpan!',
+            ]);
+        }
+
 
         return redirect()
-            ->route('dashboard.admin.manual-transaksi.create')
+            ->route('dashboard.admin.manual-transaksi.index')
             ->with('success', 'Data transaksi berhasil dibuat. Silakan tambahkan produk.');
     }
 
-    public function editManualTransaksi($id)
-    {
-        $manualTransaksi = ManualTransaksiData::with('manualTransaksiDetailDatas')->findOrFail($id);
-
-        return view('admin.ManualTransaksiData.Pages.editTransaksiData', compact('manualTransaksi'));
-    }
 
     public function updateManualTransaksi(Request $request, $id)
     {
@@ -119,7 +116,7 @@ class ManualTransactionController extends Controller
             'tanggal_transaksi' => 'required|date',
             'tipe_pemesanan' => 'required|in:pre-order,order-via-whatsapp',
             'preorder_start' => 'nullable|required_if:tipe_pemesanan,pre-order|date',
-            'preorder_end' => 'nullable|required_if:tipe_pemesanan,pre-order|date|after_or_equal:preorder_start',
+            'preorder_deadline' => 'nullable|required_if:tipe_pemesanan,pre-order|date|after_or_equal:preorder_start',
             'total_harga' => 'nullable|numeric|min:0',
             'status' => 'nullable|string|max:50',
             'notes' => 'nullable|string',
@@ -137,7 +134,7 @@ class ManualTransactionController extends Controller
 
             $manualTransaksi->update($validated);
 
-            $existingDetailIds = $manualTransaksi->manualTransaksiDetailDatas->pluck('id')->toArray();
+            $existingDetailIds = $manualTransaksi->details?->pluck('id')->toArray() ?? [];
             $submittedIds = collect($validated['details'])->pluck('id')->filter()->toArray();
 
             $toDelete = array_diff($existingDetailIds, $submittedIds);
@@ -149,12 +146,20 @@ class ManualTransactionController extends Controller
                 if (isset($detail['id'])) {
                     ManualTransaksiDetailData::find($detail['id'])->update($detail);
                 } else {
-                    $manualTransaksi->manualTransaksiDetailDatas()->create($detail);
+                    $manualTransaksi->details()->create($detail);
                 }
             }
 
             $manualTransaksi->update(['total_harga' => $total]);
         });
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Transaksi berhasil disimpan!',
+            ]);
+        }
+
         return redirect()
             ->route('dashboard.admin.manual-transaksi.index')
             ->with('success', 'Data transaksi berhasil diperbarui.');

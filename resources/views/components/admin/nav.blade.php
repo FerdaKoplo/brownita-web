@@ -49,9 +49,9 @@
             </li>
 
             <li>
-                <a href="{{ route('dashboard.admin.customer-transaction.view') }}"
+                <a href="{{ route('dashboard.admin.manual-transaksi.index') }}"
                     class="flex items-center gap-3 w-full px-2 py-3 rounded-md
-            {{ request()->routeIs('dashboard.admin.customer-transaction.view') ? 'bg-amber-600 text-white' : 'hover:bg-amber-600 hover:text-white' }}">
+            {{ request()->routeIs('dashboard.admin.manual-transaksi.index') ? 'bg-amber-600 text-white' : 'hover:bg-amber-600 hover:text-white' }}">
                         <i class="fa-solid fa-pen"></i>
                     <span>Pencacatan Transaksi</span>
                 </a>

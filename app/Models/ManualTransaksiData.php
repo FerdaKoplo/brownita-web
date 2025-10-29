@@ -11,6 +11,7 @@ class ManualTransaksiData extends Model
 {
     use HasFactory;
 
+
     protected $fillable = [
         'created_by',
         'updated_by',
@@ -21,13 +22,19 @@ class ManualTransaksiData extends Model
         'status',
         'tipe_pemesanan',
         'notes',
+        'tanggal_transaksi',
         'preorder_start',
         'preorder_end'
     ];
 
-    public function manualTransaksiDetailDatas(): HasMany
+    protected $casts = [
+        'tanggal_transaksi' => 'date',
+        'preorder_start' => 'date',
+        'preorder_deadline' => 'date',
+    ];
+    public function details()
     {
-        return $this->hasMany(ManualTransaksiDetailData::class);
+        return $this->hasMany(ManualTransaksiDetailData::class, 'manual_transaksi_data_id');
     }
 
     public function creator(): BelongsTo

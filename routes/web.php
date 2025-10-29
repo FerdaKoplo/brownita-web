@@ -83,7 +83,8 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::post('/dashboard/admin/pencacatan-transaksi-customer/store', [ManualTransactionController::class, 'storeManualTransaksi'])->name('dashboard.admin.manual-transaksi.store');
     Route::get('/dashboard/admin/pencacatan-transaksi-customer/edit/{id}', [ManualTransactionController::class, 'editManualTransaksi'])->name('dashboard.admin.manual-transaksi.edit');
     Route::put('/dashboard/admin/pencacatan-transaksi-customer/update/{id}', [ManualTransactionController::class, 'updateManualTransaksi'])->name('dashboard.admin.manual-transaksi.update');
-    Route::delete('/dashboard/admin/pencacatan-transaksi-customer/delete/{id}', [ManualTransactionController::class, 'destroyManualTransaksi'])->name('dashboard.admin.manual-transaksi.delete');
+    Route::delete('/dashboard/admin/pencacatan-transaksi-customer/delete/{id}', [ManualTransactionController::class, 'destroyManualTransaksi'])->name('dashboard.admin.manual-transaksi.destroy');
+
     
 });
 
