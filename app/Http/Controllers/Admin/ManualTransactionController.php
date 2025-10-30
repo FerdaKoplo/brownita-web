@@ -69,6 +69,7 @@ class ManualTransactionController extends Controller
             'preorder_deadline' => 'nullable|required_if:tipe_pemesanan,pre-order|date|after_or_equal:preorder_start',
             'total_harga' => 'nullable|numeric|min:0',
             'notes' => 'nullable|string',
+            'status' => 'nullable|in:draft,pending,dibayar,dibatalkan,selesai',
 
             'details' => 'required|array|min:1',
             'details.*.nama_produk' => 'required|string|max:255',
@@ -76,6 +77,7 @@ class ManualTransactionController extends Controller
             'details.*.harga_satuan' => 'required|numeric|min:0',
         ]);
 
+         $validated['status'] = $validated['status'] ?? 'draft';
 
         DB::transaction(function () use ($validated) {
             $validated['created_by'] = auth()->id();
@@ -118,7 +120,7 @@ class ManualTransactionController extends Controller
             'preorder_start' => 'nullable|required_if:tipe_pemesanan,pre-order|date',
             'preorder_deadline' => 'nullable|required_if:tipe_pemesanan,pre-order|date|after_or_equal:preorder_start',
             'total_harga' => 'nullable|numeric|min:0',
-            'status' => 'nullable|string|max:50',
+            'status' => 'nullable|in:draft,pending,dibayar,dibatalkan,selesai',
             'notes' => 'nullable|string',
 
             'details' => 'required|array|min:1',

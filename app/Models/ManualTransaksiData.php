@@ -24,7 +24,7 @@ class ManualTransaksiData extends Model
         'notes',
         'tanggal_transaksi',
         'preorder_start',
-        'preorder_end'
+        'preorder_deadline'
     ];
 
     protected $casts = [

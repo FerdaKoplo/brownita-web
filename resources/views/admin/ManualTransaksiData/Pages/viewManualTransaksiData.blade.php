@@ -2,7 +2,7 @@
 @section('title', 'Manual Transaksi')
 
 @section('content')
-    <div class="bg-gray-50 min-h-screen p-4" x-data="manualTransaksiForm()">
+    <div class="bg-gray-50 min-h-screen p-4 sm:p-6" x-data="manualTransaksiForm()">
         <div class="flex flex-col gap-4">
 
             {{-- Header --}}
@@ -14,60 +14,180 @@
                 </button>
             </div>
 
+            <form action="{{ route('dashboard.admin.manual-transaksi.index') }}" method="GET"
+                class="w-full sm:max-w-5xl flex flex-wrap items-center gap-6 bg-white p-4 rounded-lg shadow-md">
+
+                {{-- Search --}}
+                <div
+                    class="flex items-center gap-2 shadow-sm hover:shadow-md duration-300 rounded-lg bg-white p-3 flex-1 min-w-[220px]">
+                    <i class="fa-solid fa-magnifying-glass text-gray-500"></i>
+                    <input type="text" name="search" value="{{ request('search') }}"
+                        class="w-full bg-transparent outline-none text-gray-700 placeholder-gray-400 text-sm sm:text-base"
+                        placeholder="Cari Nama Customer, No HP, atau Alamat...">
+                </div>
+
+                {{-- Tipe Pemesanan --}}
+                <div class="flex flex-col-reverse gap-2">
+                    <select name="tipe_pemesanan" class="rounded px-2 py-1 border text-sm sm:text-base">
+                        <option value="">Semua Tipe</option>
+                        <option value="pre-order" {{ request('tipe_pemesanan') == 'pre-order' ? 'selected' : '' }}>Pre-Order
+                        </option>
+                        <option value="order-via-whatsapp" {{ request('tipe_pemesanan') == 'order-via-whatsapp' ? 'selected' : '' }}>Order via WhatsApp</option>
+                    </select>
+                    <span class="text-xs text-gray-400 mt-1">Tipe Pemesanan</span>
+                </div>
+
+                {{-- Tanggal Transaksi --}}
+                <div class="flex items-center gap-2">
+                    <div class="flex flex-col-reverse gap-2">
+                        <input type="date" name="from_date" value="{{ request('from_date') }}"
+                            class="border rounded px-2 py-1 text-sm">
+                        <span class="text-xs text-gray-400 mt-1">Tanggal Mulai</span>
+                    </div>
+                    <div class="flex flex-col-reverse gap-2">
+                        <input type="date" name="to_date" value="{{ request('to_date') }}"
+                            class="border rounded px-2 py-1 text-sm">
+                        <span class="text-xs text-gray-400 mt-1">Tanggal Selesai</span>
+                    </div>
+                </div>
+
+                <div class="flex  items-center gap-5">
+                    {{-- Preorder Range --}}
+                    <div class="flex flex-col-reverse gap-2">
+                        <input type="date" name="preorder_start" value="{{ request('preorder_start') }}"
+                            class="border rounded px-2 py-1 text-sm">
+                        <span class="text-xs text-gray-400 mt-1">Preorder Start</span>
+                    </div>
+                    <div class="flex flex-col-reverse gap-2">
+                        <input type="date" name="preorder_deadline" value="{{ request('preorder_deadline') }}"
+                            class="border rounded px-2 py-1 text-sm">
+                        <span class="text-xs text-gray-400 mt-1">Preorder End</span>
+                    </div>
+                </div>
+
+                {{-- Submit & Reset --}}
+                <div class="flex items-center gap-3">
+                    <button type="submit"
+                        class="bg-amber-600 text-white px-4 py-1 rounded text-sm hover:bg-black transition">
+                        Filter
+                    </button>
+                    <a href="{{ route('dashboard.admin.manual-transaksi.index') }}"
+                        class="text-red-500 font-semibold text-sm hover:underline">Reset</a>
+                </div>
+            </form>
+
             {{-- Form --}}
             <div x-show="formVisible" x-transition:enter="transform transition ease-out duration-300"
                 x-transition:enter-start="-translate-y-10 opacity-0" x-transition:enter-end="translate-y-0 opacity-100"
                 x-transition:leave="transform transition ease-in duration-200"
                 x-transition:leave-start="translate-y-0 opacity-100" x-transition:leave-end="-translate-y-12 opacity-0"
-                class="bg-white p-4 rounded-lg shadow-md">
-                <form @submit.prevent="submitForm">
+                class="bg-white p-4 rounded-lg shadow-md ">
+                <form @submit.prevent="submitForm" class="space-y-10">
                     {{-- Customer Info --}}
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                        <input type="text" placeholder="Nama Customer" x-model="form.customer_name"
-                            class="border rounded px-2 py-1 w-full">
-                        <input type="text" placeholder="No. HP" x-model="form.customer_phone"
-                            class="border rounded px-2 py-1 w-full">
-                        <textarea placeholder="Alamat" x-model="form.alamat"
-                            class="border rounded px-2 py-1 w-full sm:col-span-2"></textarea>
+                    <h2 class="font-semibold mb-2">Customer Info</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 mb-4">
+                        <div class="flex flex-col gap-2 items-start">
+                            <label class="block text-sm font-medium text-gray-700">Nama Customer</label>
+                            <input type="text" placeholder="Nama Customer" x-model="form.customer_name"
+                                class="border rounded px-2 py-1 w-full">
+                        </div>
+                        <div class=" flex flex-col gap-2 items-start">
+                            <label class="block text-sm font-medium text-gray-700">No Hp Customer</label>
+                            <input type="text" placeholder="No. HP" x-model="form.customer_phone"
+                                class="border rounded px-2 py-1 w-full">
+                        </div>
+
+                        <div class="flex flex-col gap-2 items-start">
+                            <label class="block text-sm font-medium text-gray-700">Alamat Customer</label>
+                            <textarea placeholder="Alamat" x-model="form.alamat" rows="4"
+                                class="border rounded px-2 py-1 w-full sm:col-span-2"></textarea>
+                        </div>
+
                     </div>
 
                     {{-- Pre-order --}}
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                        <select x-model="form.tipe_pemesanan" class="border rounded px-2 py-1 w-full">
-                            <option value="">Pilih Tipe Pemesanan</option>
-                            <option value="pre-order">Pre-Order</option>
-                            <option value="order-via-whatsapp">Order via WhatsApp</option>
-                        </select>
+                        <div class="flex flex-col gap-2">
+                            <label class="block text-sm font-medium text-gray-700">Tipe Pemesanan</label>
+                            <select x-model="form.tipe_pemesanan" class="border rounded px-2 py-1 w-full">
+                                <option value="">Pilih Tipe Pemesanan</option>
+                                <option value="pre-order">Pre-Order</option>
+                                <option value="order-via-whatsapp">Order via WhatsApp</option>
+                            </select>
+                        </div>
 
                         <template x-if="form.tipe_pemesanan === 'pre-order'">
                             <div class="flex gap-2">
-                                <input type="date" x-model="form.preorder_start" class="border rounded px-2 py-1 w-full">
-                                <input type="date" x-model="form.preorder_deadline" class="border rounded px-2 py-1 w-full">
+                                <div class="w-full flex flex-col gap-2">
+                                    <label class="block text-sm font-medium text-gray-700">Mulai Pre-Order</label>
+                                    <input type="date" x-model="form.preorder_start"
+                                        class="border rounded px-2 py-1 w-full">
+                                </div>
+
+                                <div class="flex flex-col gap-2 w-full">
+                                    <label class="block text-sm font-medium text-gray-700">Akhir Pre-Order</label>
+                                    <input type="date" x-model="form.preorder_start"
+                                        class="border rounded px-2 py-1 w-full">
+                                </div>
+
                             </div>
                         </template>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                        <div class="flex flex-col gap-2">
+                            <label class="block text-sm font-medium text-gray-700">Status</label>
+                            <select x-model="form.status" class="border rounded px-2 py-1 w-full">
+                                <option value="draft">Draft</option>
+                                <option value="pending">Pending</option>
+                                <option value="dibayar">Dibayar</option>
+                                <option value="dibatalkan">Dibatalkan</option>
+                                <option value="selesai">Selesai</option>
+                            </select>
+                        </div>
                     </div>
 
                     {{-- Tanggal Transaksi --}}
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                        <input type="date" x-model="form.tanggal_transaksi" class="border rounded px-2 py-1 w-full">
-                    </div>
 
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                        <div class="flex flex-col gap-2">
+                            <label class="block text-sm font-medium text-gray-700">Tanggal Transaksi</label>
+                            <input type="date" x-model="form.tanggal_transaksi" class="border rounded px-2 py-1 w-full">
+                        </div>
+                    </div>
                     {{-- Produk --}}
-                    <div class="mb-4">
+                    <div class="space-y-10">
                         <h2 class="font-semibold mb-2">Produk</h2>
                         <template x-for="(item, index) in form.details" :key="index">
-                            <div class="flex gap-2 mb-2">
-                                <input type="text" placeholder="Nama Produk" x-model="item.nama_produk"
-                                    class="border rounded px-2 py-1 flex-1">
-                                <input type="number" placeholder="Qty" x-model="item.quantity"
-                                    class="border rounded px-2 py-1 w-20">
-                                <input type="number" placeholder="Harga Satuan" x-model="item.harga_satuan"
-                                    class="border rounded px-2 py-1 w-32">
-                                <button type="button" @click="removeDetail(index)" class="text-red-500 px-2 py-1">X</button>
+                            <div class="flex gap-4 mb-2">
+                                <div class="flex flex-col gap-2 w-full">
+                                    <label class="block text-sm font-medium text-gray-700">Nama Produk</label>
+                                    <input type="text" placeholder="Nama Produk" x-model="item.nama_produk"
+                                        class="border rounded px-2 py-1 flex-1">
+                                </div>
+
+                                <div class="flex flex-col gap-2 w-full">
+                                    <label class="block text-sm font-medium text-gray-700">Jumlah Barang</label>
+                                    <input type="number" placeholder="Qty" x-model="item.quantity"
+                                        class="border rounded px-2 py-1 w-full">
+                                </div>
+
+                                <div x-data="rupiahFormatter(item)" class="flex flex-col gap-2 w-full">
+                                    <label class="block text-sm font-medium text-gray-700">Harga Barang</label>
+
+                                    <input type="text" x-model="harga_tampil" x-on:input="formatInput"
+                                        placeholder="Rp 100.000"
+                                        class="mt-1 block w-full bg-white border focus:ring-2 focus:ring-amber-700 border-gray-300 rounded-lg py-2 px-3 text-gray-800">
+                                </div>
+
+                                <button type="button" @click="removeDetail(index)" class="text-red-500 px-2 py-1">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
                             </div>
                         </template>
                         <button type="button" @click="addDetail()" class="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded">+
-                            Tambah Produk</button>
+                            Tambah Produk
+                        </button>
                     </div>
 
                     {{-- Submit --}}
@@ -89,8 +209,10 @@
                             <th class="border-b-2 px-4 py-3">No. HP</th>
                             <th class="border-b-2 px-4 py-3">Alamat</th>
                             <th class="border-b-2 px-4 py-3">Tipe Pemesanan</th>
+                            <th class="border-b-2 px-4 py-3">Status</th>
                             <th class="border-b-2 px-4 py-3">Tanggal Transaksi</th>
                             <th class="border-b-2 px-4 py-3">Pre-Order Start</th>
+                            <th class="border-b-2 px-4 py-3">Pre-Order End</th>
                             <th class="border-b-2 px-4 py-3">Produk</th>
                             <th class="border-b-2 px-4 py-3">Dibuat Oleh</th>
                             <th class="border-b-2 px-4 py-3">Aksi</th>
@@ -106,25 +228,35 @@
                                     {{ $transaction->alamat }}
                                 </td>
                                 <td class="px-4 py-3">{{ ucfirst(str_replace('-', ' ', $transaction->tipe_pemesanan)) }}</td>
+                                <td class="px-4 py-3 capitalize">
+                                    <span class="px-2 py-1 rounded text-white" :class="{
+                                                    'bg-gray-400': '{{ $transaction->status }}' === 'draft',
+                                                    'bg-yellow-400': '{{ $transaction->status }}' === 'pending',
+                                                    'bg-green-400': '{{ $transaction->status }}' === 'dibayar',
+                                                    'bg-red-400': '{{ $transaction->status }}' === 'dibatalkan',
+                                                    'bg-blue-400': '{{ $transaction->status }}' === 'selesai',
+                                                }">
+                                        {{ $transaction->status }}
+                                    </span>
+                                </td>
                                 <td class="px-4 py-3">{{ optional($transaction->tanggal_transaksi)->format('d-m-Y') }}</td>
                                 <td class="px-4 py-3">{{ optional($transaction->preorder_start)->format('d-m-Y') ?? '-' }}</td>
+                                <td class="px-4 py-3">{{ optional($transaction->preorder_deadline)->format('d-m-Y') ?? '-' }}
+                                </td>
                                 <td class="px-4 py-3">
-                                    <ul class="list-disc ml-5">
-                                        @foreach($transaction->details as $item)
-                                            <li>{{ $item->nama_produk }} ({{ $item->quantity }} x
-                                                {{ number_format($item->harga_satuan, 0, ',', '.') }})
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                                    @foreach($transaction->details as $item)
+                                        <span>{{ $item->nama_produk }} ({{ $item->quantity }} x
+                                            {{ number_format($item->harga_satuan, 0, ',', '.') }})
+                                        </span>
+                                    @endforeach
                                 </td>
                                 <td class="px-4 py-3">{{ $transaction->creator->name ?? '-' }}</td>
-                                <td class="px-4 py-3 space-x-2">
+                                <td class="px-4 py-3 space-x-2 flex items-center">
                                     <button type="button" x-data="{ transaction: @js($transaction) }"
                                         @click="editTransaction(transaction)"
                                         class="text-blue-600 hover:text-blue-800 transition">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </button>
-
                                     <form class="inline deleteForm"
                                         action="{{ route('dashboard.admin.manual-transaksi.destroy', $transaction->id) }}"
                                         method="POST">
@@ -145,7 +277,6 @@
                 </table>
             </div>
 
-            {{-- Pagination --}}
             @if($manualTransaksiData->hasPages())
                 <div class="flex justify-center gap-10 items-center mt-6">
                     @if($manualTransaksiData->onFirstPage())
@@ -183,6 +314,37 @@
     </div>
 
     <script>
+        function rupiahFormatter(item) {
+            return {
+                harga_tampil: item.harga_satuan
+                    ? 'Rp ' + new Intl.NumberFormat('id-ID').format(item.harga_satuan)
+                    : '',
+
+                formatInput(e) {
+                    const angka = e.target.value.replace(/[^,\d]/g, '');
+                    this.harga_tampil = angka ? 'Rp ' + this.formatRupiah(angka) : '';
+                    item.harga_satuan = parseInt(angka.replace(/\./g, '')) || 0;
+                },
+
+                formatRupiah(angka) {
+                    if (!angka) return '';
+                    let number_string = angka.replace(/[^,\d]/g, ''),
+                        split = number_string.split(','),
+                        sisa = split[0].length % 3,
+                        rupiah = split[0].substr(0, sisa),
+                        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+                    if (ribuan) {
+                        const separator = sisa ? '.' : '';
+                        rupiah += separator + ribuan.join('.');
+                    }
+                    return split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+                }
+            };
+        }
+    </script>
+
+    <script>
         function manualTransaksiForm() {
             return {
                 formVisible: false,
@@ -193,6 +355,7 @@
                     customer_phone: '',
                     alamat: '',
                     tanggal_transaksi: '',
+                    status: 'draft',
                     tipe_pemesanan: '',
                     preorder_start: '',
                     preorder_deadline: '',
@@ -212,6 +375,7 @@
                         customer_phone: '',
                         alamat: '',
                         tanggal_transaksi: '',
+                        status: '',
                         tipe_pemesanan: '',
                         preorder_start: '',
                         preorder_deadline: '',
@@ -229,6 +393,7 @@
                         alamat: transaction.alamat,
                         tanggal_transaksi: transaction.tanggal_transaksi,
                         tipe_pemesanan: transaction.tipe_pemesanan,
+                        status: transaction.status,
                         preorder_start: transaction.preorder_start,
                         preorder_deadline: transaction.preorder_deadline,
                         details: transaction.details.map(d => ({
