@@ -15,7 +15,7 @@
 
             {{-- Search --}}
             <form action="{{ route('dashboard.admin.akun.view') }}" method="GET"
-                class="max-w-full sm:max-w-md w-full flex items-center gap-3 bg-white p-3 rounded-lg shadow-md">
+                class="max-w-full sm:max-w-md w-full flex items-center gap-3 bg-white p-3 rounded-lg shadow-sm hover:shadow-md duration-300">
                 <i class="fa-solid fa-magnifying-glass text-gray-500"></i>
                 <input type="text" name="search" value="{{ request('search') }}"
                     class="w-full bg-transparent outline-none text-gray-700 placeholder-gray-400 text-sm sm:text-base"
@@ -36,13 +36,13 @@
             {{-- Table --}}
             <div class="overflow-x-auto rounded-lg shadow-md">
                 <table class="w-full text-left min-w-[600px] sm:min-w-[800px]">
-                    <thead class="bg-black text-white text-sm sm:text-base">
+                    <thead class="bg-white border border-gray-300 text-sm sm:text-base">
                         <tr>
-                            <th class="px-4 py-3">#</th>
-                            <th class="px-4 py-3">Nama Pengguna</th>
-                            <th class="px-4 py-3">Email</th>
-                            <th class="px-4 py-3">Status Akun</th>
-                            <th class="px-4 py-3">Aksi</th>
+                            <th class="border-b-2 px-4 py-3">#</th>
+                            <th class="border-b-2 px-4 py-3">Nama Pengguna</th>
+                            <th class="border-b-2 px-4 py-3">Email</th>
+                            <th class="border-b-2 px-4 py-3">Status Akun</th>
+                            <th class="border-b-2 px-4 py-3">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200 text-sm sm:text-base">

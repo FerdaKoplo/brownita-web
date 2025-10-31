@@ -14,17 +14,16 @@
 
                 {{-- Search --}}
                 <div class="flex flex-col flex-1 min-w-[200px]">
-                    <div class="flex items-center gap-2">
+                    <div class="flex items-center gap-2 p-3 hover:shadow-md duration-300 rounded-lg bg-white shadow-sm">
                         <i class="fa-solid fa-magnifying-glass text-gray-500"></i>
                         <input type="text" name="search" value="{{ request('search') }}"
                             class="w-full bg-transparent outline-none text-gray-700 placeholder-gray-400 text-sm sm:text-base"
                             placeholder="Cari Transaksi...">
                     </div>
-                    <span class="text-xs text-gray-400 mt-1">Cari berdasarkan nama user</span>
                 </div>
 
                 {{-- Status --}}
-                <div class="flex flex-col">
+                <div class="flex flex-col-reverse gap-2">
                     <div class="flex items-center gap-2">
                         <i class="fa-solid fa-filter  text-gray-400"></i>
                         <select name="status" class="rounded px-2 py-1 border text-sm sm:text-base">
@@ -40,12 +39,12 @@
                 </div>
 
                 {{-- Date Range --}}
-                <div class="flex flex-col">
+                <div class="flex flex-col-reverse gap-2">
                     <input type="date" name="from" value="{{ request('from') }}" class="border rounded px-2 py-1 text-sm">
                     <span class="text-xs text-gray-400 mt-1">Tanggal mulai</span>
                 </div>
 
-                <div class="flex flex-col">
+                <div class="flex flex-col-reverse gap-2">
                     <input type="date" name="to" value="{{ request('to') }}" class="border rounded px-2 py-1 text-sm">
                     <span class="text-xs text-gray-400 mt-1">Tanggal selesai</span>
                 </div>
@@ -65,17 +64,17 @@
             </form>
 
             {{-- Table Wrapper (Responsive) --}}
-            <div class="md:overflow-x-visible overflow-x-auto w-full rounded-lg shadow-md">
+            <div class="overflow-x-auto rounded-lg shadow-md border overflow-hidden">
                 <table class="min-w-[800px] w-full text-left">
-                    <thead class="bg-black text-white text-sm sm:text-base">
+                    <thead class="bg-white border-gray-300  text-sm sm:text-base">
                         <tr>
-                            <th class="px-3 sm:px-4 py-2 sm:py-3">#</th>
-                            <th class="px-3 sm:px-4 py-2 sm:py-3">Tanggal</th>
-                            <th class="px-3 sm:px-4 py-2 sm:py-3">User</th>
-                            <th class="px-3 sm:px-4 py-2 sm:py-3">Total Harga</th>
-                            <th class="px-3 sm:px-4 py-2 sm:py-3">Status</th>
-                            <th class="px-3 sm:px-4 py-2 sm:py-3">Bukti Pembayaran</th>
-                            <th class="px-3 sm:px-4 py-2 sm:py-3">Aksi</th>
+                            <th class="border-b-2 px-3 sm:px-4 py-2 sm:py-3">#</th>
+                            <th class="border-b-2 px-3 sm:px-4 py-2 sm:py-3">Tanggal</th>
+                            <th class="border-b-2 px-3 sm:px-4 py-2 sm:py-3">User</th>
+                            <th class="border-b-2 px-3 sm:px-4 py-2 sm:py-3">Total Harga</th>
+                            <th class="border-b-2 px-3 sm:px-4 py-2 sm:py-3">Status</th>
+                            <th class="border-b-2 px-3 sm:px-4 py-2 sm:py-3">Bukti Pembayaran</th>
+                            <th class="border-b-2 px-3 sm:px-4 py-2 sm:py-3">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200 text-xs sm:text-sm text-gray-700">

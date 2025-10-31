@@ -48,4 +48,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Keranjang::class);
     }
+
+    public function createdManualTransaksiDatas()
+    {
+        return $this->hasMany(ManualTransaksiData::class, 'created_by');
+    }
+
+    public function updatedManualTransaksiDatas()
+    {
+        return $this->hasMany(ManualTransaksiData::class, 'updated_by');
+    }
 }

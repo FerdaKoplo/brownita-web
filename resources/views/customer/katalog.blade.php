@@ -2,7 +2,7 @@
 @section('title', 'BROWNITA - Katalog')
 @section('content')
 
-<div class="p-6  min-h-screen">
+<div class="p-12  min-h-screen">
     <div class="flex flex-col md:flex-row gap-10">
         {{-- Sidebar --}}
         <div class="w-full md:max-w-xs space-y-6">
@@ -22,8 +22,8 @@
 
             {{-- Filter Status --}}
             <form method="GET" action="{{ route('produk-kami') }}" class="bg-white p-4 rounded-lg shadow-md space-y-4">
-                <label class="block text-gray-800 font-semibold text-lg">Ketersediaan</label>
-                <a href="{{ route('produk-kami') }}" class="text-sm text-amber-700 font-semibold">Reset Filter</a>
+                <label class="block text-gray-800 font-semibold text-xl">Ketersediaan</label>
+                <a href="{{ route('produk-kami') }}" class="text-lg text-amber-700 font-semibold">Reset Filter</a>
                 <select name="status" onchange="this.form.submit()"
                     class="w-full py-2 px-3 rounded-md border border-gray-300 text-gray-700">
                     <option value="">Semua Status</option>

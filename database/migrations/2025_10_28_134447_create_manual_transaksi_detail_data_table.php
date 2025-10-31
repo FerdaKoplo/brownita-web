@@ -10,13 +10,14 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('katalogs', function (Blueprint $table) {
+        Schema::create('manual_transaksi_detail_data', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
+            $table->foreignId('manual_transaksi_data_id')
+                ->constrained('manual_transaksi_data')
+                ->onDelete('cascade');
             $table->string('nama_produk');
-            $table->text('deskripsi')->nullable();
-            $table->decimal('harga', 15, 2);
-            $table->enum('status', ['tersedia', 'habis'])->default('tersedia');
+            $table->integer('quantity');
+            $table->decimal('harga_satuan', 15, 2);
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('katalogs');
+        Schema::dropIfExists('manual_transaksi_detail_data');
     }
 };

@@ -14,11 +14,13 @@
                     <label for="category_id" class="block text-sm font-medium text-gray-700">Kategori</label>
                     <select name="category_id" id="category_id"
                         class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-700">
-                        @foreach ($categories as $category)
+                        @forelse ($categories as $category)
                             <option value="{{ $category->id }}" {{ $catalogues->category_id == $category->id ? 'selected' : '' }}>
                                 {{ $category->nama_kategori }}
                             </option>
-                        @endforeach
+                            @empty
+                             <option disabled selected>Belum ada kategori</option>
+                        @endforelse
                     </select>
                 </div>
 
@@ -27,14 +29,14 @@
                     <label for="nama_produk" class="block text-sm font-medium text-gray-700">Nama Produk</label>
                     <input type="text" id="nama_produk" name="nama_produk"
                         value="{{ old('nama_produk', $catalogues->nama_produk) }}"
-                        class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">
+                      placeholder="Masukkan nama produk"  class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">
                 </div>
 
                 <!-- Gambar Produk -->
                 <div>
                     <label for="gambar_produk" class="block text-sm font-medium text-gray-700">Gambar Produk</label>
                     <input type="file" id="gambar_produk" name="gambar_produk[]" multiple accept="image/*"
-                        class="mt-1 block w-full bg-white border border-gray-300 rounded-lg py-2 px-3 text-gray-800 file:bg-amber-700 file:text-white file:rounded-md file:border-0 file:px-4 file:py-2">
+                            class="mt-1 block w-full bg-white border border-gray-300 rounded-lg py-2 px-3 text-gray-800 file:bg-amber-700 file:text-white file:rounded-md file:border-0 file:px-4 file:py-2">
                     <div id="preview_gambar" class="flex gap-2 mt-2 flex-wrap">
                         @if ($catalogues->gambar_produk && $catalogues->gambar_produk !== 'null')
                             <img src="{{ asset('storage/' . $catalogues->gambar_produk) }}" alt="Preview"
@@ -47,7 +49,7 @@
                 <div>
                     <label for="deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi Produk</label>
                     <textarea id="deskripsi" name="deskripsi" rows="4"
-                        class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">{{ old('deskripsi', $catalogues->deskripsi) }}</textarea>
+                       placeholder="Masukkan deskripsi produk" class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">{{ old('deskripsi', $catalogues->deskripsi) }}</textarea>
                 </div>
 
                 <!-- Status Produk -->

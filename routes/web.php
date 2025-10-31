@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\KatalogController;
+use App\Http\Controllers\Admin\ManualTransactionController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Customer\TransaksiController;
@@ -76,15 +77,15 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::put('/dashboard/admin/customer-transaction/update/{id}', [\App\Http\Controllers\Admin\TransaksiController::class, 'transaksiUpdate'])->name('dashboard.admin.customer-transaction.update');
     Route::delete('/dashboard/admin/customer-transaction/{id}', [\App\Http\Controllers\Admin\TransaksiController::class, 'transaksiDelete'])->name('dashboard.admin.customer-transaction.delete');
 
+    // Pencacatan Manual Transaksi
+    Route::get('/dashboard/admin/pencacatan-transaksi-customer', [ManualTransactionController::class, 'manualTransaksiIndex'])->name('dashboard.admin.manual-transaksi.index');
+    Route::get('/dashboard/admin/pencacatan-transaksi-customer/create', [ManualTransactionController::class, 'createManualTransaksi'])->name('dashboard.admin.manual-transaksi.create');
+    Route::post('/dashboard/admin/pencacatan-transaksi-customer/store', [ManualTransactionController::class, 'storeManualTransaksi'])->name('dashboard.admin.manual-transaksi.store');
+    Route::get('/dashboard/admin/pencacatan-transaksi-customer/edit/{id}', [ManualTransactionController::class, 'editManualTransaksi'])->name('dashboard.admin.manual-transaksi.edit');
+    Route::put('/dashboard/admin/pencacatan-transaksi-customer/update/{id}', [ManualTransactionController::class, 'updateManualTransaksi'])->name('dashboard.admin.manual-transaksi.update');
+    Route::delete('/dashboard/admin/pencacatan-transaksi-customer/delete/{id}', [ManualTransactionController::class, 'destroyManualTransaksi'])->name('dashboard.admin.manual-transaksi.destroy');
 
-    // Create Katalog
-    // Route::get('/dashboard/admin/katalog/create', [UserController::class, 'katalogCreate'])->name('dashboard.admin.katalog.create');
-    // Route::post('/dashboard/admin/katalog/store', [UserController::class, 'katalogStore'])->name('dashboard.admin.katalog.store');
-    // // Edit Katalog
-    // Route::get('/dashboard/admin/katalog/edit/{id}', [UserController::class, 'katalogEdit'])->name('dashboard.admin.katalog.edit');
-    // Route::put('/dashboard/admin/katalog/update/{id}', [UserController::class, 'katalogUpdate'])->name('dashboard.admin.katalog.update');
-    // // Delete Katalog
-    // Route::delete('/dashboard/admin/katalog/{id}', [UserController::class, 'katalogDelete'])->name('dashboard.admin.katalog.delete');
+    
 });
 
 Route::middleware(['auth', 'isCustomer'])->group(function () {
@@ -101,6 +102,7 @@ Route::middleware(['auth', 'isCustomer'])->group(function () {
     Route::post('/transaksi/{id}/upload-bukti', [App\Http\Controllers\Customer\TransaksiController::class, 'uploadBukti'])
         ->name('customer.transaksi.uploadBukti');
 });
+
 
 Route::middleware('redirectIfAdmin')->group(function () {
     Route::get('/', function () {

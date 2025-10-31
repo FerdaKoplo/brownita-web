@@ -2,7 +2,7 @@
 @section('title', 'Dashboard')
 @section('content')
 
-<div class="p-4 md:p-6 mt-7 md:mt-0">
+<div class="p-4 md:p-6 mt-7 md:mt-0  bg-gray-50">
     <h1 class="text-2xl md:text-3xl font-bold mb-6 text-center md:text-left">
         Eat me and fix your mood!
     </h1>

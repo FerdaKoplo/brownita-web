@@ -16,27 +16,27 @@
 
             {{-- Filter Form --}}
             <form action="{{ route('dashboard.admin.katalog.view') }}" method="GET"
-                class="w-full sm:max-w-4xl flex flex-wrap items-center gap-3 bg-white p-3 rounded-lg shadow-md">
+                class="w-full sm:max-w-4xl flex flex-wrap items-center gap-10 bg-white p-3 rounded-lg shadow-md">
 
                 {{-- Search --}}
-                <div class="flex flex-col flex-1 min-w-[200px]">
-                    <div class="flex items-center gap-2">
+                <div class="flex flex-col flex-1 gap-2 min-w-[200px]">
+                    <div class="flex items-center gap-2 shadow-sm hover:shadow-md duration-300 rounded-lg bg-white p-3">
                         <i class="fa-solid fa-magnifying-glass text-gray-500"></i>
                         <input type="text" name="search" value="{{ request('search') }}"
                             class="w-full bg-transparent outline-none text-gray-700 placeholder-gray-400 text-sm sm:text-base"
                             placeholder="Cari Nama Produk atau Deskripsi...">
                         </div>
-                    <span class="text-xs text-gray-400 mt-1">Cari berdasarkan nama produk atau deskripsi</span>
+                    {{-- <span class="text-xs text-gray-400 mt-1">Cari berdasarkan nama produk atau deskripsi</span> --}}
                 </div>
 
                 {{-- Price Range --}}
                 <div class="flex  flex-wrap gap-2">
-                    <div class="flex flex-col">
+                    <div class="flex flex-col-reverse gap-2">
                         <input type="number" name="price_min" value="{{ request('price_min') }}" placeholder="Harga Min"
                             class="border rounded px-2 py-1 text-sm">
                         <span class="text-xs text-gray-400 mt-1">Harga minimum</span>
                     </div>
-                    <div class="flex flex-col">
+                    <div class="flex flex-col-reverse gap-2">
                         <input type="number" name="price_max" value="{{ request('price_max') }}" placeholder="Harga Max"
                             class="border rounded px-2 py-1 text-sm">
                         <span class="text-xs text-gray-400 mt-1">Harga maksimum</span>
@@ -45,36 +45,42 @@
 
                 <div class="flex  flex-wrap gap-2">
                     {{-- Category --}}
-                    <div class="flex flex-col">
-                        <select name="category_id" class="rounded px-2 py-1 border text-sm sm:text-base">
-                            <option value="">Semua Kategori</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
-                                    {{ $category->nama_kategori }}
-                                </option>
-                            @endforeach
-                        </select>
+                    <div class="flex flex-col-reverse gap-2">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-filter  text-gray-400"></i>
+                                <select name="category_id" class="rounded px-2 py-1 border text-sm sm:text-base">
+                                    <option value="">Semua Kategori</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                                            {{ $category->nama_kategori }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                        </div>
                         <span class="text-xs text-gray-400 mt-1">Filter berdasarkan kategori</span>
                     </div>
 
                     {{-- Status --}}
-                    <div class="flex flex-col">
-                        <select name="status" class="rounded px-2 py-1 border text-sm sm:text-base">
-                            <option value="">Semua Status</option>
-                            <option value="tersedia" {{ request('status') == 'tersedia' ? 'selected' : '' }}>Tersedia</option>
-                            <option value="habis" {{ request('status') == 'habis' ? 'selected' : '' }}>Habis</option>
-                        </select>
+                    <div class="flex flex-col-reverse gap-2">
+                             <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-filter  text-gray-400"></i>
+                                <select name="status" class="rounded px-2 py-1 border text-sm sm:text-base">
+                                    <option value="">Semua Status</option>
+                                    <option value="tersedia" {{ request('status') == 'tersedia' ? 'selected' : '' }}>Tersedia</option>
+                                    <option value="habis" {{ request('status') == 'habis' ? 'selected' : '' }}>Habis</option>
+                                </select>
+                            </div>
                         <span class="text-xs text-gray-400 mt-1">Filter berdasarkan status</span>
                     </div>
                 </div>
 
 
                 {{-- Date Range --}}
-                <div class="flex flex-col">
+                <div class="flex flex-col-reverse gap-2">
                     <input type="date" name="from" value="{{ request('from') }}" class="border rounded px-2 py-1 text-sm">
                     <span class="text-xs text-gray-400 mt-1">Tanggal mulai</span>
                 </div>
-                <div class="flex flex-col">
+                <div class="flex flex-col-reverse gap-2">
                     <input type="date" name="to" value="{{ request('to') }}" class="border rounded px-2 py-1 text-sm">
                     <span class="text-xs text-gray-400 mt-1">Tanggal selesai</span>
                 </div>
@@ -91,18 +97,18 @@
             </form>
 
             {{-- Table --}}
-            <div class="md:overflow-x-visible overflow-x-auto w-full rounded-lg shadow-md">
-                <table class="w-full text-left min-w-[1200px]">
-                    <thead class="bg-black text-white text-sm sm:text-base">
-                        <tr>
-                            <th class="px-4 py-3">#</th>
-                            <th class="px-4 py-3">Kategori</th>
-                            <th class="px-4 py-3">Nama Produk</th>
-                            <th class="px-4 py-3">Deskripsi</th>
-                            <th class="px-4 py-3">Gambar</th>
-                            <th class="px-4 py-3">Harga</th>
-                            <th class="px-4 py-3">Status</th>
-                            <th class="px-4 py-3">Aksi</th>
+            <div class="overflow-x-auto rounded-lg shadow-md border overflow-hidden">
+                <table class="w-full text-left min-w-[1200px] border-separate border-spacing-0">
+                    <thead class="bg-white border-b border-gray-300 text-sm sm:text-base">
+                        <tr clas>
+                            <th class="border-b-2 px-4 py-3">#</th>
+                            <th class="border-b-2 px-4 py-3">Kategori</th>
+                            <th class="border-b-2 px-4 py-3">Nama Produk</th>
+                            <th class="border-b-2 px-4 py-3">Deskripsi</th>
+                            <th class="border-b-2 px-4 py-3">Gambar</th>
+                            <th class="border-b-2 px-4 py-3">Harga</th>
+                            <th class="border-b-2 px-4 py-3">Status</th>
+                            <th class="border-b-2 px-4 py-3">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200 text-sm sm:text-base">

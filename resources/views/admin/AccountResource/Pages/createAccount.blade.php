@@ -10,14 +10,14 @@
                 <!-- Nama Lengkap -->
                 <div>
                     <label for="name" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
-                    <input type="text" id="name" name="name" required
+                    <input type="text" id="name" name="name" required placeholder="Masukkan nama lengkap"
                         class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">
                 </div>
 
                 <!-- Email -->
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" id="email" name="email" required
+                    <input type="email" id="email" name="email" required placeholder="Masukkan email"
                         class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">
                 </div>
 
@@ -26,13 +26,14 @@
                 <div>
                     <label for="no_handphone" class="block text-sm font-medium text-gray-700">No Handphone</label>
                     <input type="no_handphone" id="no_handphone" name="no_handphone" required
+                        placeholder="Masukkan nomor handphone"
                         class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">
                 </div>
 
                 <!-- Password -->
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                    <input type="password" id="password" name="password" required
+                    <input type="password" id="password" name="password" required placeholder="Masukkan password"
                         class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">
                 </div>
 
@@ -41,6 +42,7 @@
                     <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Konfirmasi
                         Password</label>
                     <input type="password" id="password_confirmation" name="password_confirmation" required
+                        placeholder="Masukkan ulang password anda"
                         class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">
                 </div>
 
@@ -61,6 +63,17 @@
 
     {{-- SweetAlert --}}
     <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            @if ($errors->any())
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validasi gagal!',
+                    html: `{!! implode('<br>', $errors->all()) !!}`,
+                    confirmButtonColor: '#3085d6'
+                });
+            @endif
+            })
+
         document.getElementById('akunAdminForm').addEventListener('submit', function (e) {
             e.preventDefault();
             Swal.fire({
