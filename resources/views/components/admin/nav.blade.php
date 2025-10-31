@@ -5,7 +5,7 @@
 <div id="sidebarOverlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40"></div>
 
 <nav id="sidebar"
-    class="fixed top-0 left-0 h-screen shadow-sm hover:shadow-md w-54 text-sm p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-50">
+    class="fixed top-0 left-0 h-screen bg-white shadow-sm hover:shadow-md w-54 text-sm p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-50">
     <div class="flex flex-col gap-10">
         <div class="flex flex-col gap-5">
             <a href="{{ route('dashboard.admin') }}" class="text-xl font-kameron font-bold">ADMIN BROWNITA</a>

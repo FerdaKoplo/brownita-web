@@ -3,7 +3,7 @@
 @section('title', 'Riwayat Transaksi')
 
 @section('content')
-    <div class="p-4 sm:p-5 md:px-32 flex flex-col gap-6 sm:gap-10">
+    <div class="p-4 sm:p-12 md:px-32 flex flex-col gap-6 sm:gap-10">
         <h1 class="text-xl sm:text-2xl md:text-3xl font-bold text-black">Riwayat Transaksi</h1>
 
         {{-- Filter Form --}}
@@ -64,9 +64,9 @@
         @else
             <div class="rounded-lg overflow-x-auto shadow-md mt-4">
                 <table id="transactionBody" class="table-auto w-full min-w-[500px] border-collapse">
-                    <thead class="bg-black text-white text-xs sm:text-sm md:text-base">
+                    <thead class="bg-white  border-b border-gray-300 text-xs sm:text-sm md:text-base">
                         <tr>
-                            <th class="text-left px-2 sm:px-4 py-2 sm:py-3">#</th>
+                            <th class=" text-left px-2 sm:px-4 py-2 sm:py-3">#</th>
                             <th class="text-left px-2 sm:px-4 py-2 sm:py-3">Tanggal</th>
                             <th class="text-left px-2 sm:px-4 py-2 sm:py-3">Total</th>
                             <th class="text-left px-2 sm:px-4 py-2 sm:py-3">Alamat</th>
