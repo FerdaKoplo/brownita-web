@@ -57,11 +57,11 @@
             <div class="space-y-5">
                 <p class="text-gray-700 font-medium text-lg">Scan QR dengan aplikasi e-wallet Anda</p>
 
-                <div class="bg-gray-50 rounded-xl p-6 shadow-sm flex flex-col items-center gap-4">
+                <div class="bg-gray-50 rounded-xl p-6 shadow-sm flex flex-col items-center gap-5">
                     <p class="text-gray-800 font-semibold text-lg">Brownita Restoran</p>
                     <img src="{{ asset('images/qr.png') }}" alt="QR Gopay"
                         class="mx-auto w-48 sm:w-56 h-auto rounded-lg shadow-md border border-gray-300">
-                    <p class="text-gray-500 text-xs sm:text-sm">Gunakan Gopay, OVO, Dana, atau e-wallet lain untuk scan</p>
+                    <p class="text-gray-400 text-xs sm:text-sm italic">Gunakan Gopay, OVO, Dana, atau e-wallet lain untuk scan</p>
                 </div>
             </div>
 
