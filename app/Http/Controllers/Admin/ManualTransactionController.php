@@ -44,7 +44,7 @@ class ManualTransactionController extends Controller
                 $q->whereBetween('preorder_start', [$preorderStart, $preorderEnd]);
             })
             ->when($preorderStart && !$preorderEnd, fn($q) => $q->whereDate('preorder_start', '>=', $preorderStart))
-            ->when(!$preorderStart && $preorderEnd, fn($q) => $q->whereDate('preorder_end', '<=', $preorderEnd))
+            ->when(!$preorderStart && $preorderEnd, fn($q) => $q->whereDate('preorder_deadline', '<=', $preorderEnd))
             ->latest()
             ->paginate(10);
 
