@@ -23,6 +23,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => bcrypt('password'), // password
             'role' => 'admin',
+            'no_handphone' => $this->faker->phoneNumber(),
             'remember_token' => Str::random(10),
         ];
     }
@@ -34,7 +35,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }

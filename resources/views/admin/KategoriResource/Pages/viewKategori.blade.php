@@ -16,7 +16,7 @@
 
             {{-- Search Form --}}
             <form action="{{ route('dashboard.admin.kategori.view') }}" method="GET"
-                class="w-full sm:max-w-md flex items-center gap-3 bg-white p-3 rounded-lg shadow-md">
+                class="w-full sm:max-w-md flex items-center gap-3 bg-white p-3 rounded-lg shadow-sm hover:shadow-md duration-300">
                 <i class="fa-solid fa-magnifying-glass text-gray-500"></i>
                 <input type="text" name="search" value="{{ request('search') }}"
                     class="w-full bg-transparent outline-none text-gray-700 placeholder-gray-400 text-sm sm:text-base"
@@ -34,14 +34,14 @@
             </form>
 
             {{-- Table --}}
-            <div class="md:overflow-x-visible overflow-x-auto w-full rounded-lg shadow-md">
+            <div class="overflow-x-auto rounded-lg shadow-md border overflow-hidden">
                 <table class="w-full text-left min-w-[1200px]">
-                    <thead class="bg-black text-white text-sm sm:text-base">
+                    <thead class="bg-white border border-gray-300text-sm sm:text-base">
                         <tr>
-                            <th class="px-4 py-3">#</th>
-                            <th class="px-4 py-3">Nama Kategori</th>
-                            <th class="px-4 py-3">Deskripsi</th>
-                            <th class="px-4 py-3">Aksi</th>
+                            <th class="border-b-2 px-4 py-3">#</th>
+                            <th class="border-b-2 px-4 py-3">Nama Kategori</th>
+                            <th class="border-b-2 px-4 py-3">Deskripsi</th>
+                            <th class="border-b-2 px-4 py-3">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200 text-sm sm:text-base">
