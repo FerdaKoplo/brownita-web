@@ -1,4 +1,4 @@
-<nav class="top-0 fixed w-full z-50 shadow-md">
+<nav class="top-0 fixed w-full z-50">
     <div class="flex justify-between bg-white items-center px-4 md:px-16 lg:px-32 py-4">
         <!-- Logo -->
         <h1 class="font-kameron text-2xl">
@@ -37,7 +37,7 @@
     </div>
 
     <!-- Mobile Menu: muncul saat hamburger diklik -->
-    <div id="mobileMenu" class="md:hidden shadow-md bg-white border-t border-gray-200 px-4 py-4 flex-col gap-4
+    <div id="mobileMenu" class="md:hidden bg-white border-t border-gray-200 px-4 py-4 flex-col gap-4
          transform -translate-y-full opacity-0 transition-all duration-300 ease-in-out origin-top hidden">
         <a href="{{ route('landing.page') }}"
             class="block py-2 text-black font-semibold hover:text-amber-700 transition">Beranda</a>

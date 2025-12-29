@@ -85,7 +85,11 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::put('/dashboard/admin/pencacatan-transaksi-customer/update/{id}', [ManualTransactionController::class, 'updateManualTransaksi'])->name('dashboard.admin.manual-transaksi.update');
     Route::delete('/dashboard/admin/pencacatan-transaksi-customer/delete/{id}', [ManualTransactionController::class, 'destroyManualTransaksi'])->name('dashboard.admin.manual-transaksi.destroy');
 
-    
+    // Landing Page
+    Route::post('/dashboard/admin/landing-page/update/{section}',[\App\Http\Controllers\Admin\LandingPageController::class, 'landingPageUpdate'])->name('dashboard.admin.landing-page.update');
+    Route::get('/dashboard/admin/landing-page', [\App\Http\Controllers\Admin\LandingPageController::class, 'landingPageIndex'])->name('dashboard.admin.landing-page.view');
+
+
 });
 
 Route::middleware(['auth', 'isCustomer'])->group(function () {
@@ -103,11 +107,12 @@ Route::middleware(['auth', 'isCustomer'])->group(function () {
         ->name('customer.transaksi.uploadBukti');
 });
 
-
-Route::middleware('redirectIfAdmin')->group(function () {
     Route::get('/', function () {
         return view('welcome');
     })->name('landing.page');
+
+Route::middleware('redirectIfAdmin')->group(function () {
+
 
     Route::get('/produk-kami', [\App\Http\Controllers\Customer\KatalogController::class, 'showKatalog'])->name('produk-kami');
     Route::get('/produk/{id}', [\App\Http\Controllers\Customer\KatalogController::class, 'showDetail'])->name('produk.detail');

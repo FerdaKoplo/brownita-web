@@ -13,6 +13,14 @@
         </div>
         <ul class="flex w-full flex-col gap-2 font-semibold">
             <li>
+                <a href="{{ route('dashboard.admin.landing-page.view') }}"
+                    class="flex  items-center gap-3 w-full px-2 py-3 rounded-md
+            {{ request()->routeIs('dashboard.admin.landing-page.view') ? 'bg-amber-600 text-white' : 'hover:bg-amber-600 hover:text-white' }}">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span>Landing Page</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('dashboard.admin.kategori.view') }}"
                     class="flex  items-center gap-3 w-full px-2 py-3 rounded-md
             {{ request()->routeIs('dashboard.admin.kategori.view') ? 'bg-amber-600 text-white' : 'hover:bg-amber-600 hover:text-white' }}">
@@ -52,7 +60,7 @@
                 <a href="{{ route('dashboard.admin.manual-transaksi.index') }}"
                     class="flex items-center gap-3 w-full px-2 py-3 rounded-md
             {{ request()->routeIs('dashboard.admin.manual-transaksi.index') ? 'bg-amber-600 text-white' : 'hover:bg-amber-600 hover:text-white' }}">
-                        <i class="fa-solid fa-pen"></i>
+                    <i class="fa-solid fa-pen"></i>
                     <span>Pencacatan Transaksi</span>
                 </a>
             </li>

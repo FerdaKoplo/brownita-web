@@ -8,10 +8,9 @@
                 Syarat & Ketentuan
             </h2>
             <div class="w-32 h-1 bg-brand-brown mx-auto mb-8"></div>
-            <p id="greetMain" class=" opacity-0 text-brand-brown text-lg lg:text-xl max-w-4xl mx-auto leading-relaxed">
+            <p id="greetMain" class=" opacity-0 text-brand-brown text-sm lg:text-xl max-w-4xl mx-auto leading-relaxed">
                 Selamat datang di Brownita (Pricelist kami). Kami <br>
-                menganjurkan anda untuk membaca dan memahami <br>
-                Syarat dan Ketentuan ini dengan seksama.
+                menganjurkan anda untuk membaca dan memahami <strong>Syarat</strong> dan <strong>Ketentuan</strong> ini dengan seksama.
             </p>
         </div>
 

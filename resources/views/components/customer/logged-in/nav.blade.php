@@ -24,7 +24,7 @@
 
     <!-- Bottom Menu Desktop: hanya muncul di md ke atas, tidak akan berubah visibilitas saat hamburger diklik -->
     <div id="bottomMenu"
-        class="hidden md:flex px-4 md:px-16 lg:px-32 p-3  items-center justify-end gap-7 bg-gray-100 text-black shadow-md">
+        class="hidden md:flex px-4 md:px-16 lg:px-32 p-3  items-center justify-end gap-7 bg-gray-100 text-black">
         <a href="{{ route('keranjang') }}" class="flex items-center gap-2 relative hover:text-amber-700 transition">
             <i class="fa-solid fa-cart-shopping text-amber-700"></i>
             <span>Keranjang</span>
@@ -48,7 +48,7 @@
     </div>
 
     <!-- Mobile Menu: muncul saat hamburger diklik, hanya menu utama dan bottom menu versi mobile -->
-    <div id="mobileMenu" class="md:hidden shadow-md bg-white border-t border-gray-200 px-4 py-4 flex-col gap-4
+    <div id="mobileMenu" class="md:hidden  bg-white border-t border-gray-200 px-4 py-4 flex-col gap-4
          transform -translate-y-full opacity-0 transition-all duration-300 ease-in-out origin-top hidden">
         <a href="{{ route('landing.page') }}"
             class="block py-2 text-black font-semibold hover:text-amber-700 transition">Beranda</a>
