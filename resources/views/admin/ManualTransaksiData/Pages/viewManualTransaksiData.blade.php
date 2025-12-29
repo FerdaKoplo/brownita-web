@@ -2,468 +2,400 @@
 @section('title', 'Manual Transaksi')
 
 @section('content')
-    <div class="bg-gray-50 min-h-screen p-4 sm:p-6" x-data="manualTransaksiForm()">
-        <div class="flex flex-col gap-4">
+    <div class="p-6 bg-gray-50 min-h-screen space-y-6" x-data="manualTransaksiForm()">
+        
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Manual Transaksi</h1>
+                <p class="text-gray-500 text-sm mt-1">Input pesanan manual (Pre-order / WhatsApp).</p>
+            </div>
+            <button @click="toggleForm()"
+                class="flex items-center gap-2 bg-amber-700 hover:bg-amber-800 text-white px-5 py-2.5 rounded-xl font-semibold shadow-lg shadow-amber-900/20 transition-all hover:-translate-y-0.5">
+                <i class="fa-solid" :class="formVisible ? 'fa-times' : 'fa-plus'"></i>
+                <span x-text="formVisible ? 'Tutup Form' : 'Buat Transaksi Baru'"></span>
+            </button>
+        </div>
 
-            {{-- Header --}}
-            <div class="flex flex-wrap justify-between items-center gap-y-3">
-                <h1 class="text-2xl sm:text-4xl font-bold text-gray-800">Daftar Manual Transaksi</h1>
-                <button @click="toggleForm()"
-                    class="bg-amber-700 hover:bg-orange-700 transition text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg font-medium text-sm sm:text-base">
-                    <span x-text="formVisible ? 'Tutup Form' : '+ Buat Transaksi'"></span>
-                </button>
+        <div x-show="formVisible" 
+             x-collapse 
+             class="bg-white border border-gray-200 rounded-2xl shadow-lg relative z-10 overflow-hidden">
+            
+            <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                <h2 class="text-lg font-bold text-gray-800" x-text="mode === 'create' ? 'Input Transaksi Baru' : 'Edit Transaksi'"></h2>
+                <span class="text-xs text-gray-500 italic">* Wajib diisi</span>
             </div>
 
-            <form action="{{ route('dashboard.admin.manual-transaksi.index') }}" method="GET"
-                class="w-full sm:max-w-5xl flex flex-col md:flex-row flex-wrap gap-4 md:gap-6 bg-white p-4 rounded-lg shadow-md">
+            <form @submit.prevent="submitForm" class="p-6 sm:p-8 space-y-8">
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <h3 class="text-sm font-bold text-amber-700 uppercase tracking-wider border-b border-gray-100 pb-2">Informasi Pelanggan</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="col-span-2 sm:col-span-1">
+                                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Nama Customer</label>
+                                <input type="text" x-model="form.customer_name" class="w-full border-gray-300 rounded-lg text-sm focus:ring-amber-500 focus:border-amber-500" placeholder="Contoh: Budi Santoso">
+                            </div>
+                            <div class="col-span-2 sm:col-span-1">
+                                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">No. WhatsApp</label>
+                                <input type="text" x-model="form.customer_phone" class="w-full border-gray-300 rounded-lg text-sm focus:ring-amber-500 focus:border-amber-500" placeholder="0812...">
+                            </div>
+                            <div class="col-span-2">
+                                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Alamat Lengkap</label>
+                                <textarea x-model="form.alamat" rows="2" class="w-full border-gray-300 rounded-lg text-sm focus:ring-amber-500 focus:border-amber-500 resize-none" placeholder="Alamat pengiriman..."></textarea>
+                            </div>
+                        </div>
+                    </div>
 
-                {{-- Search --}}
-                <div
-                    class="flex items-center gap-2 shadow-sm hover:shadow-md duration-300 rounded-lg bg-white p-3 flex-1 min-w-full sm:min-w-[250px]">
-                    <i class="fa-solid fa-magnifying-glass text-gray-500"></i>
-                    <input type="text" name="search" value="{{ request('search') }}"
-                        class="w-full bg-transparent outline-none text-gray-700 placeholder-gray-400 text-sm sm:text-base"
-                        placeholder="Cari Nama Customer, No HP, atau Alamat...">
+                    <div class="space-y-4">
+                        <h3 class="text-sm font-bold text-amber-700 uppercase tracking-wider border-b border-gray-100 pb-2">Detail Pesanan</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Tanggal Transaksi</label>
+                                <input type="date" x-model="form.tanggal_transaksi" class="w-full border-gray-300 rounded-lg text-sm focus:ring-amber-500 focus:border-amber-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Status Pembayaran</label>
+                                <select x-model="form.status" class="w-full border-gray-300 rounded-lg text-sm focus:ring-amber-500 focus:border-amber-500">
+                                    <option value="draft">Draft</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="dibayar">Dibayar (Lunas)</option>
+                                    <option value="selesai">Selesai (Dikirim)</option>
+                                    <option value="dibatalkan">Dibatalkan</option>
+                                </select>
+                            </div>
+                            <div class="col-span-2">
+                                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Tipe Pemesanan</label>
+                                <select x-model="form.tipe_pemesanan" class="w-full border-gray-300 rounded-lg text-sm focus:ring-amber-500 focus:border-amber-500">
+                                    <option value="">-- Pilih Tipe --</option>
+                                    <option value="order-via-whatsapp">Order via WhatsApp (Ready Stock)</option>
+                                    <option value="pre-order">Pre-Order (PO)</option>
+                                </select>
+                            </div>
+                            
+                            <div x-show="form.tipe_pemesanan === 'pre-order'" x-collapse class="col-span-2 grid grid-cols-2 gap-4 bg-gray-50 p-3 rounded-lg border border-gray-100">
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-800 mb-1">Mulai PO</label>
+                                    <input type="date" x-model="form.preorder_start" class="w-full border-gray-200 rounded-lg text-sm focus:ring-gray-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-800 mb-1">Deadline PO</label>
+                                    <input type="date" x-model="form.preorder_deadline" class="w-full border-gray-200 rounded-lg text-sm focus:ring-gray-500">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                {{-- Tipe Pemesanan --}}
-                <div class="flex flex-col w-full sm:w-auto gap-1">
-                    <span class="text-xs text-gray-400">Tipe Pemesanan</span>
-                    <select name="tipe_pemesanan" class="rounded px-2 py-1 border text-sm sm:text-base w-full">
-                        <option value="">Semua Tipe</option>
-                        <option value="pre-order" {{ request('tipe_pemesanan') == 'pre-order' ? 'selected' : '' }}>Pre-Order
-                        </option>
-                        <option value="order-via-whatsapp" {{ request('tipe_pemesanan') == 'order-via-whatsapp' ? 'selected' : '' }}>Order via WhatsApp
-                        </option>
-                    </select>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                        <h3 class="text-sm font-bold text-amber-700 uppercase tracking-wider">Keranjang Belanja</h3>
+                        <button type="button" @click="addDetail()" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded-lg transition font-medium flex items-center gap-1">
+                            <i class="fa-solid fa-plus"></i> Tambah Baris
+                        </button>
+                    </div>
+
+                    <div class="bg-gray-50/50 rounded-xl border border-gray-200 overflow-hidden">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-100 text-xs font-semibold text-gray-500 uppercase">
+                                <tr>
+                                    <th class="px-4 py-3">Nama Produk</th>
+                                    <th class="px-4 py-3 w-24 text-center">Qty</th>
+                                    <th class="px-4 py-3 w-48">Harga Satuan</th>
+                                    <th class="px-4 py-3 w-48 text-right">Subtotal</th>
+                                    <th class="px-4 py-3 w-10"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <template x-for="(item, index) in form.details" :key="index">
+                                    <tr class="group hover:bg-white transition">
+                                        <td class="px-4 py-2">
+                                            <input type="text" x-model="item.nama_produk" class="w-full border-gray-300 rounded text-sm py-1.5 focus:ring-amber-500 focus:border-amber-500" placeholder="Nama item...">
+                                        </td>
+                                        <td class="px-4 py-2">
+                                            <input type="number" x-model="item.quantity" class="w-full border-gray-300 rounded text-sm py-1.5 text-center focus:ring-amber-500 focus:border-amber-500" min="1">
+                                        </td>
+                                        <td class="px-4 py-2">
+                                            <div x-data="rupiahFormatter(item)" class="relative">
+                                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs">Rp</span>
+                                                <input type="text" x-model="harga_tampil" x-on:input="formatInput" class="w-full border-gray-300 rounded text-sm py-1.5 pl-8 text-right focus:ring-amber-500 focus:border-amber-500">
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-2 text-right font-medium text-gray-700">
+                                            <span x-text="new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.quantity * item.harga_satuan)"></span>
+                                        </td>
+                                        <td class="px-4 py-2 text-center">
+                                            <button type="button" @click="removeDetail(index)" class="text-gray-400 hover:text-red-500 transition">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                            <tfoot class="bg-gray-50 border-t border-gray-200">
+                                <tr>
+                                    <td colspan="3" class="px-4 py-3 text-right font-bold text-gray-600 text-sm">Total Transaksi:</td>
+                                    <td class="px-4 py-3 text-right font-bold text-amber-700 text-lg">
+                                        <span x-text="new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(form.details.reduce((sum, item) => sum + (item.quantity * item.harga_satuan), 0))"></span>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        
+                        <div x-show="form.details.length === 0" class="p-6 text-center text-gray-400 text-sm italic">
+                            Belum ada produk ditambahkan. Klik tombol "Tambah Baris" di atas.
+                        </div>
+                    </div>
                 </div>
 
-                {{-- Status --}}
-                <div class="flex flex-col w-full sm:w-auto gap-1">
-                    <span class="text-xs text-gray-400">Status Transaksi</span>
-                    <select name="status" class="rounded px-2 py-1 border text-sm sm:text-base w-full">
-                        <option value="">Semua Status</option>
-                        <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Draft</option>
-                        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-                        <option value="dibayar" {{ request('status') == 'dibayar' ? 'selected' : '' }}>Dibayar</option>
-                        <option value="dibatalkan" {{ request('status') == 'dibatalkan' ? 'selected' : '' }}>Dibatalkan
-                        </option>
-                        <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                    </select>
-                </div>
-
-                {{-- Date Filters --}}
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full">
-                    <div class="flex flex-col gap-1">
-                        <span class="text-xs text-gray-400">Tanggal Mulai</span>
-                        <input type="date" name="from_date" value="{{ request('from_date') }}"
-                            class="border rounded px-2 py-1 text-sm w-full">
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <span class="text-xs text-gray-400">Tanggal Selesai</span>
-                        <input type="date" name="to_date" value="{{ request('to_date') }}"
-                            class="border rounded px-2 py-1 text-sm w-full">
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <span class="text-xs text-gray-400">Preorder Start</span>
-                        <input type="date" name="preorder_start" value="{{ request('preorder_start') }}"
-                            class="border rounded px-2 py-1 text-sm w-full">
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <span class="text-xs text-gray-400">Preorder End</span>
-                        <input type="date" name="preorder_deadline" value="{{ request('preorder_deadline') }}"
-                            class="border rounded px-2 py-1 text-sm w-full">
-                    </div>
-                </div>
-
-                {{-- Submit & Reset --}}
-                <div class="flex flex-wrap gap-3 items-center justify-end mt-2 w-full">
-                    <button type="submit"
-                        class="bg-amber-600 text-white px-4 py-2 rounded text-sm sm:text-base w-full sm:w-auto hover:bg-black transition">Filter</button>
-                    <a href="{{ route('dashboard.admin.manual-transaksi.index') }}"
-                        class="text-red-500 font-semibold text-sm sm:text-base hover:underline text-center w-full sm:w-auto">Reset</a>
+                <div class="pt-4 border-t border-gray-100 flex justify-end gap-3">
+                    <button type="button" @click="toggleForm()" class="px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-6 py-2.5 rounded-lg bg-amber-700 text-white font-bold shadow-lg shadow-amber-900/20 hover:bg-amber-800 transition transform hover:-translate-y-0.5">
+                        <span x-text="mode === 'create' ? 'Simpan Transaksi' : 'Update Perubahan'"></span>
+                    </button>
                 </div>
             </form>
+        </div>
 
-            {{-- Form --}}
-            <div x-show="formVisible" x-transition:enter="transform transition ease-out duration-300"
-                x-transition:enter-start="-translate-y-10 opacity-0" x-transition:enter-end="translate-y-0 opacity-100"
-                x-transition:leave="transform transition ease-in duration-200"
-                x-transition:leave-start="translate-y-0 opacity-100" x-transition:leave-end="-translate-y-12 opacity-0"
-                class="bg-white p-4 sm:p-6 rounded-lg shadow-md">
-
-                <form @submit.prevent="submitForm" class="space-y-10">
-                    {{-- Customer Info --}}
-                    <h2 class="font-semibold mb-2 text-lg sm:text-xl">Customer Info</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-4">
-                        <div class="flex flex-col gap-2">
-                            <label class="block text-sm font-medium text-gray-700">Nama Customer</label>
-                            <input type="text" placeholder="Nama Customer" x-model="form.customer_name"
-                                class="border rounded px-2 py-1 w-full">
+        <div class="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden" x-show="!formVisible" x-transition.opacity>
+            
+            <div x-data="{ showAdvanced: {{ request()->hasAny(['from_date', 'status', 'tipe_pemesanan']) ? 'true' : 'false' }} }">
+                <form action="{{ route('dashboard.admin.manual-transaksi.index') }}" method="GET" class="border-b border-gray-100">
+                    <div class="p-5 flex flex-col md:flex-row gap-4 items-center justify-between bg-gray-50/50">
+                        <div class="relative w-full md:max-w-md">
+                            <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" name="search" value="{{ request('search') }}"
+                                class="w-full pl-11 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all shadow-sm"
+                                placeholder="Cari Customer, No HP, atau Alamat...">
                         </div>
-                        <div class="flex flex-col gap-2">
-                            <label class="block text-sm font-medium text-gray-700">No Hp Customer</label>
-                            <input type="text" placeholder="No. HP" x-model="form.customer_phone"
-                                class="border rounded px-2 py-1 w-full">
-                        </div>
-                        <div class="flex flex-col gap-2 sm:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700">Alamat Customer</label>
-                            <textarea placeholder="Alamat" x-model="form.alamat" rows="4"
-                                class="border rounded px-2 py-1 w-full"></textarea>
+                        
+                        <div class="flex gap-2 w-full md:w-auto">
+                            <button type="button" @click="showAdvanced = !showAdvanced" class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2.5 border border-gray-300 bg-white text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium transition-colors" :class="showAdvanced ? 'bg-amber-50 border-amber-200 text-amber-700' : ''">
+                                <i class="fa-solid fa-filter"></i> Filter
+                            </button>
+                            <button type="submit" class="flex-1 md:flex-none bg-amber-600 hover:bg-amber-700 text-white px-6 py-2.5 rounded-lg text-sm font-medium shadow-sm transition-colors">
+                                Cari
+                            </button>
                         </div>
                     </div>
 
-                    {{-- Pre-order --}}
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                        <div class="flex flex-col gap-2">
-                            <label class="block text-sm font-medium text-gray-700">Tipe Pemesanan</label>
-                            <select x-model="form.tipe_pemesanan" class="border rounded px-2 py-1 w-full">
-                                <option value="">Pilih Tipe Pemesanan</option>
-                                <option value="pre-order">Pre-Order</option>
-                                <option value="order-via-whatsapp">Order via WhatsApp</option>
+                    <div x-show="showAdvanced" x-collapse class="p-5 bg-white grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 border-t border-gray-100">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Tipe</label>
+                            <select name="tipe_pemesanan" class="w-full border-gray-300 rounded-lg text-sm">
+                                <option value="">Semua</option>
+                                <option value="pre-order" {{ request('tipe_pemesanan') == 'pre-order' ? 'selected' : '' }}>Pre-Order</option>
+                                <option value="order-via-whatsapp" {{ request('tipe_pemesanan') == 'order-via-whatsapp' ? 'selected' : '' }}>WhatsApp</option>
                             </select>
                         </div>
-
-                        <template x-if="form.tipe_pemesanan === 'pre-order'">
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-                                <div class="flex flex-col gap-2">
-                                    <label class="block text-sm font-medium text-gray-700">Mulai Pre-Order</label>
-                                    <input type="date" x-model="form.preorder_start"
-                                        class="border rounded px-2 py-1 w-full">
-                                </div>
-                                <div class="flex flex-col gap-2">
-                                    <label class="block text-sm font-medium text-gray-700">Akhir Pre-Order</label>
-                                    <input type="date" x-model="form.preorder_deadline"
-                                        class="border rounded px-2 py-1 w-full">
-                                </div>
-                            </div>
-                        </template>
-                    </div>
-
-                    {{-- Status --}}
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                        <div class="flex flex-col gap-2">
-                            <label class="block text-sm font-medium text-gray-700">Status</label>
-                            <select x-model="form.status" class="border rounded px-2 py-1 w-full">
-                                <option value="draft">Draft</option>
-                                <option value="pending">Pending</option>
-                                <option value="dibayar">Dibayar</option>
-                                <option value="dibatalkan">Dibatalkan</option>
-                                <option value="selesai">Selesai</option>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Status</label>
+                            <select name="status" class="w-full border-gray-300 rounded-lg text-sm">
+                                <option value="">Semua</option>
+                                <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                                <option value="dibayar" {{ request('status') == 'dibayar' ? 'selected' : '' }}>Dibayar</option>
+                                <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
                             </select>
                         </div>
-                    </div>
-
-                    {{-- Tanggal Transaksi --}}
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                        <div class="flex flex-col gap-2">
-                            <label class="block text-sm font-medium text-gray-700">Tanggal Transaksi</label>
-                            <input type="date" x-model="form.tanggal_transaksi" class="border rounded px-2 py-1 w-full">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Dari Tanggal</label>
+                            <input type="date" name="from_date" value="{{ request('from_date') }}" class="w-full border-gray-300 rounded-lg text-sm">
                         </div>
-                    </div>
-
-                    {{-- Produk --}}
-                    <div class="space-y-10">
-                        <h2 class="font-semibold mb-2 text-lg sm:text-xl">Produk</h2>
-
-                        <div class="overflow-x-auto">
-                            <div class="min-w-[800px] space-y-4">
-                                <template x-for="(item, index) in form.details" :key="index">
-                                    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-2 w-full">
-                                        <div class="flex flex-col gap-2 w-full sm:w-1/3">
-                                            <label class="block text-sm font-medium text-gray-700">Nama Produk</label>
-                                            <input type="text" placeholder="Nama Produk" x-model="item.nama_produk"
-                                                class="border rounded px-2 py-1 w-full">
-                                        </div>
-
-                                        <div class="flex flex-col gap-2 w-full sm:w-1/4">
-                                            <label class="block text-sm font-medium text-gray-700">Jumlah Barang</label>
-                                            <input type="number" placeholder="Qty" x-model="item.quantity"
-                                                class="border rounded px-2 py-1 w-full">
-                                        </div>
-
-                                        <div x-data="rupiahFormatter(item)" class="flex flex-col gap-2 w-full sm:w-1/3">
-                                            <label class="block text-sm font-medium text-gray-700">Harga Barang</label>
-                                            <input type="text" x-model="harga_tampil" x-on:input="formatInput"
-                                                placeholder="Rp 100.000"
-                                                class=" block w-full bg-white border  border-gray-300 rounded px-2 py-1 text-gray-800">
-                                        </div>
-
-                                        <div class="flex items-center sm:items-end">
-                                            <button type="button" @click="removeDetail(index)"
-                                                class="text-red-500 px-2  py-1">
-                                                <i class="fa-solid fa-xmark fa-bold text-lg"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </template>
-                            </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Sampai Tanggal</label>
+                            <input type="date" name="to_date" value="{{ request('to_date') }}" class="w-full border-gray-300 rounded-lg text-sm">
                         </div>
-
-                        <button type="button" @click="addDetail()"
-                            class="bg-gray-200 hover:bg-gray-300 px-3 py-2 rounded text-sm sm:text-base w-full sm:w-auto">
-                            + Tambah Produk
-                        </button>
-                    </div>
-
-                    {{-- Submit --}}
-                    <div class="mt-4 flex flex-col sm:flex-row justify-end gap-3">
-                        <button type="submit"
-                            class="bg-amber-700 hover:bg-orange-700 text-white px-4 py-2 rounded w-full sm:w-auto">
-                            <span x-text="mode === 'create' ? 'Simpan Transaksi' : 'Update Transaksi'"></span>
-                        </button>
                     </div>
                 </form>
             </div>
 
-
-            {{-- Table --}}
-            <div class="overflow-x-auto rounded-lg shadow-md border overflow-hidden mt-4">
-                <table class="w-full text-left min-w-[1200px] border-separate border-spacing-0">
-                    <thead class="bg-white border-b border-gray-300 text-sm sm:text-base">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-gray-50 border-b border-gray-200">
                         <tr>
-                            <th class="border-b-2 px-4 py-3">#</th>
-                            <th class="border-b-2 px-4 py-3">Customer</th>
-                            <th class="border-b-2 px-4 py-3">No. HP</th>
-                            <th class="border-b-2 px-4 py-3">Alamat</th>
-                            {{-- <th class="border-b-2 px-4 py-3">Tipe Pemesanan</th> --}}
-                            <th class="border-b-2 px-4 py-3">Status</th>
-                            <th class="border-b-2 px-4 py-3">Tanggal Transaksi</th>
-                            <th class="border-b-2 px-4 py-3">Pre-Order Start</th>
-                            <th class="border-b-2 px-4 py-3">Pre-Order End</th>
-                            <th class="border-b-2 px-4 py-3">Produk</th>
-                            {{-- <th class="border-b-2 px-4 py-3">Dibuat Oleh</th> --}}
-                            <th class="border-b-2 px-4 py-3">Aksi</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Info Transaksi</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Pelanggan</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Tipe & Status</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Total</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200 text-sm sm:text-base">
-                        @forelse ($manualTransaksiData as $index => $transaction)
-                            <tr class="hover:bg-gray-50 transition">
-                                <td class="px-4 py-3">{{ $manualTransaksiData->firstItem() + $index }}</td>
-                                <td class="px-4 py-3 font-medium text-gray-900">{{ $transaction->customer_name }}</td>
-                                <td class="px-4 py-3">{{ $transaction->customer_phone }}</td>
-                                <td class="px-4 py-3 max-w-xs truncate" title="{{ $transaction->alamat }}">
-                                    {{ $transaction->alamat }}
-                                </td>
-                                {{-- <td class="px-4 py-3">
-                                    @php
-                                    $type = $transaction->tipe_pemesanan;
-                                    $chipStyles = [
-                                    'pre-order' => 'bg-blue-100 text-blue-700 ',
-                                    'order-via-whatsapp' => 'bg-green-100 text-green-800 ',
-                                    ];
-                                    $style = $chipStyles[$type] ?? 'bg-gray-100 text-gray-700 border border-gray-300';
-                                    @endphp
-
-                                    <span class="px-1 py-1 text-xs sm:text-sm font-medium rounded {{ $style }}">
-                                        {{ ucfirst(str_replace('-', ' ', $type ?? '-')) }}
-                                    </span>
-                                </td> --}}
-                                <td class="px-4 py-3 capitalize">
-                                    <span class="px-2 py-1 rounded text-white" :class="{
-                                                                                                'bg-gray-400': '{{ $transaction->status }}' === 'draft',
-                                                                                                'bg-yellow-400': '{{ $transaction->status }}' === 'pending',
-                                                                                                'bg-green-400': '{{ $transaction->status }}' === 'dibayar',
-                                                                                                'bg-red-400': '{{ $transaction->status }}' === 'dibatalkan',
-                                                                                                'bg-blue-400': '{{ $transaction->status }}' === 'selesai',
-                                                                                            }">
-                                        {{ $transaction->status }}
-                                    </span>
-                                </td>
-                                <td class="px-4 py-3">{{ optional($transaction->tanggal_transaksi)->format('d-m-Y') }}</td>
-                                <td class="px-4 py-3">{{ optional($transaction->preorder_start)->format('d-m-Y') ?? '-' }}</td>
-                                <td class="px-4 py-3">{{ optional($transaction->preorder_deadline)->format('d-m-Y') ?? '-' }}
-                                </td>
-                                <td class="px-4 py-3 text-right">
-                                    <div class="flex flex-col gap-2 items-start">
-                                        Rp
-                                        {{ number_format($transaction->details->sum(fn($item) => $item->quantity * $item->harga_satuan), 0, ',', '.') }}
-
-                                        <!-- View Details button -->
-                                        <button type="button" @click="openDetailModal(@js($transaction))"
-                                            class="text-amber-700 hover:text-orange-800 text-sm ml-2 font-semibold">
-                                            Lihat Detail
-                                        </button>
+                    <tbody class="divide-y divide-gray-100 bg-white">
+                        @forelse ($manualTransaksiData as $transaction)
+                            <tr class="group hover:bg-amber-50/30 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="flex flex-col">
+                                        <span class="text-xs text-gray-400 font-mono">#{{ $transaction->id }}</span>
+                                        <span class="text-sm font-medium text-gray-900">{{ optional($transaction->tanggal_transaksi)->format('d M Y') }}</span>
+                                        @if($transaction->tipe_pemesanan === 'pre-order')
+                                            <span class="text-[10px] text-gray-800 mt-1">
+                                                PO: {{ optional($transaction->preorder_deadline)->format('d/m') }}
+                                            </span>
+                                        @endif
                                     </div>
                                 </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex flex-col">
+                                        <span class="font-bold text-gray-800">{{ $transaction->customer_name }}</span>
+                                        <span class="text-xs text-gray-500 flex items-center gap-1">
+                                            <i class="fa-brands fa-whatsapp"></i> {{ $transaction->customer_phone }}
+                                        </span>
+                                        <span class="text-xs text-gray-400 mt-1 truncate max-w-[150px]" title="{{ $transaction->alamat }}">
+                                            {{ $transaction->alamat }}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex flex-col items-start gap-1.5">
+                                        @if($transaction->tipe_pemesanan == 'pre-order')
+                                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-600 border border-blue-100 uppercase tracking-wide">Pre-Order</span>
+                                        @else
+                                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-green-50 text-green-600 border border-green-100 uppercase tracking-wide">WhatsApp</span>
+                                        @endif
 
-                                {{-- <td class="px-4 py-3">{{ $transaction->creator->name ?? '-' }}</td> --}}
-                                <td class="px-4 py-3 space-x-2 flex items-center">
-                                    <button type="button" x-data="{ transaction: @js($transaction) }"
-                                        @click="editTransaction(transaction)"
-                                        class="text-blue-600 hover:text-blue-800 transition">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </button>
-                                    <form class="inline deleteForm"
-                                        action="{{ route('dashboard.admin.manual-transaksi.destroy', $transaction->id) }}"
-                                        method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-400 hover:text-red-800 transition">
-                                            <i class="fa-solid fa-trash"></i>
+                                        @php
+                                            $statusColors = [
+                                                'draft' => 'bg-gray-100 text-gray-600',
+                                                'pending' => 'bg-yellow-100 text-yellow-700',
+                                                'dibayar' => 'bg-indigo-100 text-indigo-700',
+                                                'selesai' => 'bg-green-100 text-green-700',
+                                                'dibatalkan' => 'bg-red-100 text-red-700',
+                                            ];
+                                            $color = $statusColors[$transaction->status] ?? 'bg-gray-100 text-gray-600';
+                                        @endphp
+                                        <span class="px-2.5 py-1 rounded-full text-xs font-semibold {{ $color }}">
+                                            {{ ucfirst($transaction->status) }}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-right">
+                                    <span class="text-sm font-bold text-gray-900">
+                                        Rp {{ number_format($transaction->details->sum(fn($item) => $item->quantity * $item->harga_satuan), 0, ',', '.') }}
+                                    </span>
+                                    {{-- <div class="text-xs text-amber-600 cursor-pointer hover:underline mt-1" @click="openDetailModal(@js($transaction))">
+                                        Lihat {{ $transaction->details->count() }} Produk
+                                    </div> --}}
+                                </td>
+                                <td class="px-6 py-4 text-right">
+                                    <div class="flex items-center justify-end gap-2">
+                                        <button @click="editTransaction(@js($transaction))" class="p-2 bg-white border border-gray-200 rounded-lg text-gray-500 hover:text-blue-600 hover:border-blue-300 shadow-sm transition">
+                                            <i class="fa-solid fa-pen-to-square"></i>
                                         </button>
-                                    </form>
+                                        <form class="inline deleteForm" action="{{ route('dashboard.admin.manual-transaksi.destroy', $transaction->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="p-2 bg-white border border-gray-200 rounded-lg text-gray-500 hover:text-red-600 hover:border-red-300 shadow-sm transition">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="10" class="text-center py-5 text-gray-500">Tidak ada data transaksi.</td>
+                                <td colspan="5" class="px-6 py-12 text-center text-gray-500">
+                                    <div class="flex flex-col items-center gap-2">
+                                        <i class="fa-solid fa-clipboard-list text-3xl text-gray-300"></i>
+                                        <p>Belum ada data transaksi manual.</p>
+                                    </div>
+                                </td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
 
-            <!-- Detail Modal -->
-            <div x-show="detailModalVisible" x-transition.opacity.duration.200ms @click.away="detailModalVisible = false"
-                class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-2 sm:p-4">
-
-                <div x-transition.opacity.duration.300ms
-                    class="bg-white rounded-xl shadow-lg w-full max-w-3xl p-4 sm:p-6 relative overflow-y-auto max-h-[90vh]">
-
-                    <!-- Close button -->
-                    <button @click="detailModalVisible = false"
-                        class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-lg sm:text-xl">
-                        ✕
-                    </button>
-
-                    <!-- Header -->
-                    <div class="flex flex-col gap-1 sm:gap-3 mb-6 sm:mb-8 text-center sm:text-left">
-                        <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">Detail Produk</h2>
-                        <span class="text-gray-400 text-sm sm:text-base">Detail dari produk yang dibeli customer</span>
-                    </div>
-
-                    <!-- Transaction Detail -->
-                    <template x-if="selectedTransaction">
-                        <div class="flex flex-col gap-3 text-sm sm:text-base">
-                            <p class="text-gray-600">
-                                <strong class="mr-2">Customer:</strong>
-                                <span x-text="selectedTransaction.customer_name"></span>
-                            </p>
-
-                            <div>
-                                <strong class="text-gray-700 mr-2">Tipe Pemesanan:</strong>
-                                <span x-text="selectedTransaction.tipe_pemesanan" :class="{
-                                'bg-green-100 text-green-600': selectedTransaction.tipe_pemesanan === 'order-via-whatsapp',
-                                ' bg-blue-100 text-blue-600': selectedTransaction.tipe_pemesanan === 'pre-order',
-                                'bg-yellow-100 text-yellow-600': !['order-via-whatsapp', 'pre-order'].includes(selectedTransaction.tipe_pemesanan)
-                            }" class="inline-block px-3 py-1 text-xs sm:text-sm font-medium rounded-full">
-                                </span>
-                            </div>
-
-                            <!-- Table -->
-                            <div class="overflow-x-auto mt-3">
-                                <table class="w-full text-xs sm:text-sm">
-                                    <thead class="bg-gray-100">
-                                        <tr>
-                                            <th class="px-3 py-2 text-left">Nama Produk</th>
-                                            <th class="px-3 py-2 text-right">Jumlah</th>
-                                            <th class="px-3 py-2 text-right">Harga Satuan</th>
-                                            <th class="px-3 py-2 text-right">Subtotal</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <template x-for="detail in selectedTransaction.details" :key="detail.id">
-                                            <tr class="">
-                                                <td class="px-3 py-2" x-text="detail.nama_produk"></td>
-                                                <td class="px-3 py-2 text-right" x-text="detail.quantity"></td>
-                                                <td class="px-3 py-2 text-right"
-                                                    x-text="`Rp ${Number(detail.harga_satuan).toLocaleString('id-ID')}`">
-                                                </td>
-                                                <td class="px-3 py-2 text-right"
-                                                    x-text="`Rp ${(detail.quantity * detail.harga_satuan).toLocaleString('id-ID')}`">
-                                                </td>
-                                            </tr>
-                                        </template>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <!-- Total -->
-                            <div class="text-right text-lg sm:text-xl font-semibold mt-4 border-t border-black pt-3">
-                                Total:
-                                <span
-                                    x-text="`Rp ${selectedTransaction.details.reduce((sum, d) => sum + (d.quantity * d.harga_satuan), 0).toLocaleString('id-ID')}`"></span>
-                            </div>
-                        </div>
-                    </template>
-                </div>
-            </div>
-
-
             @if($manualTransaksiData->hasPages())
-                <div class="flex justify-center gap-10 items-center mt-6">
-                    @if($manualTransaksiData->onFirstPage())
-                        <span class="text-gray-400 flex justify-center items-center gap-2">
-                            <i class="fa-solid fa-angle-left"></i> Prev
-                        </span>
-                    @else
-                        <a href="{{ $manualTransaksiData->appends(request()->query())->previousPageUrl() }}"
-                            class="text-amber-700 justify-center font-semibold flex items-center gap-2">
-                            <i class="fa-solid fa-angle-left"></i> Prev
-                        </a>
-                    @endif
-
-                    @foreach ($manualTransaksiData->getUrlRange(1, $manualTransaksiData->lastPage()) as $page => $url)
-                        <a href="{{ $url }}"
-                            class="{{ $page == $manualTransaksiData->currentPage() ? 'bg-black text-white' : 'text-amber-700' }} px-2 py-1 rounded">
-                            {{ $page }}
-                        </a>
-                    @endforeach
-
-                    @if($manualTransaksiData->hasMorePages())
-                        <a href="{{ $manualTransaksiData->appends(request()->query())->nextPageUrl() }}"
-                            class="text-amber-700 font-semibold justify-center flex items-center gap-2">
-                            Next <i class="fa-solid fa-angle-right"></i>
-                        </a>
-                    @else
-                        <span class="text-gray-400 flex items-center gap-2">
-                            Next <i class="fa-solid fa-angle-right"></i>
-                        </span>
-                    @endif
+                <div class="px-6 py-4 border-t border-gray-100 bg-gray-50 flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <div class="text-sm text-gray-500">
+                        Halaman <span class="font-medium">{{ $manualTransaksiData->currentPage() }}</span> dari <span class="font-medium">{{ $manualTransaksiData->lastPage() }}</span>
+                    </div>
+                    <div>
+                        {{ $manualTransaksiData->appends(request()->query())->links('pagination::tailwind') }}
+                    </div>
                 </div>
             @endif
+        </div>
+    </div>
 
+    <div x-show="detailModalVisible" 
+         style="display: none"
+         x-transition.opacity
+         class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+         
+        <div @click.away="detailModalVisible = false" class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div class="p-6 border-b border-gray-100 flex justify-between items-start bg-gray-50">
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900">Rincian Pesanan</h3>
+                    <p class="text-sm text-gray-500" x-text="selectedTransaction?.customer_name + ' (' + selectedTransaction?.customer_phone + ')'"></p>
+                </div>
+                <button @click="detailModalVisible = false" class="text-gray-400 hover:text-gray-600 transition">
+                    <i class="fa-solid fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="p-0 overflow-y-auto">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-gray-100 text-gray-600 font-semibold border-b">
+                        <tr>
+                            <th class="px-6 py-3">Produk</th>
+                            <th class="px-6 py-3 text-center">Qty</th>
+                            <th class="px-6 py-3 text-right">Harga</th>
+                            <th class="px-6 py-3 text-right">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100" x-if="selectedTransaction">
+                        <template x-for="detail in selectedTransaction?.details" :key="detail.id">
+                            <tr>
+                                <td class="px-6 py-3 font-medium text-gray-800" x-text="detail.nama_produk"></td>
+                                <td class="px-6 py-3 text-center" x-text="detail.quantity"></td>
+                                <td class="px-6 py-3 text-right text-gray-600" x-text="new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(detail.harga_satuan)"></td>
+                                <td class="px-6 py-3 text-right font-bold text-gray-800" x-text="new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(detail.quantity * detail.harga_satuan)"></td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="p-6 border-t border-gray-100 bg-gray-50 text-right">
+                <span class="text-gray-500 mr-2 text-sm">Total Pembayaran:</span>
+                <span class="text-2xl font-bold text-amber-700" x-text="selectedTransaction ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(selectedTransaction.details.reduce((acc, item) => acc + (item.quantity * item.harga_satuan), 0)) : 0"></span>
+            </div>
         </div>
     </div>
 
     <script>
         function rupiahFormatter(item) {
             return {
-                harga_tampil: item.harga_satuan
-                    ? 'Rp ' + new Intl.NumberFormat('id-ID').format(item.harga_satuan)
-                    : '',
-
+                harga_tampil: item.harga_satuan ? new Intl.NumberFormat('id-ID').format(item.harga_satuan) : '',
                 formatInput(e) {
-                    const angka = e.target.value.replace(/[^,\d]/g, '');
-                    this.harga_tampil = angka ? 'Rp ' + this.formatRupiah(angka) : '';
-                    item.harga_satuan = parseInt(angka.replace(/\./g, '')) || 0;
-                },
-
-                formatRupiah(angka) {
-                    if (!angka) return '';
-                    let number_string = angka.replace(/[^,\d]/g, ''),
-                        split = number_string.split(','),
-                        sisa = split[0].length % 3,
-                        rupiah = split[0].substr(0, sisa),
-                        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+                    let number_string = e.target.value.replace(/[^,\d]/g, '').toString();
+                    let split = number_string.split(',');
+                    let sisa = split[0].length % 3;
+                    let rupiah = split[0].substr(0, sisa);
+                    let ribuan = split[0].substr(sisa).match(/\d{3}/gi);
 
                     if (ribuan) {
-                        const separator = sisa ? '.' : '';
+                        separator = sisa ? '.' : '';
                         rupiah += separator + ribuan.join('.');
                     }
-                    return split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+
+                    rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                    this.harga_tampil = rupiah;
+                    item.harga_satuan = parseInt(number_string.replace(/\./g, '')) || 0;
                 }
             };
         }
-    </script>
 
-    <script>
         function manualTransaksiForm() {
             return {
                 formVisible: false,
                 mode: 'create',
                 editingId: null,
+                detailModalVisible: false,
+                selectedTransaction: null,
                 form: {
                     customer_name: '',
                     customer_phone: '',
@@ -475,12 +407,10 @@
                     preorder_deadline: '',
                     details: [],
                 },
-
                 toggleForm() {
                     this.formVisible = !this.formVisible;
                     if (!this.formVisible) this.resetForm();
                 },
-
                 resetForm() {
                     this.mode = 'create';
                     this.editingId = null;
@@ -488,26 +418,32 @@
                         customer_name: '',
                         customer_phone: '',
                         alamat: '',
-                        tanggal_transaksi: '',
-                        status: '',
+                        tanggal_transaksi: new Date().toISOString().split('T')[0],
+                        status: 'draft',
                         tipe_pemesanan: '',
                         preorder_start: '',
                         preorder_deadline: '',
                         details: [],
                     };
+                    this.addDetail(); 
                 },
-
+                addDetail() {
+                    this.form.details.push({ nama_produk: '', quantity: 1, harga_satuan: 0 });
+                },
+                removeDetail(index) {
+                    this.form.details.splice(index, 1);
+                },
                 editTransaction(transaction) {
-                    this.formVisible = true;
                     this.mode = 'edit';
                     this.editingId = transaction.id;
+                    this.formVisible = true;
                     this.form = {
                         customer_name: transaction.customer_name,
                         customer_phone: transaction.customer_phone,
                         alamat: transaction.alamat,
                         tanggal_transaksi: transaction.tanggal_transaksi,
-                        tipe_pemesanan: transaction.tipe_pemesanan,
                         status: transaction.status,
+                        tipe_pemesanan: transaction.tipe_pemesanan,
                         preorder_start: transaction.preorder_start,
                         preorder_deadline: transaction.preorder_deadline,
                         details: transaction.details.map(d => ({
@@ -516,39 +452,27 @@
                             harga_satuan: d.harga_satuan
                         }))
                     };
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 },
-
-                detailModalVisible: false,
-                selectedTransaction: null,
-
                 openDetailModal(transaction) {
-                    this.selectedTransaction = transaction
-                    this.detailModalVisible = true
+                    this.selectedTransaction = transaction;
+                    this.detailModalVisible = true;
                 },
-
-
-                addDetail() {
-                    this.form.details.push({ nama_produk: '', quantity: 1, harga_satuan: 0 });
-                },
-
-                removeDetail(index) {
-                    this.form.details.splice(index, 1);
-                },
-
                 async submitForm() {
                     try {
-                        if (!this.form.tanggal_transaksi) {
-                            this.form.tanggal_transaksi = new Date().toISOString().split('T')[0];
-                        }
-
                         const url = this.mode === 'create'
                             ? "{{ route('dashboard.admin.manual-transaksi.store') }}"
-                            : "{{ route('dashboard.admin.manual-transaksi.update', ':id') }}".replace(':id', this.editingId)
-
+                            : "{{ route('dashboard.admin.manual-transaksi.update', ':id') }}".replace(':id', this.editingId);
+                        
                         const method = this.mode === 'create' ? 'POST' : 'PUT';
 
+                        if(this.form.details.length === 0) {
+                            Swal.fire({ icon: 'warning', title: 'Oops', text: 'Minimal masukan 1 produk' });
+                            return;
+                        }
+
                         const res = await fetch(url, {
-                            method,
+                            method: method,
                             headers: {
                                 'Content-Type': 'application/json',
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -560,30 +484,42 @@
                         const data = await res.json();
 
                         if (!res.ok) {
-                            let errorMsg = '';
-                            if (data.errors) {
-                                for (let key in data.errors) {
-                                    errorMsg += data.errors[key].join('\n') + '\n';
-                                }
-                            } else if (data.message) {
-                                errorMsg = data.message;
-                            } else {
-                                errorMsg = 'Terjadi kesalahan saat menyimpan data.';
-                            }
-
+                            let errorMsg = data.message || 'Terjadi kesalahan.';
                             Swal.fire({ icon: 'error', title: 'Gagal!', text: errorMsg });
                             return;
                         }
 
-                        Swal.fire({ icon: 'success', title: 'Berhasil!', text: 'Transaksi berhasil disimpan!' })
-                            .then(() => location.reload());
+                        Swal.fire({ 
+                            icon: 'success', 
+                            title: 'Berhasil!', 
+                            text: 'Transaksi berhasil disimpan',
+                            timer: 1500,
+                            showConfirmButton: false 
+                        }).then(() => location.reload());
 
                     } catch (err) {
                         console.error(err);
-                        Swal.fire({ icon: 'error', title: 'Error!', text: 'Terjadi kesalahan pada koneksi atau server.' });
+                        Swal.fire({ icon: 'error', title: 'Error', text: 'Terjadi kesalahan koneksi.' });
                     }
                 }
-            }
+            };
         }
+        
+        document.addEventListener('submit', function (e) {
+            if (e.target.classList.contains('deleteForm')) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Hapus Transaksi?',
+                    text: "Data tidak bisa dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, Hapus'
+                }).then((result) => {
+                    if (result.isConfirmed) e.target.submit();
+                });
+            }
+        });
     </script>
 @endsection

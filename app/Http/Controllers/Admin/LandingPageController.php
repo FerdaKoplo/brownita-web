@@ -31,7 +31,17 @@ class LandingPageController extends Controller
 
         return back()->with('success', 'Section updated')->with('reloadPreview', true);
 
+    }
 
+    public function previewLandingPage()
+    {
+        $sections = LandingPage::all()
+            ->keyBy('section_key')
+            ->map(fn($s) => $s->content);
 
+        return view(
+            'admin.LandingPageResource.Pages.previewLandingPage',
+            compact('sections')
+        );
     }
 }
