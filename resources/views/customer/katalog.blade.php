@@ -89,7 +89,7 @@
                         </select>
                     </div>
 
-                    <div class="mb-4-
+                    <div class="mb-4">
                         <label class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 block">Rentang Harga</label>
                         <div class="grid grid-cols-2 gap-2 mb-3">
                             <div>
