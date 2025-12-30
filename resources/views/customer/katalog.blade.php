@@ -5,9 +5,9 @@
 
 <div class="min-h-screen bg-gray-50 font-sans" x-data="{ showMobileFilters: false }">
     
-    <div class="bg-amber-800 text-white py-8 px-6 md:px-12 mb-8">
+    <div class=" text- py-8 px-6 md:px-12 mb-8">
         <h1 class="text-3xl md:text-4xl font-bold mb-2">Jelajahi Menu Kami</h1>
-        <p class="text-amber-100 opacity-90">Temukan kelezatan di setiap gigitan.</p>
+        <p class="text-gray-500 opacity-90">Temukan kelezatan di setiap gigitan.</p>
     </div>
 
     <div class="px-4 md:px-12 pb-12">

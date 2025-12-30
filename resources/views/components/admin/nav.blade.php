@@ -16,7 +16,7 @@
                 <a href="{{ route('dashboard.admin.landing-page.view') }}"
                     class="flex  items-center gap-3 w-full px-2 py-3 rounded-md
             {{ request()->routeIs('dashboard.admin.landing-page.view') ? 'bg-amber-600 text-white' : 'hover:bg-amber-600 hover:text-white' }}">
-                    <i class="fa-solid fa-layer-group"></i>
+                    <i class="fa-solid fa-file"></i>
                     <span>Landing Page</span>
                 </a>
             </li>

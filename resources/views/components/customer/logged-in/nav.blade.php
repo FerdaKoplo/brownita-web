@@ -1,104 +1,118 @@
-<nav class="top-0  fixed w-full z-50 shadow-md">
-    <div class="flex justify-between bg-white items-center px-4 md:px-16 lg:px-32 py-4">
-        <!-- Logo -->
-        <a href="{{ route('landing.page') }}" class="flex items-center">
-            <img src="{{ asset('images/brownitaLogo.png') }}" class="h-10 rounded-xl" alt="Brownita Logo" />
-        </a>
+<nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100 transition-all duration-300"
+    id="navbar">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 lg:px-12">
+        <div class="flex justify-between items-center h-20">
 
-        <!-- Hamburger Button: hanya muncul di mobile -->
-        <button id="menuButton" class="md:hidden text-amber-700 focus:outline-none" aria-label="Toggle menu">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-        </button>
+            <a href="{{ route('landing.page') }}" class="flex-shrink-0 flex items-center gap-2">
+                <img src="{{ asset('images/brownitaLogo.png') }}" class="h-10 w-auto rounded-lg" alt="Brownita Logo" />
+                <span class="font-bold text-xl text-amber-900 hidden sm:block tracking-tight">Brownita</span>
+            </a>
 
-        <!-- Menu Desktop: tampil mulai md ke atas -->
-        <ul id="menu" class="hidden md:flex items-center gap-12  text-black font-semibold">
-            <li><a href="{{ route('landing.page') }}" class="hover:text-amber-700 transition">Beranda</a></li>
-            <li><a href="{{ route('syarat-ketentuan') }}" class="hover:text-amber-700 transition">Syarat & Ketentuan</a>
-            </li>
-            <li><a href="{{ route('produk-kami') }}" class="hover:text-amber-700 transition">Produk Kami</a></li>
-        </ul>
-    </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="{{ route('landing.page') }}"
+                    class="text-sm font-medium transition-colors hover:text-amber-700 {{ request()->routeIs('landing.page') ? 'text-amber-700 font-bold' : 'text-gray-600' }}">
+                    Beranda
+                </a>
+                <a href="{{ route('syarat-ketentuan') }}"
+                    class="text-sm font-medium transition-colors hover:text-amber-700 {{ request()->routeIs('syarat-ketentuan*') ? 'text-amber-700 font-bold' : 'text-gray-600' }}">
+                    Syarat & Ketentuan
+                </a>
+                <a href="{{ route('produk-kami') }}"
+                    class="text-sm font-medium transition-colors hover:text-amber-700 {{ request()->routeIs('produk-kami') ? 'text-amber-700 font-bold' : 'text-gray-600' }}">
+                    Menu Kami
+                </a>
+            </div>
 
-    <!-- Bottom Menu Desktop: hanya muncul di md ke atas, tidak akan berubah visibilitas saat hamburger diklik -->
-    <div id="bottomMenu"
-        class="hidden md:flex px-4 md:px-16 lg:px-32 p-3  items-center justify-end gap-7 bg-gray-100 text-black">
-        <a href="{{ route('keranjang') }}" class="flex items-center gap-2 relative hover:text-amber-700 transition">
-            <i class="fa-solid fa-cart-shopping text-amber-700"></i>
-            <span>Keranjang</span>
-            @if($keranjangCount > 0)
-                <span
-                    class="absolute -top-2 -left-3 bg-black text-white text-xs w-5 h-5 flex items-center justify-center rounded-full animate-pulse">{{ $keranjangCount }}</span>
-            @endif
-        </a>
-        <a href="{{ route('customer.transaksi.index') }}"
-            class="flex items-center gap-2 hover:text-amber-700 transition">
-            <i class="fa-solid fa-scroll text-amber-700"></i>
-            <span>Riwayat</span>
-        </a>
-        <form class="logoutForm" action="{{ route('logout.post') }}" method="POST">
-            @csrf
-            <button type="submit" class="flex gap-2 items-center hover:text-amber-700 transition focus:outline-none">
-                <i class="fa-solid fa-right-from-bracket text-amber-700"></i>
-                <span>Logout</span>
+            <div class="hidden md:flex items-center gap-6">
+                <a href="{{ route('keranjang') }}" class="relative group p-2 rounded-full hover:bg-amber-50 transition">
+                    <i
+                        class="fa-solid fa-cart-shopping text-gray-600 group-hover:text-amber-700 text-lg transition"></i>
+                    @if(isset($keranjangCount) && $keranjangCount > 0)
+                        <span
+                            class="absolute top-0 right-0 bg-amber-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full ring-2 ring-white shadow-sm">
+                            {{ $keranjangCount }}
+                        </span>
+                    @endif
+                </a>
+
+                <a href="{{ route('customer.transaksi.index') }}"
+                    class="group p-2 rounded-full hover:bg-amber-50 transition" title="Riwayat Pesanan">
+                    <i
+                        class="fa-solid fa-clock-rotate-left text-gray-600 group-hover:text-amber-700 text-lg transition"></i>
+                </a>
+
+                <div class="h-6 w-px bg-gray-200 mx-1"></div>
+
+                <form action="{{ route('logout.post') }}" method="POST">
+                    @csrf
+                    <button type="submit"
+                        class="flex items-center gap-2 text-sm font-medium text-red-600 hover:text-red-700 transition">
+                        <span>Logout</span>
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    </button>
+                </form>
+            </div>
+
+            <button id="menuButton"
+                class="md:hidden p-2 text-gray-600 hover:text-amber-700 focus:outline-none transition">
+                <i class="fa-solid fa-bars text-2xl"></i>
             </button>
-        </form>
+        </div>
     </div>
 
-    <!-- Mobile Menu: muncul saat hamburger diklik, hanya menu utama dan bottom menu versi mobile -->
-    <div id="mobileMenu" class="md:hidden  bg-white border-t border-gray-200 px-4 py-4 flex-col gap-4
-         transform -translate-y-full opacity-0 transition-all duration-300 ease-in-out origin-top hidden">
-        <a href="{{ route('landing.page') }}"
-            class="block py-2 text-black font-semibold hover:text-amber-700 transition">Beranda</a>
-        <a href="{{ route('syarat-ketentuan') }}"
-            class="block py-2 text-black font-semibold hover:text-amber-700 transition">Syarat & Ketentuan</a>
-        <a href="{{ route('produk-kami') }}"
-            class="block py-2 text-black font-semibold hover:text-amber-700 transition">Produk Kami</a>
-        <div class="border-t border-gray-200 mt-2 pt-2 flex flex-col gap-3">
-            <a href="{{ route('keranjang') }}"
-                class="flex items-center gap-2 text-black hover:text-amber-700 transition relative">
-                <i class="fa-solid fa-cart-shopping text-amber-700"></i>
-                <span>Keranjang</span>
-                @if($keranjangCount > 0)
-                    <span
-                        class="absolute -top-2 -left-3 bg-black text-white text-xs w-5 h-5 flex items-center justify-center rounded-full animate-pulse">{{ $keranjangCount }}</span>
-                @endif
-            </a>
-            <a href="{{ route('customer.transaksi.index') }}"
-                class="flex items-center gap-2 text-black hover:text-amber-700 transition">
-                <i class="fa-solid fa-scroll text-amber-700"></i>
-                <span>Riwayat</span>
-            </a>
-            <form class="logoutForm" action="{{ route('logout.post') }}" method="POST">
-                @csrf
-                <button type="submit"
-                    class="flex gap-2 items-center text-black hover:text-amber-700 transition focus:outline-none">
-                    <i class="fa-solid fa-right-from-bracket text-amber-700"></i>
-                    <span>Logout</span>
-                </button>
-            </form>
+    <div id="mobileMenu"
+        class="md:hidden absolute top-20 left-0 w-full bg-white border-b border-gray-100 shadow-xl transform -translate-y-[150%] transition-transform duration-300 ease-in-out z-40">
+        <div class="px-6 py-6 space-y-4">
+            <a href="{{ route('landing.page') }}"
+                class="block text-base font-medium text-gray-700 hover:text-amber-700">Beranda</a>
+            <a href="{{ route('syarat-ketentuan') }}"
+                class="block text-base font-medium text-gray-700 hover:text-amber-700">Syarat & Ketentuan</a>
+            <a href="{{ route('produk-kami') }}"
+                class="block text-base font-medium text-gray-700 hover:text-amber-700">Produk Kami</a>
+
+            <div class="border-t border-gray-100 my-4 pt-4 space-y-4">
+                <a href="{{ route('keranjang') }}"
+                    class="flex items-center justify-between text-base font-medium text-gray-700 hover:text-amber-700">
+                    <span class="flex items-center gap-3">
+                        <i class="fa-solid fa-cart-shopping text-amber-600"></i>
+                        Keranjang
+                    </span>
+                    @if(isset($keranjangCount) && $keranjangCount > 0)
+                        <span
+                            class="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded-full">{{ $keranjangCount }}</span>
+                    @endif
+                </a>
+                <a href="{{ route('customer.transaksi.index') }}"
+                    class="flex items-center gap-3 text-base font-medium text-gray-700 hover:text-amber-700">
+                    <i class="fa-solid fa-clock-rotate-left text-amber-600"></i>
+                    Riwayat Pesanan
+                </a>
+                <form action="{{ route('logout.post') }}" method="POST">
+                    @csrf
+                    <button type="submit"
+                        class="flex items-center gap-3 text-base font-medium text-red-600 w-full text-left">
+                        <i class="fa-solid fa-power-off"></i>
+                        Logout
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </nav>
-<script>
-    const menuButton = document.getElementById('menuButton');
-    const mobileMenu = document.getElementById('mobileMenu');
 
-    menuButton.addEventListener('click', () => {
-        if (mobileMenu.classList.contains('hidden')) {
-            mobileMenu.classList.remove('hidden');
-            setTimeout(() => {
-                mobileMenu.classList.remove('-translate-y-full', 'opacity-0');
-                mobileMenu.classList.add('translate-y-0', 'opacity-100');
-            }, 10);
+<script>
+    const menuBtn = document.getElementById('menuButton');
+    const mobileMenu = document.getElementById('mobileMenu');
+    let isMenuOpen = false;
+
+    menuBtn.addEventListener('click', () => {
+        isMenuOpen = !isMenuOpen;
+        if (isMenuOpen) {
+            mobileMenu.classList.remove('-translate-y-[150%]');
+            menuBtn.innerHTML = '<i class="fa-solid fa-xmark text-2xl"></i>';
         } else {
-            mobileMenu.classList.add('-translate-y-full', 'opacity-0');
-            mobileMenu.classList.remove('translate-y-0', 'opacity-100');
-            setTimeout(() => {
-                mobileMenu.classList.add('hidden');
-            }, 300);
+            mobileMenu.classList.add('-translate-y-[150%]');
+            menuBtn.innerHTML = '<i class="fa-solid fa-bars text-2xl"></i>';
         }
     });
 </script>
