@@ -18,7 +18,7 @@
                 <h3 class="flex items-center text-xl font-bold text-gray-800 mb-6">
                     <i class="fa-regular fa-clock text-amber-600 mr-3"></i> Waktu Pemesanan (H-Min)
                 </h3>
-                <ul class="space-y-4 text-gray-600 leading-relaxed ">
+                <ul class="space-y-4 text-gray-600 ">
                     <li class="flex gap-3">
                         <span class="font-bold text-amber-600">H-30:</span>
                         <span>Hantaran Luxury.</span>
@@ -37,14 +37,14 @@
                 <div class="mt-8 pt-6 border-t border-gray-100">
                     <h4 class="font-bold text-gray-800 mb-3">Kontak Pemesanan (WhatsApp)</h4>
                     <div class="space-y-2">
-                        <div class="flex items-center gap-2 p-3 bg-amber-50 rounded-lg text-amber-800">
+                        <div class="flex items-center gap-2 p-3 bg-amber-50 rounded-lg text-amber-700">
                             <i class="fa-brands fa-whatsapp text-lg"></i>
                             <div>
                                 <span class="block text-xs font-semibold uppercase text-amber-600">Hantaran & Catering</span>
                                 <span class="font-mono text-lg font-bold">0812-1701-8289</span>
                             </div>
                         </div>
-                        <div class="flex items-center gap-2 p-3 bg-amber-50 rounded-lg text-amber-800">
+                        <div class="flex items-center gap-2 p-3 bg-amber-50 rounded-lg text-amber-700">
                             <i class="fa-brands fa-whatsapp text-lg"></i>
                             <div>
                                 <span class="block text-xs font-semibold uppercase text-amber-600">Gethuk & Kursus</span>

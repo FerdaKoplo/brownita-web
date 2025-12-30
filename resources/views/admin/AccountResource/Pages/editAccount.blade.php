@@ -1,84 +1,144 @@
 @extends('layout.admin.layout')
 @section('title', 'Edit Akun Admin')
-@section('content')
 
-    <div class="flex justify-center items-center min-h-screen bg-gray-50 px-4">
-        <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-2xl">
-            <h1 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Edit Akun Admin</h1>
-            <form method="POST" action="{{ route('dashboard.admin.akun.update', $user->id) }}" id="akunAdminEditForm"
-                class="space-y-6">
+@section('content')
+    <div class="p-6 bg-gray-50 min-h-screen flex justify-center">
+        <div class="w-full max-w-5xl">
+
+            <div class="mb-6 flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Edit Akun Admin</h1>
+                    <p class="text-gray-500 text-sm mt-1">Perbarui profil administrator: <span
+                            class="font-bold text-amber-700">{{ $user->name }}</span></p>
+                </div>
+                <div class="text-sm px-3 py-1 bg-amber-50 text-amber-800 rounded-lg border border-amber-200 font-mono">
+                    ID: {{ $user->id }}
+                </div>
+            </div>
+
+            <form method="POST" action="{{ route('dashboard.admin.akun.update', $user->id) }}" id="akunAdminEditForm">
                 @csrf
                 @method('PUT')
 
-                <!-- Nama Lengkap -->
-                <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
-                    <input type="text" id="name" name="name" required value="{{ old('name', $user->name) }}"
-                        placeholder="Masukkan nama" class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">
-                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-                <!-- Email -->
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" id="email" name="email" required value="{{ old('email', $user->email) }}"
-                        placeholder="Masukkan email" class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">
-                </div>
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h2 class="text-lg font-bold text-gray-800 mb-4 border-b border-gray-100 pb-2">Informasi Akun
+                            </h2>
 
-                {{-- no handphone --}}
-                <div>
-                    <label for="no_handphone" class="block text-sm font-medium text-gray-700">No Handphone</label>
-                    <input type="no_handphone" id="no_handphone" name="no_handphone" required
-                        placeholder="Masukkan nomor handphone" class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">
-                </div>
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="name" class="block text-xs font-semibold text-gray-500 uppercase mb-1">Nama
+                                        Lengkap</label>
+                                    <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}"
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all text-sm">
+                                </div>
 
-                <!-- Password Baru -->
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700">Password Baru (opsional)</label>
-                    <input type="password" id="password" name="password"
-                        placeholder="Masukkan password" class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">
-                </div>
+                                <div>
+                                    <label for="email"
+                                        class="block text-xs font-semibold text-gray-500 uppercase mb-1">Email
+                                        Address</label>
+                                    <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}"
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all text-sm">
+                                </div>
 
-                <!-- Konfirmasi Password -->
-                <div>
-                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Konfirmasi
-                        Password</label>
-                    <input type="password" id="password_confirmation" name="password_confirmation"
-                        placeholder="Masukkan ulang password anda" class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">
-                </div>
+                                <div>
+                                    <label for="no_handphone"
+                                        class="block text-xs font-semibold text-gray-500 uppercase mb-1">No.
+                                        WhatsApp</label>
+                                    <input type="tel" id="no_handphone" name="no_handphone"
+                                        value="{{ old('no_handphone', $user->no_handphone) }}"
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all text-sm">
+                                </div>
 
-                <!-- Aksi -->
-                <div class="flex justify-between">
-                    <a href="{{ route('dashboard.admin.akun.view') }}"
-                        class="inline-block px-6 py-2 border border-gray-400 rounded-lg text-gray-700 duration-300 hover:bg-gray-100">
-                        Kembali
-                    </a>
-                    <button type="submit"
-                        class="px-6 py-2 bg-amber-700 text-white font-semibold rounded-lg hover:bg-amber-700/80 duration-300">
-                        Simpan
-                    </button>
+                                <div class="border-t border-gray-100 my-4"></div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="password"
+                                            class="block text-xs font-semibold text-gray-500 uppercase mb-1">
+                                            Password Baru <span
+                                                class="text-gray-400 font-normal lowercase">(opsional)</span>
+                                        </label>
+                                        <div class="relative">
+                                            <input type="password" id="password" name="password" placeholder="••••••••"
+                                                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all text-sm">
+                                            <button type="button" onclick="togglePassword('password')"
+                                                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-amber-600 transition">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label for="password_confirmation"
+                                            class="block text-xs font-semibold text-gray-500 uppercase mb-1">Konfirmasi
+                                            Password</label>
+                                        <div class="relative">
+                                            <input type="password" id="password_confirmation" name="password_confirmation"
+                                                placeholder="••••••••"
+                                                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all text-sm">
+                                            <button type="button" onclick="togglePassword('password_confirmation')"
+                                                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-amber-600 transition">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h2 class="text-lg font-bold text-gray-800 mb-4 border-b border-gray-100 pb-2">Simpan</h2>
+
+                            <div class="flex flex-col gap-3">
+                                <button type="submit"
+                                    class="w-full bg-amber-700 hover:bg-amber-800 text-white font-bold py-3 rounded-xl shadow-lg shadow-amber-900/10 transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan
+                                </button>
+                                <a href="{{ route('dashboard.admin.akun.view') }}"
+                                    class="w-full bg-white border border-gray-300 text-gray-700 font-semibold py-3 rounded-xl hover:bg-gray-50 transition-all text-center">
+                                    Batal
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </form>
         </div>
     </div>
 
-    {{-- SweetAlert --}}
     <script>
+        function togglePassword(id) {
+            const input = document.getElementById(id);
+            const icon = event.currentTarget.querySelector('i');
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.replace("fa-eye", "fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.replace("fa-eye-slash", "fa-eye");
+            }
+        }
+
         document.getElementById('akunAdminEditForm').addEventListener('submit', function (e) {
             e.preventDefault();
             Swal.fire({
-                title: 'Yakin ingin menyimpan perubahan?',
-                text: "Pastikan data sudah benar.",
-                icon: 'warning',
+                title: 'Simpan Perubahan?',
+                text: "Data akun akan diperbarui.",
+                icon: 'info',
                 showCancelButton: true,
-                confirmButtonColor: '#d97706', // amber-700
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, simpan!'
+                confirmButtonColor: '#b45309',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Ya, Update',
+                cancelButtonText: 'Batal'
             }).then((result) => {
-                if (result.isConfirmed) {
-                    e.target.submit();
-                }
+                if (result.isConfirmed) this.submit();
             });
         });
     </script>
-
 @endsection

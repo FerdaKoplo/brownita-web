@@ -56,6 +56,7 @@ class KatalogController extends Controller
                 'nama_produk' => 'required|string|max:255',
                 'deskripsi' => 'nullable|string|max:1000',
                 'harga' => 'required|numeric|min:0',
+                'gambar_produk' => 'nullable|array|max:5',
                 'gambar_produk.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             ],
             [
@@ -63,6 +64,7 @@ class KatalogController extends Controller
                 'gambar_produk.*.image' => 'File harus berupa gambar.',
                 'gambar_produk.*.mimes' => 'Gambar harus berformat JPEG, PNG, JPG, atau WEBP.',
                 'gambar_produk.*.max' => 'Ukuran gambar maksimal 2MB.',
+                'gambar_produk.max' => 'Maksimal hanya boleh mengupload 5 gambar.',
                 'harga.required' => 'Harga wajib diisi.',
                 'harga.numeric' => 'Harga harus berupa angka.',
                 'harga.min' => 'Harga tidak boleh nol.',
@@ -101,10 +103,17 @@ class KatalogController extends Controller
             'deskripsi' => 'nullable|string|max:1000',
             'harga' => 'required|numeric|min:0',
             'status' => 'required|in:tersedia,habis',
-            'gambar_produk.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'gambar_produk' => 'nullable|array|max:5',
+            'gambar_produk.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
         ], [
             'nama_produk.required' => 'Nama produk wajib diisi.',
-            'harga.required' => 'Harga produk tidak boleh kosong.',
+            'gambar_produk.*.image' => 'File harus berupa gambar.',
+            'gambar_produk.*.mimes' => 'Gambar harus berformat JPEG, PNG, JPG, atau WEBP.',
+            'gambar_produk.*.max' => 'Ukuran gambar maksimal 2MB.',
+            'gambar_produk.max' => 'Maksimal hanya boleh mengupload 5 gambar.',
+            'harga.required' => 'Harga wajib diisi.',
+            'harga.numeric' => 'Harga harus berupa angka.',
+            'harga.min' => 'Harga tidak boleh nol.',
         ]);
 
         $katalog = Katalog::with('images')->findOrFail($id);
