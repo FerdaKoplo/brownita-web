@@ -4,146 +4,178 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Register</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kameron&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Register - Brownita</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
     @vite('resources/css/app.css')
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
 </head>
 
-<body class="bg-gray-50">
-    @if (Auth::check())
-        @include('components.customer.logged-in.nav')
-    @else
-        @include('components.customer.logged-out.nav')
-    @endif
+<body class="bg-gray-50 min-h-screen flex flex-col">
 
-    <div class="min-h-screen flex flex-col justify-center items-center gap-12 px-4 md:px-0 py-12">
-        <div
-            class="flex flex-col md:flex-row shadow-md rounded-xl bg-white overflow-hidden max-w-4xl w-full md:h-auto">
-
-            <!-- Left side: Logo -->
-           <div
-                class="bg-amber-700 flex items-center justify-center p-6 md:p-10 md:w-1/2 rounded-t-xl md:rounded-l-xl md:rounded-tr-none">
-                <img src="images/brownitaLogo.png" alt="Brownita Logo" class="h-48 md:h-56 rounded-xl bg-white" />
-            </div>
-
-            <!-- Right side: Form -->
-            <form method="POST" action="{{ route('register.post') }}"
-                class="flex flex-col justify-center gap-8 p-6 md:p-10 md:w-1/2 text-2xl"
-                autocomplete="off">
-                @csrf
-
-                <h1 class="text-3xl font-bold text-gray-800">Register</h1>
-
-                <div class="flex flex-col text-lg items-start gap-2">
-                    <label for="name" class="font-medium text-gray-700">Username</label>
-                    <input type="text" id="name" name="name" placeholder="Ketik username..."
-                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-700" />
-                </div>
-
-                  <div class="flex flex-col text-lg items-start gap-2">
-                    <label for="no_handphone" class="font-medium text-gray-700">No Handphone</label>
-                    <input type="tel" id="no_handphone" name="no_handphone" placeholder="Ketik no handphone..."
-                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-700" />
-                </div>
-
-                <div class="flex flex-col text-lg items-start gap-2">
-                    <label for="email" class="font-medium text-gray-700">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Ketik email..."
-                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-700" />
-                </div>
-
-                <div class="flex flex-col text-lg items-start gap-2 relative">
-                    <label for="password" class="font-medium text-gray-700">Password</label>
-                    <div class="flex items-center gap-3 w-full">
-                        <input type="password" id="password" name="password" placeholder="Ketik password..."
-                            class="flex-grow px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-700" />
-                        <button type="button" id="toggle-password" aria-label="Toggle Password Visibility"
-                            class="text-gray-600 hover:text-amber-700 focus:outline-none">
-                            <i class="fa-solid fa-eye-slash text-xl"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="flex flex-col text-lg items-start gap-2 relative">
-                    <label for="password_confirmation" class="font-medium text-gray-700">Confirm Password</label>
-                    <div class="flex items-center gap-3 w-full">
-                        <input type="password" id="password_confirmation" name="password_confirmation"
-                            placeholder="Ketik ulang password..."
-                            class="flex-grow px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-700" />
-                        <button type="button" id="toggle-password-confirmation" aria-label="Toggle Confirm Password Visibility"
-                            class="text-gray-600 hover:text-amber-700 focus:outline-none">
-                            <i class="fa-solid fa-eye-slash text-xl"></i>
-                        </button>
-                    </div>
-                </div>
-
-
-
-                <button type="submit"
-                    class="bg-amber-700 rounded-lg text-lg text-white hover:opacity-80 transition py-3 mt-4 w-full">
-                    Register
-                </button>
-            </form>
-        </div>
-
-        <p class="text-center text-gray-700 text-lg">
-            Sudah Punya Akun?
-            <a href="{{ route('login') }}" class="font-bold text-amber-700 hover:underline">
-                Login Disini!
-            </a>
-        </p>
+    <div class="fixed top-0 w-full z-50">
+        @if (Auth::check())
+            @include('components.customer.logged-in.nav')
+        @else
+            @include('components.customer.logged-out.nav')
+        @endif
     </div>
 
-    {{-- Sweetalert Popup --}}
+    <div class="flex-1 flex items-center justify-center p-4 sm:p-8 mt-20 mb-10">
+        <div
+            class="bg-white rounded-3xl shadow-2xl overflow-hidden max-w-5xl w-full flex flex-col md:flex-row-reverse min-h-[650px]">
+
+            <div
+                class="relative w-full md:w-5/12 bg-amber-900 flex flex-col justify-center items-center text-center p-10 overflow-hidden group">
+                <div
+                    class="absolute inset-0 bg-cover bg-center opacity-40 group-hover:scale-105 transition-transform duration-1000">
+                    <img src="images/cake-boxes.png" class="w-full h-full object-cover" alt="">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-b from-amber-950/80 to-amber-900/60"></div>
+
+                <div class="relative z-10 flex flex-col items-center">
+                    <div
+                        class="bg-white p-2 rounded-2xl shadow-lg mb-6 rotate-3 hover:rotate-0 transition-transform duration-300">
+                        <img src="images/brownitaLogo.png" alt="Brownita Logo" class="h-32 w-auto" />
+                    </div>
+                    <h2 class="text-3xl font-bold text-white mb-2">Join Our Family</h2>
+                    <p class="text-amber-100 text-sm max-w-xs leading-relaxed mb-6">
+                        Daftar sekarang untuk menikmati kemudahan pemesanan dan promo eksklusif dari Brownita.
+                    </p>
+                    <a href="{{ route('login') }}"
+                        class="px-6 py-2 border-2 border-white/30 hover:bg-white hover:text-amber-900 text-white rounded-full text-sm font-semibold transition-all">
+                        Sudah punya akun?
+                    </a>
+                </div>
+            </div>
+
+            <div class="w-full md:w-7/12 p-8 md:p-12 bg-white">
+                <div class="mb-6">
+                    <h1 class="text-3xl font-bold text-gray-900">Buat Akun Baru</h1>
+                    <p class="text-gray-500 text-sm mt-1">Lengkapi data diri Anda di bawah ini.</p>
+                </div>
+
+                <form method="POST" action="{{ route('register.post') }}" autocomplete="off" class="space-y-5">
+                    @csrf
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Username</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-user absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                <input type="text" name="name" placeholder="John Doe"
+                                    class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition" />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">No. WhatsApp</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                <input type="tel" name="no_handphone" placeholder="0812..."
+                                    class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Email Address</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                            <input type="email" name="email" placeholder="nama@email.com"
+                                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition" />
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Password</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                <input type="password" id="password" name="password" placeholder="••••••••"
+                                    class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition" />
+                                <button type="button" onclick="toggleVisibility('password', this)"
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-amber-600">
+                                    <i class="fa-solid fa-eye-slash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Confirm Password</label>
+                            <div class="relative">
+                                <i
+                                    class="fa-solid fa-check-circle absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                <input type="password" id="password_confirmation" name="password_confirmation"
+                                    placeholder="••••••••"
+                                    class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition" />
+                                <button type="button" onclick="toggleVisibility('password_confirmation', this)"
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-amber-600">
+                                    <i class="fa-solid fa-eye-slash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- <div class="flex items-center gap-2">
+                        <input type="checkbox" required
+                            class="rounded border-gray-300 text-amber-600 focus:ring-amber-600 w-4 h-4">
+                        <span class="text-xs text-gray-500">Saya menyetujui <a href="#"
+                                class="text-amber-600 hover:underline">Syarat & Ketentuan</a> Brownita.</span>
+                    </div> --}}
+
+                    <button type="submit"
+                        class="w-full bg-amber-700 hover:bg-amber-800 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-amber-900/10 transform transition hover:-translate-y-0.5 focus:ring-4 focus:ring-amber-500/30">
+                        Daftar Sekarang
+                    </button>
+                </form>
+
+                <div class="mt-6 text-center md:hidden">
+                    <p class="text-gray-500 text-sm">
+                        Sudah punya akun?
+                        <a href="{{ route('login') }}" class="font-bold text-amber-700 hover:underline">Login Disini</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @if(session('success'))
-        <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Sukses!',
-                text: '{{ session('success') }}',
-                confirmButtonColor: '#3085d6'
-            });
-        </script>
-    @elseif ($errors->any())
-        <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Gagal Registrasi!',
-                html: `{!! implode('<br>', $errors->all()) !!}`,
-                confirmButtonColor: '#3085d6'
-            });
-        </script>
-    @endif
-
-    {{-- Toggle Password --}}
     <script>
-        function setupPasswordToggle(inputId, toggleButtonId) {
-            const toggleButton = document.getElementById(toggleButtonId);
+        function toggleVisibility(inputId, btn) {
             const input = document.getElementById(inputId);
-
-            toggleButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                const icon = toggleButton.querySelector('i');
-
-                if (input.type === 'password') {
-                    input.type = 'text';
-                    icon.classList.remove('fa-eye-slash');
-                    icon.classList.add('fa-eye');
-                } else {
-                    input.type = 'password';
-                    icon.classList.remove('fa-eye');
-                    icon.classList.add('fa-eye-slash');
-                }
-            });
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            }
         }
 
-        setupPasswordToggle('password', 'toggle-password');
-        setupPasswordToggle('password_confirmation', 'toggle-password-confirmation');
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Registrasi Berhasil!',
+                text: '{{ session('success') }}',
+                confirmButtonColor: '#b45309',
+                timer: 3000
+            });
+        @elseif ($errors->any())
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal Registrasi',
+                html: `{!! implode('<br>', $errors->all()) !!}`,
+                confirmButtonColor: '#b45309'
+            });
+        @endif
     </script>
 </body>
 

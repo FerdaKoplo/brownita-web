@@ -57,12 +57,12 @@ class TransaksiController extends Controller
             ->with('success', 'Status transaksi berhasil diperbarui.');
     }
 
-    public function transaksiDestroy($id)
-    {
-        $transaksi = Transaksi::findOrFail($id);
-        $transaksi->delete();
+    // public function transaksiDestroy($id)
+    // {
+    //     $transaksi = Transaksi::findOrFail($id);
+    //     $transaksi->delete();
 
-        return redirect()->route('admin.transaksi.index')
-            ->with('success', 'Transaksi berhasil dihapus.');
-    }
+    //     return redirect()->route('admin.transaksi.index')
+    //         ->with('success', 'Transaksi berhasil dihapus.');
+    // }
 }

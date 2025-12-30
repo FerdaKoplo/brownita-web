@@ -1,179 +1,155 @@
 @extends('layout.customer.app')
-
 @section('title', 'Riwayat Transaksi')
 
 @section('content')
-    <div class="p-4 sm:p-12 md:px-32 flex flex-col gap-6 sm:gap-10">
-        <h1 class="text-xl sm:text-2xl md:text-3xl font-bold text-black">Riwayat Transaksi</h1>
+    <div class="min-h-screen bg-gray-50 px-4 lg:px-32 py-12">
 
-        {{-- Filter Form --}}
-        <form action="{{ route('customer.transaksi.index') }}" method="GET"
-            class="flex flex-wrap gap-3 p-3 bg-white rounded shadow-md">
-            {{-- Search --}}
-            <div class="flex flex-col flex-1 min-w-[200px]">
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-magnifying-glass text-gray-500"></i>
-                    <input type="text" name="search" value="{{ request('search') }}"
-                        class="w-full bg-transparent outline-none text-gray-700 placeholder-gray-400 text-sm sm:text-base"
-                        placeholder="Cari Transaksi...">
-                </div>
-                <span class="text-xs text-gray-400 mt-1">Cari berdasarkan nama user</span>
+        <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Riwayat Pesanan</h1>
+                <p class="text-gray-500 mt-1">Pantau status pesanan dan pembayaran Anda.</p>
             </div>
 
-            {{-- Status --}}
-            <div class="flex flex-col">
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-filter text-gray-400"></i>
-                    <select name="status" class="rounded px-2 py-1 border text-sm sm:text-base">
+            <button onclick="document.getElementById('filterPanel').classList.toggle('hidden')"
+                class="md:hidden w-full bg-white border border-gray-200 px-4 py-2 rounded-lg text-gray-700 font-medium shadow-sm">
+                <i class="fa-solid fa-filter mr-2"></i> Filter & Pencarian
+            </button>
+        </div>
+
+        <div id="filterPanel" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-8 hidden md:block">
+            <form action="{{ route('customer.transaksi.index') }}" method="GET"
+                class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+
+                <div class="col-span-1 md:col-span-4 lg:col-span-1">
+                    <label class="text-xs font-bold text-gray-500 uppercase mb-1 block">Cari Transaksi</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" name="search" value="{{ request('search') }}"
+                            class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition"
+                            placeholder="ID atau Nama Produk...">
+                    </div>
+                </div>
+
+                <div class="col-span-1 md:col-span-2 lg:col-span-1">
+                    <label class="text-xs font-bold text-gray-500 uppercase mb-1 block">Status</label>
+                    <select name="status"
+                        class="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-white focus:ring-2 focus:ring-amber-500 outline-none cursor-pointer">
                         <option value="">Semua Status</option>
-                        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-                        <option value="dibayar" {{ request('status') == 'dibayar' ? 'selected' : '' }}>Dibayar</option>
-                        <option value="dikirim" {{ request('status') == 'dikirim' ? 'selected' : '' }}>Dikirim</option>
+                        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Menunggu Bayar</option>
+                        <option value="dibayar" {{ request('status') == 'dibayar' ? 'selected' : '' }}>Sudah Dibayar</option>
+                        <option value="dikirim" {{ request('status') == 'dikirim' ? 'selected' : '' }}>Sedang Dikirim</option>
                         <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
                         <option value="batal" {{ request('status') == 'batal' ? 'selected' : '' }}>Dibatalkan</option>
                     </select>
                 </div>
-                <span class="text-xs text-gray-400 mt-1">Filter berdasarkan status transaksi</span>
-            </div>
 
-            {{-- Date Range --}}
-            <div class="flex flex-col">
-                <input type="date" name="from" value="{{ request('from') }}" class="border rounded px-2 py-1 text-sm">
-                <span class="text-xs text-gray-400 mt-1">Tanggal mulai</span>
-            </div>
-            <div class="flex flex-col">
-                <input type="date" name="to" value="{{ request('to') }}" class="border rounded px-2 py-1 text-sm">
-                <span class="text-xs text-gray-400 mt-1">Tanggal selesai</span>
-            </div>
-
-            {{-- Buttons --}}
-            <div class="flex items-center gap-5">
-                <button type="submit" class="bg-amber-600 text-white px-4 py-1 rounded text-sm hover:bg-black transition">
-                    Filter
-                </button>
-                <a href="{{ route('customer.transaksi.index') }}"
-                    class="text-red-500 font-semibold text-sm hover:underline ml-2">Reset</a>
-            </div>
-        </form>
-
-        {{-- Transactions Table --}}
-        @if($transaksis->isEmpty())
-            <div class="text-center text-gray-500 text-sm sm:text-base mt-4">
-                Tidak ada transaksi yang sesuai filter.
-            </div>
-        @else
-            <div class="rounded-lg overflow-x-auto shadow-md mt-4">
-                <table id="transactionBody" class="table-auto w-full min-w-[500px] border-collapse">
-                    <thead class="bg-white  border-b border-gray-300 text-xs sm:text-sm md:text-base">
-                        <tr>
-                            <th class=" text-left px-2 sm:px-4 py-2 sm:py-3">#</th>
-                            <th class="text-left px-2 sm:px-4 py-2 sm:py-3">Tanggal</th>
-                            <th class="text-left px-2 sm:px-4 py-2 sm:py-3">Total</th>
-                            <th class="text-left px-2 sm:px-4 py-2 sm:py-3">Alamat</th>
-                            <th class="text-left px-2 sm:px-4 py-2 sm:py-3">Status</th>
-                            <th class="px-3 sm:px-4 py-2 sm:py-3 text-center">Bukti Pembayaran</th>
-                            <th class="px-2 sm:px-4 py-2 sm:py-3 text-center">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200 text-xs sm:text-sm md:text-base">
-                        @foreach($transaksis as $index => $transaksi)
-                            <tr class="transaction-row opacity-0 translate-y-6  hover:bg-gray-50 transition">
-                                <td class="px-2 sm:px-4 py-2">
-                                    {{ ($transaksis->currentPage() - 1) * $transaksis->perPage() + $index + 1 }}
-                                </td>
-                                <td class="px-2 sm:px-4 py-2">
-                                    {{ $transaksi->created_at->format('d M Y') }}
-                                </td>
-                                <td class="px-2 sm:px-4 py-2">
-                                    Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}
-                                </td>
-                                <td class="px-2 sm:px-4 py-2">
-                                    <p class="text-black">{{ $transaksi->alamat }}</p>
-                                </td>
-                                <td class="px-2 sm:px-4 py-2">
-                                    @php
-                                        $colorMap = [
-                                            'pending' => 'bg-yellow-100 text-yellow-700',
-                                            'dibayar' => 'bg-green-100 text-green-700',
-                                            'dikirim' => 'bg-blue-100 text-blue-700',
-                                            'selesai' => 'bg-gray-200 text-gray-800',
-                                            'batal' => 'bg-red-100 text-red-600',
-                                        ];
-                                    @endphp
-                                    <span
-                                        class="inline-block px-2 py-1 text-[10px] sm:text-xs rounded-full font-medium {{ $colorMap[$transaksi->status] ?? 'bg-gray-100 text-gray-700' }}">
-                                        {{ ucfirst($transaksi->status) }}
-                                    </span>
-                                </td>
-                                <td class="px-2 sm:px-4 py-2 text-center">
-                                    @if($transaksi->bukti_pembayaran)
-                                        <div class="flex flex-col justify-center items-center gap-2">
-                                            <a href="{{ asset('storage/' . $transaksi->bukti_pembayaran) }}" target="_blank">
-                                                <img src="{{ asset('storage/' . $transaksi->bukti_pembayaran) }}" alt="Bukti Pembayaran"
-                                                    class="w-16 h-16 object-cover rounded shadow hover:scale-105 transition">
-                                            </a>
-                                            <a href="{{ asset('storage/' . $transaksi->bukti_pembayaran) }}"
-                                                download="bukti_pembayaran_{{ $transaksi->id }}.jpg"
-                                                class="bg-sky-500 text-white px-2 py-1 rounded text-xs hover:bg-blue-600 transition">
-                                                Download
-                                            </a>
-                                        </div>
-                                    @else
-                                        <span class="text-gray-400 text-xs">Belum diupload</span>
-                                    @endif
-                                </td>
-                                <td class="px-2 sm:px-4 py-2 text-center">
-                                    <a href="{{ route('customer.transaksi.show', $transaksi->id) }}"
-                                        class="text-gray-400 hover:text-gray-800 transition text-sm sm:text-base">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-            @if($transaksis->hasPages())
-                <div class="flex justify-center gap-10 items-center mt-6">
-                    @if($transaksis->onFirstPage())
-                        <span class="text-gray-400 flex justify-center items-center gap-2">
-                            <i class="fa-solid fa-angle-left"></i>
-                            Prev
-                        </span>
-                    @else
-                        <a href="{{ $transaksis->appends(request()->query())->previousPageUrl() }}"
-                            class="text-amber-700 justify-center font-semibold flex items-center gap-2">
-                            <i class="fa-solid fa-angle-left"></i>
-                            Prev
-                        </a>
-                    @endif
-
-                    {{-- <span
-                        class="text-sm  shadow hover:bg-amber-700  transition duration-300 cursor-default bg-black text-white px-2 py-2 rounded-lg">Halaman
-                        {{ $transaksis->currentPage() }}</span> --}}
-
-                    @foreach ($transaksis->getUrlRange(1, $transaksis->lastPage()) as $page => $url)
-                        <a href="{{ $url }}"
-                            class="{{ $page == $transaksis->currentPage() ? 'bg-black text-white' : 'text-amber-700' }} px-2 py-1 rounded">
-                            {{ $page }}
-                        </a>
-                    @endforeach
-
-                    @if($transaksis->hasMorePages())
-                        <a href="{{ $transaksis->appends(request()->query())->nextPageUrl() }}"
-                            class="text-amber-700 font-semibold justify-center flex items-center gap-2">
-                            Next
-                            <i class="fa-solid fa-angle-right"></i>
-                        </a>
-                    @else
-                        <span class="text-gray-400 flex items-center gap-2">
-                            Next
-                            <i class="fa-solid fa-angle-right"></i>
-                        </span>
-                    @endif
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="text-xs font-bold text-gray-500 uppercase mb-1 block">Dari Tanggal</label>
+                        <input type="date" name="from" value="{{ request('from') }}"
+                            class="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-amber-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-500 uppercase mb-1 block">Sampai</label>
+                        <input type="date" name="to" value="{{ request('to') }}"
+                            class="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-amber-500 outline-none">
+                    </div>
                 </div>
-            @endif
-        @endif
-    </div>
 
+                <div class="flex gap-2">
+                    <button type="submit"
+                        class="flex-1 bg-amber-700 hover:bg-amber-800 text-white font-semibold py-2.5 rounded-xl transition shadow-md">
+                        Terapkan
+                    </button>
+                    <a href="{{ route('customer.transaksi.index') }}"
+                        class="px-4 py-2.5 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 transition"
+                        title="Reset">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            @if($transaksis->isEmpty())
+                <div class="flex flex-col items-center justify-center py-16 text-center">
+                    <div class="bg-gray-50 w-20 h-20 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-receipt text-3xl text-gray-300"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-800">Belum Ada Transaksi</h3>
+                    <p class="text-gray-500 text-sm">Pesanan Anda akan muncul di sini setelah Anda belanja.</p>
+                    <a href="{{ route('produk-kami') }}" class="mt-4 text-amber-700 font-semibold hover:underline">Mulai
+                        Belanja</a>
+                </div>
+            @else
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead
+                            class="bg-gray-50 border-b border-gray-100 text-xs uppercase text-gray-500 font-bold tracking-wider">
+                            <tr>
+                                <th class="px-6 py-4">#ID</th>
+                                <th class="px-6 py-4">Tanggal</th>
+                                <th class="px-6 py-4">Total Belanja</th>
+                                <th class="px-6 py-4">Status</th>
+                                <th class="px-6 py-4">Bukti Bayar</th>
+                                <th class="px-6 py-4 text-right">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-50">
+                            @foreach($transaksis as $transaksi)
+                                                <tr class="hover:bg-amber-50/30 transition-colors group">
+                                                    <td class="px-6 py-4 font-mono text-sm text-gray-500">#{{ $transaksi->id }}</td>
+                                                    <td class="px-6 py-4 text-sm text-gray-700">
+                                                        {{ $transaksi->created_at->format('d M Y') }}
+                                                        <span class="block text-xs text-gray-400">{{ $transaksi->created_at->format('H:i') }}</span>
+                                                    </td>
+                                                    <td class="px-6 py-4 font-bold text-gray-900">
+                                                        Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}
+                                                    </td>
+                                                    <td class="px-6 py-4">
+                                                        @php
+                                                            $statusStyles = [
+                                                                'pending' => 'bg-yellow-100 text-yellow-700 border-yellow-200',
+                                                                'dibayar' => 'bg-green-100 text-green-700 border-green-200',
+                                                                'dikirim' => 'bg-blue-100 text-blue-700 border-blue-200',
+                                                                'selesai' => 'bg-gray-100 text-gray-700 border-gray-200',
+                                                                'batal' => 'bg-red-100 text-red-700 border-red-200',
+                                                            ];
+                                                            $style = $statusStyles[$transaksi->status] ?? 'bg-gray-100 text-gray-600';
+                                                        @endphp
+                                 <span
+                                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border {{ $style }}">
+                                                            {{ ucfirst($transaksi->status) }}
+                                                        </span>
+                                                    </td>
+                                                    <td class="px-6 py-4">
+                                                        @if($transaksi->bukti_pembayaran)
+                                                            <a href="{{ asset('storage/' . $transaksi->bukti_pembayaran) }}" target="_blank"
+                                                                class="flex items-center gap-2 text-amber-700 hover:underline text-sm font-medium">
+                                                                <i class="fa-solid fa-paperclip"></i> Lihat File
+                                                            </a>
+                                                        @else
+                                                            <span class="text-xs text-gray-400 italic">Belum upload</span>
+                                                        @endif
+                                                    </td>
+                                                    <td class="px-6 py-4 text-right">
+                                                        <a href="{{ route('customer.transaksi.show', $transaksi->id) }}"
+                                                            class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white border border-gray-200 text-gray-500 hover:text-amber-700 hover:border-amber-300 shadow-sm transition">
+                                                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                @if($transaksis->hasPages())
+                    <div class="p-4 border-t border-gray-100 bg-gray-50">
+                        {{ $transaksis->appends(request()->query())->links('pagination::tailwind') }}
+                    </div>
+                @endif
+            @endif
+        </div>
+    </div>
 @endsection

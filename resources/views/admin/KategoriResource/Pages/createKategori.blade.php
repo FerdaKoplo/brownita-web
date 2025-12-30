@@ -1,74 +1,98 @@
 @extends('layout.admin.layout')
-@section('title', 'Kategori')
-@section('content')
+@section('title', 'Tambah Kategori')
 
-    <div class="flex justify-center items-center min-h-screen bg-gray-50 px-4">
-        <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-2xl">
-            <h1 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Buat Kategori</h1>
-            <form method="POST" id="kategoriForm" class="space-y-6" action="{{ route('dashboard.admin.kategori.store') }}">
+@section('content')
+    <div class="p-6 bg-gray-50 min-h-screen flex justify-center">
+        <div class="w-full max-w-5xl">
+
+            {{-- Header --}}
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Tambah Kategori</h1>
+                <p class="text-gray-500 text-sm mt-1">Buat kategori baru untuk mengelompokkan produk.</p>
+            </div>
+
+            <form method="POST" id="kategoriForm" action="{{ route('dashboard.admin.kategori.store') }}">
                 @csrf
 
-                <!-- Nama Kategori -->
-                <div>
-                    <label for="nama_kategori" class="block text-sm font-medium text-gray-700">Nama Kategori</label>
-                    <input type="text" id="nama_kategori" name="nama_kategori" placeholder="Masukkan nama kategori..."
-                        class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">
-                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-                <!-- Deskripsi Kategori -->
-                <div>
-                    <label for="deskripsi_kategori" class="block text-sm font-medium text-gray-700">Deskripsi
-                        Kategori</label>
-                    <textarea name="deskripsi_kategori" id="deskripsi_kategori" rows="4"
-                        placeholder="Masukkan deskripsi kategori"
-                        class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none"></textarea>
-                </div>
+                    {{-- Left Column: Main Details --}}
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h2 class="text-lg font-bold text-gray-800 mb-4 border-b border-gray-100 pb-2">Informasi
+                                Kategori</h2>
 
-                <!-- Aksi -->
-                <div class="flex justify-between">
-                    <a href="{{ route('dashboard.admin.kategori.view') }}"
-                        class="inline-block px-6 py-2 border border-gray-400 rounded-lg text-gray-700 duration-300 hover:bg-gray-100">
-                        Kembali
-                    </a>
-                    <button type="submit"
-                        class="px-6 py-2 bg-amber-700 text-white font-semibold rounded-lg hover:bg-amber-700/80 duration-300">
-                        Buat
-                    </button>
+                            <div class="space-y-4">
+                                {{-- Nama Kategori --}}
+                                <div>
+                                    <label for="nama_kategori"
+                                        class="block text-xs font-semibold text-gray-500 uppercase mb-1">
+                                        Nama Kategori
+                                    </label>
+                                    <input type="text" id="nama_kategori" name="nama_kategori"
+                                        value="{{ old('nama_kategori') }}" placeholder="Contoh: Kue Basah"
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all text-sm @error('nama_kategori') border-red-500 bg-red-50 @enderror">
+
+                                    @error('nama_kategori')
+                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                {{-- Deskripsi --}}
+                                <div>
+                                    <label for="deskripsi_kategori"
+                                        class="block text-xs font-semibold text-gray-500 uppercase mb-1">
+                                        Deskripsi
+                                    </label>
+                                    <textarea name="deskripsi_kategori" id="deskripsi_kategori" rows="5"
+                                        placeholder="Deskripsi singkat kategori..."
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all text-sm resize-none @error('deskripsi_kategori') border-red-500 bg-red-50 @enderror">{{ old('deskripsi_kategori') }}</textarea>
+
+                                    @error('deskripsi_kategori')
+                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Right Column: Actions --}}
+                    <div class="space-y-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h2 class="text-lg font-bold text-gray-800 mb-4 border-b border-gray-100 pb-2">Aksi</h2>
+
+                            <div class="flex flex-col gap-3">
+                                <button type="submit"
+                                    class="w-full bg-amber-700 hover:bg-amber-800 text-white font-bold py-3 rounded-xl shadow-lg shadow-amber-900/10 transition-all hover:-translate-y-0.5">
+                                    <i class="fa-solid fa-plus mr-2"></i> Simpan Kategori
+                                </button>
+                                <a href="{{ route('dashboard.admin.kategori.view') }}"
+                                    class="w-full bg-white border border-gray-300 text-gray-700 font-semibold py-3 rounded-xl hover:bg-gray-50 transition-all text-center">
+                                    Batal
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 
-    {{-- SweetAlert --}}
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            @if ($errors->any())
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Validasi gagal!',
-                    html: `{!! implode('<br>', $errors->all()) !!}`,
-                    confirmButtonColor: '#3085d6'
-                });
-            @endif
-        })
-
         document.getElementById('kategoriForm').addEventListener('submit', function (e) {
             e.preventDefault();
-
             Swal.fire({
-                title: 'Yakin ingin menyimpan?',
-                text: "Pastikan data sudah benar.",
-                icon: 'warning',
+                title: 'Simpan Kategori?',
+                text: "Pastikan data yang dimasukkan sudah benar.",
+                icon: 'question',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, simpan!'
+                confirmButtonColor: '#b45309',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Ya, Simpan',
+                cancelButtonText: 'Batal'
             }).then((result) => {
-                if (result.isConfirmed) {
-                    e.target.submit();
-                }
+                if (result.isConfirmed) this.submit();
             });
         });
     </script>
-
 @endsection

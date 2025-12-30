@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{{ asset('images/brownitaLogo.png') }}" type="image/png">
     <link rel="apple-touch-icon" href="{{ asset('images/brownitaLogo.png') }}">
@@ -13,49 +13,19 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <style>
-        [x-cloak] {
-            display: none !important;
-        }
-    </style>
-
 </head>
 
-<body class="bg-gray-50">
+<body class="bg-white">
 
-    @if (Auth::check())
+    @auth
         @include('components.customer.logged-in.nav')
     @else
         @include('components.customer.logged-out.nav')
-    @endif
+    @endauth
 
-    <main class="pt-28 min-h-screen">
+    <main>
         @yield('content')
     </main>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-    @if(session('success'))
-        <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Sukses!',
-                text: "{{ session('success') }}",
-                confirmButtonColor: '#3085d6'
-            });
-        </script>
-    @endif
-
-    @if ($errors->any())
-        <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Terjadi Kesalahan',
-                text: '{{ $errors->first() }}',
-            });
-        </script>
-    @endif
 
     <x-reusable.floating-button-whatsapp />
 

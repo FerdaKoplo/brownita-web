@@ -1,155 +1,204 @@
 @extends('layout.admin.layout')
-@section('title', 'Katalog')
+@section('title', 'Edit Produk')
+
 @section('content')
-    <div class="flex justify-center items-center min-h-screen bg-gray-50 px-4">
-        <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-2xl">
-            <h1 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Edit Katalog</h1>
+    <div class="p-6 bg-gray-50 min-h-screen flex justify-center">
+        <div class="w-full max-w-5xl">
+
+            <div class="mb-6 flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Edit Produk</h1>
+                    <p class="text-gray-500 text-sm mt-1">Perbarui informasi produk: <span
+                            class="font-bold text-amber-700">{{ $catalogues->nama_produk }}</span></p>
+                </div>
+                <div class="text-sm px-3 py-1 bg-amber-50 text-amber-800 rounded-lg border border-amber-200 font-mono">
+                    ID: {{ $catalogues->id }}
+                </div>
+            </div>
+
             <form method="POST" action="{{ route('dashboard.admin.katalog.update', $catalogues->id) }}"
-                enctype="multipart/form-data" id="kategoriForm" class="space-y-6">
+                enctype="multipart/form-data" id="editForm">
                 @csrf
                 @method('PUT')
 
-                <!-- Kategori -->
-                <div>
-                    <label for="category_id" class="block text-sm font-medium text-gray-700">Kategori</label>
-                    <select name="category_id" id="category_id"
-                        class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-700">
-                        @forelse ($categories as $category)
-                            <option value="{{ $category->id }}" {{ $catalogues->category_id == $category->id ? 'selected' : '' }}>
-                                {{ $category->nama_kategori }}
-                            </option>
-                            @empty
-                             <option disabled selected>Belum ada kategori</option>
-                        @endforelse
-                    </select>
-                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-                <!-- Nama Produk -->
-                <div>
-                    <label for="nama_produk" class="block text-sm font-medium text-gray-700">Nama Produk</label>
-                    <input type="text" id="nama_produk" name="nama_produk"
-                        value="{{ old('nama_produk', $catalogues->nama_produk) }}"
-                      placeholder="Masukkan nama produk"  class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">
-                </div>
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h2 class="text-lg font-bold text-gray-800 mb-4 border-b border-gray-100 pb-2">Detail Produk
+                            </h2>
 
-                <!-- Gambar Produk -->
-                <div>
-                    <label for="gambar_produk" class="block text-sm font-medium text-gray-700">Gambar Produk</label>
-                    <input type="file" id="gambar_produk" name="gambar_produk[]" multiple accept="image/*"
-                            class="mt-1 block w-full bg-white border border-gray-300 rounded-lg py-2 px-3 text-gray-800 file:bg-amber-700 file:text-white file:rounded-md file:border-0 file:px-4 file:py-2">
-                    <div id="preview_gambar" class="flex gap-2 mt-2 flex-wrap">
-                        @if ($catalogues->gambar_produk && $catalogues->gambar_produk !== 'null')
-                            <img src="{{ asset('storage/' . $catalogues->gambar_produk) }}" alt="Preview"
-                                class="h-24 w-24 object-cover rounded-md bg-white">
-                        @endif
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Nama
+                                        Produk</label>
+                                    <input type="text" name="nama_produk"
+                                        value="{{ old('nama_produk', $catalogues->nama_produk) }}"
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all text-sm">
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label
+                                            class="block text-xs font-semibold text-gray-500 uppercase mb-1">Kategori</label>
+                                        <select name="category_id"
+                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 text-sm bg-white">
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}" {{ $catalogues->category_id == $category->id ? 'selected' : '' }}>
+                                                    {{ $category->nama_kategori }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Harga
+                                            (IDR)</label>
+                                        <div class="relative">
+                                            <span
+                                                class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold text-sm">Rp</span>
+                                            <input type="text" id="harga_display"
+                                                value="{{ number_format($catalogues->harga, 0, ',', '.') }}"
+                                                class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all text-sm">
+                                            <input type="hidden" name="harga" id="harga_actual"
+                                                value="{{ $catalogues->harga }}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label
+                                        class="block text-xs font-semibold text-gray-500 uppercase mb-1">Deskripsi</label>
+                                    <textarea name="deskripsi" rows="5"
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all text-sm resize-none">{{ old('deskripsi', $catalogues->deskripsi) }}</textarea>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Deskripsi -->
-                <div>
-                    <label for="deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi Produk</label>
-                    <textarea id="deskripsi" name="deskripsi" rows="4"
-                       placeholder="Masukkan deskripsi produk" class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:ring-2 focus:ring-amber-700 focus:outline-none">{{ old('deskripsi', $catalogues->deskripsi) }}</textarea>
-                </div>
+                    <div class="space-y-6">
 
-                <!-- Status Produk -->
-                <div>
-                    <label for="status" class="block text-sm font-medium text-gray-700">Status Produk</label>
-                    <select name="status" id="status"
-                        class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-700">
-                        <option value="tersedia" {{ old('status', $catalogues->status) == 'tersedia' ? 'selected' : '' }}>
-                            Tersedia</option>
-                        <option value="habis" {{ old('status', $catalogues->status) == 'habis' ? 'selected' : '' }}>Stok Habis
-                        </option>
-                    </select>
-                </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <h2 class="text-lg font-bold text-gray-800 mb-4 border-b border-gray-100 pb-2">Status & Media
+                            </h2>
 
-                <!-- Harga Produk -->
-                <div>
-                    <label for="harga_produk" class="block text-sm font-medium text-gray-700">Harga Produk</label>
-                    <input type="text" id="harga_produk" name="harga_tampil"
-                        value="Rp {{ number_format($catalogues->harga, 0, ',', '.') }}"
-                        class="mt-1 block w-full bg-gray-100 border focus:ring-2 focus:ring-amber-700 border-gray-300 rounded-lg py-2 px-3 text-gray-800">
-                    <input type="number" id="harga_hidden" readonly name="harga" value="{{ $catalogues->harga }}"
-                        class="hidden">
-                </div>
+                            <div class="mb-6">
+                                <label class="block text-xs font-semibold text-gray-500 uppercase mb-2">Ketersediaan
+                                    Stok</label>
+                                <select name="status"
+                                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 text-sm">
+                                    <option value="tersedia" {{ $catalogues->status == 'tersedia' ? 'selected' : '' }}>
+                                        Tersedia</option>
+                                    <option value="habis" {{ $catalogues->status == 'habis' ? 'selected' : '' }}>Stok Habis
+                                    </option>
+                                </select>
+                            </div>
 
-                <!-- Aksi -->
-                <div class="flex justify-between">
-                    <a href="{{ route('dashboard.admin.katalog.view') }}"
-                        class="inline-block px-6 py-2 border border-gray-400 rounded-lg text-gray-700 duration-300 hover:bg-gray-100">
-                        Kembali
-                    </a>
-                    <button type="submit"
-                        class="px-6 py-2 bg-amber-700 text-white font-semibold rounded-lg hover:bg-amber-700/80 duration-300">
-                        Simpan Perubahan
-                    </button>
+                            <div class="mb-4">
+                                <label class="block text-xs font-semibold text-gray-500 uppercase mb-2">Update
+                                    Gambar</label>
+                                <label for="gambar_produk"
+                                    class="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:bg-amber-50 hover:border-amber-400 transition-all">
+                                    <span class="text-xs text-gray-500">Klik untuk ganti gambar</span>
+                                    <input id="gambar_produk" name="gambar_produk[]" type="file" multiple accept="image/*"
+                                        class="hidden" />
+                                </label>
+
+                                <p class="text-[10px] text-amber-600 mt-2">
+                                    <i class="fa-solid fa-circle-exclamation mr-1"></i> Upload baru akan menggantikan gambar
+                                    lama. Maksimal 5 gambar.
+                                </p>
+                                @error('gambar_produk')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div id="preview_container" class="grid grid-cols-3 gap-2">
+                                @if ($catalogues->images->count() > 0)
+                                    @foreach($catalogues->images as $image)
+                                        <div class="relative aspect-square rounded-lg overflow-hidden border border-gray-200">
+                                            <img src="{{ asset('storage/' . $image->gambar_produk) }}"
+                                                class="w-full h-full object-cover">
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="col-span-3 text-center text-xs text-gray-400 py-4 italic">Belum ada gambar</div>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                            <div class="flex flex-col gap-3">
+                                <h2 class="text-lg font-bold text-gray-800 mb-4 border-b border-gray-100 pb-2">Aksi</h2>
+                                <button type="submit"
+                                    class="w-full bg-amber-700 hover:bg-amber-800 text-white font-bold py-3 rounded-xl shadow-lg shadow-amber-900/10 transition-all hover:-translate-y-0.5">
+                                    <i class="fa-solid fa-floppy-disk mr-2"></i> Update Produk
+                                </button>
+                                <a href="{{ route('dashboard.admin.katalog.view') }}"
+                                    class="w-full bg-white border border-gray-300 text-gray-700 font-semibold py-3 rounded-xl hover:bg-gray-50 transition-all text-center">
+                                    Batal
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 
-    {{-- helper convert rupiah --}}
     <script>
-        const formatRupiah = (angka) => {
-            let number_string = angka.replace(/[^,\d]/g, '').toString(),
-                split = number_string.split(','),
-                sisa = split[0].length % 3,
-                rupiah = split[0].substr(0, sisa),
-                ribuan = split[0].substr(sisa).match(/\d{3}/gi)
+        const displayInput = document.getElementById('harga_display');
+        const actualInput = document.getElementById('harga_actual');
 
-            if (ribuan) {
-                const separator = sisa ? '.' : ''
-                rupiah += separator + ribuan.join('.')
-            }
+        displayInput.addEventListener('input', function (e) {
+            let value = this.value.replace(/[^0-9]/g, '');
+            actualInput.value = value;
+            this.value = value ? new Intl.NumberFormat('id-ID').format(value) : '';
+        });
 
-            return split[1] !== undefined ? rupiah + ',' + split[1] : rupiah
-        }
-
-        const hargaInput = document.getElementById('harga_produk')
-        const hargaHidden = document.getElementById('harga_hidden')
-
-        hargaInput.addEventListener('keyup', function (e) {
-            const angka = this.value.replace(/[^,\d]/g, '').toString()
-            this.value = 'Rp ' + formatRupiah(angka)
-            hargaHidden.value = angka.replace(/\./g, '')
-        })
-    </script>
-
-    {{-- preview product picture before submit --}}
-    <script>
         document.getElementById('gambar_produk').addEventListener('change', function (e) {
-            const previewContainer = document.getElementById('preview_gambar')
-            previewContainer.innerHTML = ''
+            const container = document.getElementById('preview_container');
+            const files = e.target.files;
 
-            const files = e.target.files
+            if (files.length > 5) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Terlalu Banyak Gambar',
+                    text: 'Maksimal hanya boleh mengupload 5 gambar.',
+                    confirmButtonColor: '#b45309'
+                });
+                this.value = ''; 
 
-            for (let i = 0; i < files.length; i++) {
-                const img = document.createElement('img')
-                img.src = URL.createObjectURL(files[i])
-                img.classList.add('h-24', 'w-24', 'object-cover', 'rounded-md', 'bg-white')
-                previewContainer.appendChild(img)
+                container.innerHTML = '<div class="col-span-3 text-center text-xs text-red-500 py-4">Pilihan dibatalkan (Melebihi batas)</div>';
+                return;
             }
-        })
-    </script>
 
-    {{-- sweetAlert --}}
-    <script>
-        document.getElementById('kategoriForm').addEventListener('submit', function (e) {
-            e.preventDefault()
-            Swal.fire({
-                title: 'Yakin ingin menyimpan?',
-                text: "Pastikan data sudah benar.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, simpan!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    e.target.submit()
+            container.innerHTML = ''; 
+
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const div = document.createElement('div');
+                    div.className = "relative aspect-square rounded-lg overflow-hidden border border-gray-200";
+                    div.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover">`;
+                    container.appendChild(div);
                 }
-            })
-        })
+                reader.readAsDataURL(file);
+            });
+        });
+        document.getElementById('editForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Simpan Perubahan?',
+                text: "Data produk akan diperbarui.",
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#b45309',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Ya, Update'
+            }).then((result) => {
+                if (result.isConfirmed) this.submit();
+            });
+        });
     </script>
 @endsection
