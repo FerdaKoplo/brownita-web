@@ -5,7 +5,7 @@
 
 <div class="min-h-screen bg-gray-50 font-sans" x-data="{ showMobileFilters: false }">
     
-    <div class=" text- py-8 px-6 md:px-12 mb-8">
+    <div class="py-8 px-6 md:px-12 mb-8">
         <h1 class="text-3xl md:text-4xl font-bold mb-2">Jelajahi Menu Kami</h1>
         <p class="text-gray-500 opacity-90">Temukan kelezatan di setiap gigitan.</p>
     </div>
@@ -27,14 +27,15 @@
 
         <div class="flex flex-col lg:flex-row gap-8 items-start">
             
-      
             <div x-show="showMobileFilters" 
+                 x-cloak 
                  class="fixed inset-0 z-40 bg-black/50 lg:hidden"
                  x-transition.opacity
                  @click="showMobileFilters = false"></div>
 
-            <aside class="fixed inset-y-0 left-0 z-50 w-72 bg-white shadow-2xl transform transition-transform duration-300 lg:translate-x-0 lg:static lg:z-0 lg:shadow-none lg:bg-transparent lg:w-72 lg:block"
-                   :class="showMobileFilters ? 'translate-x-0' : '-translate-x-full'">
+            <aside class="fixed inset-y-0 left-0 z-50 w-72 bg-white shadow-2xl transform transition-transform duration-300 lg:translate-x-0 lg:static lg:z-0 lg:shadow-none lg:bg-transparent lg:w-72 lg:block block"
+                   :class="showMobileFilters ? 'translate-x-0' : '-translate-x-full'"
+                   x-cloak> 
                 
                 <form id="mainFilterForm" method="GET" action="{{ route('produk-kami') }}" class="bg-white lg:rounded-2xl lg:shadow-sm lg:border border-gray-100 p-6 h-full lg:h-auto overflow-y-auto lg:sticky lg:top-4">
                     
@@ -54,7 +55,7 @@
                                 placeholder="Cari Brownies, Roti...">
                         </div>
                     </div>
-
+                    
                     <div class="mb-6 hidden lg:block">
                         <label class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block">Urutkan</label>
                         <select name="sort" onchange="this.form.submit()" class="w-full bg-gray-50 border border-gray-200 text-gray-700 text-sm rounded-xl focus:ring-amber-500 focus:border-amber-500 p-2.5">
@@ -89,7 +90,7 @@
                         </select>
                     </div>
 
-                    <div class="mb-4">
+                    <div class="mb-6">
                         <label class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 block">Rentang Harga</label>
                         <div class="grid grid-cols-2 gap-2 mb-3">
                             <div>
@@ -109,7 +110,7 @@
                     </div>
 
                     <div class="text-center pt-2 border-t border-gray-100">
-                        <a href="{{ route('produk-kami') }}" class="text-xs text-red-500 font-semibold hover:text-red-800 duration-500">
+                        <a href="{{ route('produk-kami') }}" class="text-xs text-red-500 font-semibold hover:underline">
                             Reset Semua Filter
                         </a>
                     </div>
@@ -117,61 +118,62 @@
             </aside>
 
             <main class="flex-1 w-full">
-                
-                @if(request('category_id') || request('search'))
-                <div class="mb-6 flex flex-wrap items-center gap-2">
-                    <span class="text-sm text-gray-500">Menampilkan hasil untuk:</span>
-                    @if(request('search'))
-                        <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs font-bold">
-                            "{{ request('search') }}"
-                        </span>
-                    @endif
-                    @if(request('category_id') && $categories)
-                        @foreach($categories->whereIn('id', (array) request('category_id')) as $cat)
-                            <span class="bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1 rounded-full text-xs font-bold">
-                                {{ $cat->nama_kategori }}
-                            </span>
-                        @endforeach
-                    @endif
-                </div>
-                @endif
+               @if(request('category_id') || request('search'))
+               <div class="mb-6 flex flex-wrap items-center gap-2">
+                   <span class="text-sm text-gray-500">Menampilkan hasil untuk:</span>
+                   @if(request('search'))
+                       <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs font-bold">
+                           "{{ request('search') }}"
+                       </span>
+                   @endif
+                   @if(request('category_id') && $categories)
+                       @foreach($categories->whereIn('id', (array) request('category_id')) as $cat)
+                           <span class="bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1 rounded-full text-xs font-bold">
+                               {{ $cat->nama_kategori }}
+                           </span>
+                       @endforeach
+                   @endif
+               </div>
+               @endif
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+               <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                     @forelse($catalogues as $catalogue)
                         <div class="group bg-white rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 flex flex-col h-full overflow-hidden relative">
-                            
-                            <div class="relative aspect-[4/3] overflow-hidden bg-gray-100">
-                                @if($catalogue->status == 'habis')
-                                    <div class="absolute inset-0 bg-black/50 z-10 flex items-center justify-center">
-                                        <span class="bg-red-600 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg transform -rotate-12 border-2 border-white">STOK HABIS</span>
+                            <a href="{{ route('produk.detail', $catalogue->id) }}" class="flex-1 flex flex-col">
+                                
+                                <div class="relative aspect-[4/3] overflow-hidden bg-gray-100">
+                                    @if($catalogue->status == 'habis')
+                                        <div class="absolute inset-0 bg-black/50 z-10 flex items-center justify-center">
+                                            <span class="bg-red-600 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg transform -rotate-12 border-2 border-white">STOK HABIS</span>
+                                        </div>
+                                    @endif
+
+                                    <img src="{{ $catalogue->images->first() ? asset('storage/' . $catalogue->images->first()->gambar_produk) : asset('images/default-product.jpg') }}" 
+                                        alt="{{ $catalogue->nama_produk }}" 
+                                        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                                        
+                                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+                                </div>
+
+                                <div class="p-5 flex-1 flex flex-col">
+                                    <div class="mb-1">
+                                        <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded uppercase tracking-wider">
+                                            {{ $catalogue->category->nama_kategori ?? 'Menu' }}
+                                        </span>
                                     </div>
-                                @endif
-
-                                <img src="{{ $catalogue->images->first() ? asset('storage/' . $catalogue->images->first()->gambar_produk) : asset('images/default-product.jpg') }}" 
-                                     alt="{{ $catalogue->nama_produk }}" 
-                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                                
-                                <div class="absolute bottom-4 right-4 translate-y-20 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 flex flex-col gap-2 z-20">
-                                    <a href="{{ route('produk.detail', $catalogue->id) }}" class="w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-700 hover:text-amber-600 hover:bg-amber-50 transition" title="Lihat Detail">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a>
+                                    
+                                    <h3 class="text-lg font-bold text-gray-800 mb-2 line-clamp-1 group-hover:text-amber-700 transition">
+                                        {{ $catalogue->nama_produk }}
+                                    </h3>
+                                    
+                                    <p class="text-sm text-gray-500 line-clamp-2 mb-4 flex-1">
+                                        {{ $catalogue->deskripsi }}
+                                    </p>
                                 </div>
-                            </div>
+                            </a>
 
-                            <div class="p-5 flex-1 flex flex-col">
-                                <div class="mb-1">
-                                    <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded uppercase tracking-wider">
-                                        {{ $catalogue->category->nama_kategori ?? 'Menu' }}
-                                    </span>
-                                </div>
-                                <h3 class="text-lg font-bold text-gray-800 mb-2 line-clamp-1 group-hover:text-amber-700 transition">
-                                    {{ $catalogue->nama_produk }}
-                                </h3>
-                                <p class="text-sm text-gray-500 line-clamp-2 mb-4 flex-1">
-                                    {{ $catalogue->deskripsi }}
-                                </p>
-                                
-                                <div class="flex items-center justify-between pt-4 border-t border-gray-100 mt-auto">
+                            <div class="px-5 pb-5 pt-0 mt-auto">
+                                <div class="flex items-center justify-between pt-4 border-t border-gray-100">
                                     <div class="flex flex-col">
                                         <span class="text-xs text-gray-400">Harga</span>
                                         <span class="text-lg font-bold text-gray-900">{{ $catalogue->harga_rupiah }}</span>
@@ -179,7 +181,7 @@
 
                                     @if($catalogue->status == 'tersedia')
                                         @if(Auth::check())
-                                            <form action="{{ route('keranjang.store') }}" method="POST">
+                                            <form action="{{ route('keranjang.store') }}" method="POST" class="relative z-20"> {{-- z-20 ensures it's clickable above the link --}}
                                                 @csrf
                                                 <input type="hidden" name="katalog_id" value="{{ $catalogue->id }}">
                                                 <button type="submit" class="w-10 h-10 rounded-full bg-amber-700 hover:bg-gray-900 text-white flex items-center justify-center shadow-lg shadow-amber-900/20 transition-all transform active:scale-95" title="Tambah ke Keranjang">
@@ -187,7 +189,7 @@
                                                 </button>
                                             </form>
                                         @else
-                                            <a href="{{ route('login') }}" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center transition" title="Login untuk belanja">
+                                            <a href="{{ route('login') }}" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center transition relative z-20" title="Login untuk belanja">
                                                 <i class="fa-solid fa-lock"></i>
                                             </a>
                                         @endif
@@ -198,8 +200,10 @@
                                     @endif
                                 </div>
                             </div>
+
                         </div>
                     @empty
+                        {{-- Empty State (Kept same) --}}
                         <div class="col-span-full py-16 text-center">
                             <div class="bg-amber-50 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <i class="fa-solid fa-cookie-bite text-4xl text-amber-300"></i>
@@ -211,12 +215,11 @@
                     @endforelse
                 </div>
 
-                @if($catalogues->hasPages())
-                    <div class="mt-12 bg-white rounded-xl shadow-sm border border-gray-100 p-4 flex justify-center">
-                       {{ $catalogues->appends(request()->query())->links('pagination::tailwind') }}
-                    </div>
-                @endif
-
+               @if($catalogues->hasPages())
+                   <div class="mt-12 bg-white rounded-xl shadow-sm border border-gray-100 p-4 flex justify-center">
+                      {{ $catalogues->appends(request()->query())->links('pagination::tailwind') }}
+                   </div>
+               @endif
             </main>
         </div>
     </div>

@@ -28,7 +28,7 @@
                     Masuk
                 </a>
                 <a href="{{ route('register') }}"
-                    class="text-sm font-bold text-white bg-amber-700 hover:bg-amber-800 px-5 py-2.5 rounded-full shadow-md shadow-amber-900/10 transition transform hover:-translate-y-0.5">
+                    class="text-sm font-bold text-white bg-amber-700 hover:bg-amber-800 px-5 py-2.5 rounded-full shadow-md shadow-amber-900/10 transition">
                     Daftar Sekarang
                 </a>
             </div>

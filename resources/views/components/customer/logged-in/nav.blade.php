@@ -5,7 +5,6 @@
 
             <a href="{{ route('landing.page') }}" class="flex-shrink-0 flex items-center gap-2">
                 <img src="{{ asset('images/brownitaLogo.png') }}" class="h-10 w-auto rounded-lg" alt="Brownita Logo" />
-                <span class="font-bold text-xl text-amber-900 hidden sm:block tracking-tight">Brownita</span>
             </a>
 
             <div class="hidden md:flex items-center space-x-8">

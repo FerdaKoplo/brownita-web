@@ -25,11 +25,11 @@
                     </li>
                     <li class="flex gap-3">
                         <span class="font-bold text-amber-600">H-7:</span>
-                        <span>Hantaran Deluxe, Nasi Kotak, Tumpeng, Kue Nampan, Snackbox (selama slot tersedia).</span>
+                        <span>Hantaran Deluxe, Nasi Kotak, Tumpeng, Kue Nampan, <br> Snackbox (selama slot tersedia).</span>
                     </li>
                     <li class="flex gap-3">
-                        <span class="font-bold text-amber-600">H-1/Hari H:</span>
-                        <span>Khusus <strong>Gethuk</strong> (selama persediaan ada). Kue dadakan lain harap konfirmasi
+                        <span class="font-bold text-amber-600">H-1 / Hari H:</span>
+                        <span>Khusus <strong>Gethuk</strong> (selama persediaan ada). <br>Kue dadakan lain harap konfirmasi
                             stok.</span>
                     </li>
                 </ul>
@@ -37,17 +37,17 @@
                 <div class="mt-8 pt-6 border-t border-gray-100">
                     <h4 class="font-bold text-gray-800 mb-3">Kontak Pemesanan (WhatsApp)</h4>
                     <div class="space-y-2">
-                        <div class="flex items-center gap-2 p-3 bg-green-50 rounded-lg text-green-800">
+                        <div class="flex items-center gap-2 p-3 bg-amber-50 rounded-lg text-amber-800">
                             <i class="fa-brands fa-whatsapp text-lg"></i>
                             <div>
-                                <span class="block text-xs font-bold uppercase text-green-600">Hantaran & Catering</span>
+                                <span class="block text-xs font-semibold uppercase text-amber-600">Hantaran & Catering</span>
                                 <span class="font-mono text-lg font-bold">0812-1701-8289</span>
                             </div>
                         </div>
-                        <div class="flex items-center gap-2 p-3 bg-green-50 rounded-lg text-green-800">
+                        <div class="flex items-center gap-2 p-3 bg-amber-50 rounded-lg text-amber-800">
                             <i class="fa-brands fa-whatsapp text-lg"></i>
                             <div>
-                                <span class="block text-xs font-bold uppercase text-green-600">Gethuk & Kursus</span>
+                                <span class="block text-xs font-semibold uppercase text-amber-600">Gethuk & Kursus</span>
                                 <span class="font-mono text-lg font-bold">0812-3336-9606</span>
                             </div>
                         </div>
