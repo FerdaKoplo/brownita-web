@@ -6,7 +6,6 @@
 <div class="min-h-screen bg-gray-50 py-8 sm:py-12">
     <div class="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
 
-        {{-- Breadcrumb --}}
         <nav class="flex text-sm text-gray-500 mb-8" aria-label="Breadcrumb">
             <ol class="inline-flex items-center space-x-1 md:space-x-3">
                 <li class="inline-flex items-center">
@@ -25,11 +24,9 @@
             </ol>
         </nav>
 
-        {{-- Main Product Card --}}
         <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-12">
 
-                {{-- LEFT COLUMN: IMAGE GALLERY --}}
                 <div class="p-6 lg:p-10 bg-gray-50/50">
                     @php $firstImage = $produk->images->first(); @endphp
                     

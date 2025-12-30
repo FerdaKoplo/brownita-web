@@ -20,7 +20,7 @@
         });
     @endphp
 
-    @include('landing.sections.hero', [
+    @include('landing.sections.admin.hero', [
         'data' => $sections['hero'] ?? []
     ])
 
